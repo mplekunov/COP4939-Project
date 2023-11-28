@@ -11,7 +11,11 @@ import SwiftUI
 struct COP4939_Project_Watch_AppApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(dataCollectorViewModel: StateObject(
+                wrappedValue: DataCollectorViewModel(
+                    deviceMotionSensorModel: DeviceMotionSensorViewModel(updateFrequency: 0.05),
+                    deviceLocationSensorModel: DeviceLocationSensorViewModel())),
+                        dataSenderViewModel: StateObject(wrappedValue: DataSenderViewModel(updateFrequency: 0.5)))
         }
     }
 }
