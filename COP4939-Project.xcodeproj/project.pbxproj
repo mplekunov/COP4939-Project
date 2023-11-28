@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		6DEC84A02B1592DB006746F5 /* COP4939_ProjectApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC849F2B1592DB006746F5 /* COP4939_ProjectApp.swift */; };
-		6DEC84A22B1592DB006746F5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC84A12B1592DB006746F5 /* ContentView.swift */; };
 		6DEC84A42B1592DC006746F5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6DEC84A32B1592DC006746F5 /* Assets.xcassets */; };
 		6DEC84A72B1592DC006746F5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6DEC84A62B1592DC006746F5 /* Preview Assets.xcassets */; };
 		6DEC84B12B1592DC006746F5 /* COP4939_ProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC84B02B1592DC006746F5 /* COP4939_ProjectTests.swift */; };
@@ -49,6 +48,24 @@
 		6DEC85462B159492006746F5 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DEC85452B159492006746F5 /* CoreMotion.framework */; };
 		6DEC85482B159499006746F5 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DEC85472B159499006746F5 /* CoreLocation.framework */; };
 		6DEC854A2B15949E006746F5 /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DEC85492B15949E006746F5 /* WatchConnectivity.framework */; };
+		6DEC85672B159566006746F5 /* WatchConnectivityError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC854C2B159566006746F5 /* WatchConnectivityError.swift */; };
+		6DEC85682B159566006746F5 /* JsonError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC854D2B159566006746F5 /* JsonError.swift */; };
+		6DEC85692B159566006746F5 /* WatchConnectivityErrorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85502B159566006746F5 /* WatchConnectivityErrorExtension.swift */; };
+		6DEC856A2B159566006746F5 /* JsonErrorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85512B159566006746F5 /* JsonErrorExtension.swift */; };
+		6DEC856B2B159566006746F5 /* WatchConnectivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85522B159566006746F5 /* WatchConnectivityManager.swift */; };
+		6DEC856C2B159566006746F5 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85552B159566006746F5 /* Location.swift */; };
+		6DEC856D2B159566006746F5 /* CollectedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85562B159566006746F5 /* CollectedData.swift */; };
+		6DEC856E2B159566006746F5 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85572B159566006746F5 /* Coordinate.swift */; };
+		6DEC856F2B159566006746F5 /* MotionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85582B159566006746F5 /* MotionData.swift */; };
+		6DEC85702B159566006746F5 /* Attitude.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85592B159566006746F5 /* Attitude.swift */; };
+		6DEC85712B159566006746F5 /* Point3D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC855A2B159566006746F5 /* Point3D.swift */; };
+		6DEC85722B159566006746F5 /* DataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC855C2B159566006746F5 /* DataType.swift */; };
+		6DEC85732B159566006746F5 /* DataPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC855D2B159566006746F5 /* DataPacket.swift */; };
+		6DEC85742B159566006746F5 /* PairingVerification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC855E2B159566006746F5 /* PairingVerification.swift */; };
+		6DEC85752B159566006746F5 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85602B159566006746F5 /* Session.swift */; };
+		6DEC85762B159566006746F5 /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85622B159566006746F5 /* StatisticsView.swift */; };
+		6DEC85772B159566006746F5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85632B159566006746F5 /* ContentView.swift */; };
+		6DEC85792B159566006746F5 /* DataReceiverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85662B159566006746F5 /* DataReceiverViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,7 +123,6 @@
 /* Begin PBXFileReference section */
 		6DEC849C2B1592DB006746F5 /* COP4939-Project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "COP4939-Project.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DEC849F2B1592DB006746F5 /* COP4939_ProjectApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = COP4939_ProjectApp.swift; sourceTree = "<group>"; };
-		6DEC84A12B1592DB006746F5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		6DEC84A32B1592DC006746F5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6DEC84A62B1592DC006746F5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		6DEC84AC2B1592DC006746F5 /* COP4939-ProjectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "COP4939-ProjectTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -151,6 +167,24 @@
 		6DEC85452B159492006746F5 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS10.0.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
 		6DEC85472B159499006746F5 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS10.0.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
 		6DEC85492B15949E006746F5 /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS10.0.sdk/System/Library/Frameworks/WatchConnectivity.framework; sourceTree = DEVELOPER_DIR; };
+		6DEC854C2B159566006746F5 /* WatchConnectivityError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchConnectivityError.swift; sourceTree = "<group>"; };
+		6DEC854D2B159566006746F5 /* JsonError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonError.swift; sourceTree = "<group>"; };
+		6DEC85502B159566006746F5 /* WatchConnectivityErrorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchConnectivityErrorExtension.swift; sourceTree = "<group>"; };
+		6DEC85512B159566006746F5 /* JsonErrorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonErrorExtension.swift; sourceTree = "<group>"; };
+		6DEC85522B159566006746F5 /* WatchConnectivityManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchConnectivityManager.swift; sourceTree = "<group>"; };
+		6DEC85552B159566006746F5 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		6DEC85562B159566006746F5 /* CollectedData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectedData.swift; sourceTree = "<group>"; };
+		6DEC85572B159566006746F5 /* Coordinate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
+		6DEC85582B159566006746F5 /* MotionData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionData.swift; sourceTree = "<group>"; };
+		6DEC85592B159566006746F5 /* Attitude.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Attitude.swift; sourceTree = "<group>"; };
+		6DEC855A2B159566006746F5 /* Point3D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Point3D.swift; sourceTree = "<group>"; };
+		6DEC855C2B159566006746F5 /* DataType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataType.swift; sourceTree = "<group>"; };
+		6DEC855D2B159566006746F5 /* DataPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataPacket.swift; sourceTree = "<group>"; };
+		6DEC855E2B159566006746F5 /* PairingVerification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PairingVerification.swift; sourceTree = "<group>"; };
+		6DEC85602B159566006746F5 /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		6DEC85622B159566006746F5 /* StatisticsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
+		6DEC85632B159566006746F5 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		6DEC85662B159566006746F5 /* DataReceiverViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataReceiverViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -232,8 +266,11 @@
 		6DEC849E2B1592DB006746F5 /* COP4939-Project */ = {
 			isa = PBXGroup;
 			children = (
+				6DEC854B2B159566006746F5 /* CustomError */,
+				6DEC854E2B159566006746F5 /* Model */,
+				6DEC85612B159566006746F5 /* View */,
+				6DEC85652B159566006746F5 /* ViewModel */,
 				6DEC849F2B1592DB006746F5 /* COP4939_ProjectApp.swift */,
-				6DEC84A12B1592DB006746F5 /* ContentView.swift */,
 				6DEC84A32B1592DC006746F5 /* Assets.xcassets */,
 				6DEC84A52B1592DC006746F5 /* Preview Content */,
 			);
@@ -421,6 +458,92 @@
 				6DEC85452B159492006746F5 /* CoreMotion.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6DEC854B2B159566006746F5 /* CustomError */ = {
+			isa = PBXGroup;
+			children = (
+				6DEC854C2B159566006746F5 /* WatchConnectivityError.swift */,
+				6DEC854D2B159566006746F5 /* JsonError.swift */,
+			);
+			path = CustomError;
+			sourceTree = "<group>";
+		};
+		6DEC854E2B159566006746F5 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				6DEC854F2B159566006746F5 /* Extension */,
+				6DEC85522B159566006746F5 /* WatchConnectivityManager.swift */,
+				6DEC85532B159566006746F5 /* Data */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		6DEC854F2B159566006746F5 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				6DEC85502B159566006746F5 /* WatchConnectivityErrorExtension.swift */,
+				6DEC85512B159566006746F5 /* JsonErrorExtension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		6DEC85532B159566006746F5 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				6DEC85542B159566006746F5 /* Statistics */,
+				6DEC855B2B159566006746F5 /* Network */,
+				6DEC855F2B159566006746F5 /* Session */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		6DEC85542B159566006746F5 /* Statistics */ = {
+			isa = PBXGroup;
+			children = (
+				6DEC85552B159566006746F5 /* Location.swift */,
+				6DEC85562B159566006746F5 /* CollectedData.swift */,
+				6DEC85572B159566006746F5 /* Coordinate.swift */,
+				6DEC85582B159566006746F5 /* MotionData.swift */,
+				6DEC85592B159566006746F5 /* Attitude.swift */,
+				6DEC855A2B159566006746F5 /* Point3D.swift */,
+			);
+			path = Statistics;
+			sourceTree = "<group>";
+		};
+		6DEC855B2B159566006746F5 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				6DEC855C2B159566006746F5 /* DataType.swift */,
+				6DEC855D2B159566006746F5 /* DataPacket.swift */,
+				6DEC855E2B159566006746F5 /* PairingVerification.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		6DEC855F2B159566006746F5 /* Session */ = {
+			isa = PBXGroup;
+			children = (
+				6DEC85602B159566006746F5 /* Session.swift */,
+			);
+			path = Session;
+			sourceTree = "<group>";
+		};
+		6DEC85612B159566006746F5 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				6DEC85622B159566006746F5 /* StatisticsView.swift */,
+				6DEC85632B159566006746F5 /* ContentView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		6DEC85652B159566006746F5 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				6DEC85662B159566006746F5 /* DataReceiverViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -645,8 +768,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6DEC84A22B1592DB006746F5 /* ContentView.swift in Sources */,
+				6DEC85722B159566006746F5 /* DataType.swift in Sources */,
 				6DEC84A02B1592DB006746F5 /* COP4939_ProjectApp.swift in Sources */,
+				6DEC85692B159566006746F5 /* WatchConnectivityErrorExtension.swift in Sources */,
+				6DEC85682B159566006746F5 /* JsonError.swift in Sources */,
+				6DEC85742B159566006746F5 /* PairingVerification.swift in Sources */,
+				6DEC85672B159566006746F5 /* WatchConnectivityError.swift in Sources */,
+				6DEC85702B159566006746F5 /* Attitude.swift in Sources */,
+				6DEC856B2B159566006746F5 /* WatchConnectivityManager.swift in Sources */,
+				6DEC856E2B159566006746F5 /* Coordinate.swift in Sources */,
+				6DEC856A2B159566006746F5 /* JsonErrorExtension.swift in Sources */,
+				6DEC856C2B159566006746F5 /* Location.swift in Sources */,
+				6DEC85712B159566006746F5 /* Point3D.swift in Sources */,
+				6DEC85792B159566006746F5 /* DataReceiverViewModel.swift in Sources */,
+				6DEC85752B159566006746F5 /* Session.swift in Sources */,
+				6DEC85762B159566006746F5 /* StatisticsView.swift in Sources */,
+				6DEC85772B159566006746F5 /* ContentView.swift in Sources */,
+				6DEC85732B159566006746F5 /* DataPacket.swift in Sources */,
+				6DEC856D2B159566006746F5 /* CollectedData.swift in Sources */,
+				6DEC856F2B159566006746F5 /* MotionData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

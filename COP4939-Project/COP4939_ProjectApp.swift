@@ -11,7 +11,7 @@ import SwiftUI
 struct COP4939_ProjectApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(dataReceiverViewModel: StateObject(wrappedValue: DataReceiverViewModel(updateFrequency: 0.5)))
         }
     }
 }
