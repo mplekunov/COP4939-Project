@@ -1013,8 +1013,11 @@
 				DEVELOPMENT_TEAM = Q26F9PL9UW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "COP4939-Project-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "COP4939-Project";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.plekunov.COP4939-Project";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1044,8 +1047,11 @@
 				DEVELOPMENT_TEAM = Q26F9PL9UW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "COP4939-Project-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "COP4939-Project";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.plekunov.COP4939-Project";
 				LD_RUNPATH_SEARCH_PATHS = (

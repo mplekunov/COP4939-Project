@@ -54,6 +54,6 @@ struct ContentView: View {
         wrappedValue: DataCollectorViewModel(
             deviceMotionSensorModel: DeviceMotionSensorViewModel(updateFrequency: 0.01),
             deviceLocationSensorModel: DeviceLocationSensorViewModel())),
-    dataSenderViewModel: StateObject(
-        wrappedValue: DataSenderViewModel(updateFrequency: 0.01)))
+                dataSenderViewModel: StateObject(
+                    wrappedValue: DataSenderViewModel(updateFrequency: 0.01)))
 }
