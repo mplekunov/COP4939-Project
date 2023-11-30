@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Location : Encodable, Decodable {
+struct Location : Codable, Equatable {
     var coordinate: Coordinate = Coordinate()
     var directionInDegrees: Double = Double()
     
@@ -38,5 +38,10 @@ struct Location : Encodable, Decodable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.coordinate, forKey: .coordinate)
         try container.encode(self.directionInDegrees, forKey: .directionInDegrees)
+    }
+    
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        return lhs.coordinate == rhs.coordinate &&
+        lhs.directionInDegrees == rhs.directionInDegrees
     }
 }

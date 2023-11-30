@@ -14,42 +14,54 @@ class DataCollectorViewModel : ObservableObject {
     
     private var locationDataSubscription: AnyCancellable?
     private var motionDataSubscription: AnyCancellable?
-    private var combinedDataSubscription: AnyCancellable?
+    private var isLocationAuthorizedSubscription: AnyCancellable?
     
-    @Published var locationData: Array<Location> = Array()
-    @Published var motionData: Array<MotionData> = Array()
+    private let logger: LoggerService
+    
+    
+    @Published var locations: Array<Location> = Array()
+    @Published var motions: Array<MotionData> = Array()
     @Published var collectedData: Array<CollectedData> = Array()
+    @Published var isLocationAuthorized: Bool = false
     
     init(
         deviceMotionSensorModel: DeviceMotionSensorViewModel,
         deviceLocationSensorModel: DeviceLocationSensorViewModel
     ) {
+        logger = LoggerService(logSource: String(describing: type(of: self)))
+        
         self.deviceMotionSensorModel = deviceMotionSensorModel
         self.deviceLocationSensorModel = deviceLocationSensorModel
         
-        self.locationDataSubscription = deviceLocationSensorModel.objectWillChange.sink { [weak self] _ in
+        isLocationAuthorizedSubscription = deviceLocationSensorModel.$isAuthorized.sink { [weak self] _ in
             guard let self = self else { return }
             
-            self.locationData = deviceLocationSensorModel.data
+            DispatchQueue.main.async {
+                self.isLocationAuthorized = deviceLocationSensorModel.isAuthorized
+            }
         }
         
-        self.motionDataSubscription = deviceMotionSensorModel.objectWillChange.sink { [weak self] _ in
+        locationDataSubscription = deviceLocationSensorModel.$data.sink { [weak self] _ in
             guard let self = self else { return }
             
-            self.motionData = deviceMotionSensorModel.data
-        }
-        
-        self.combinedDataSubscription = deviceMotionSensorModel.objectWillChange
-            .combineLatest(deviceLocationSensorModel.objectWillChange) { _,_  in
+            DispatchQueue.main.async {
+                self.locations = deviceLocationSensorModel.data
+                
                 let locationData = deviceLocationSensorModel.data.last ?? Location()
                 let motionData = deviceMotionSensorModel.data.last ?? MotionData()
                 
-                return CollectedData(locationData: locationData, motionData: motionData)
+                let collectedData = CollectedData(locationData: locationData, motionData: motionData)
+                self.collectedData.append(collectedData)
             }
-            .sink(receiveValue: {[weak self] data in
-                guard let self = self else { return }
-                self.collectedData.append(data)
-            })
+        }
+        
+        motionDataSubscription = deviceMotionSensorModel.$data.sink { [weak self] _ in
+            guard let self = self else { return }
+            
+            DispatchQueue.main.async {
+                self.motions = deviceMotionSensorModel.data
+            }
+        }
     }
     
     func startDataCollection() -> Bool {
@@ -58,11 +70,17 @@ class DataCollectorViewModel : ObservableObject {
             return true
         }
         
-        return false        
+        return false
     }
     
     func stopDataCollection() {
         deviceMotionSensorModel.stopRecording()
         deviceLocationSensorModel.stopRecording()
+    }
+    
+    func clearData() {
+        locations.removeAll()
+        motions.removeAll()
+        collectedData.removeAll()
     }
 }

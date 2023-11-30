@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Attitude : Encodable, Decodable {
+struct Attitude : Codable, Equatable {
     var roll: Double = Double()
     var yaw: Double = Double()
     var pitch: Double = Double()
@@ -31,5 +31,11 @@ struct Attitude : Encodable, Decodable {
         try container.encode(self.roll, forKey: .roll)
         try container.encode(self.yaw, forKey: .yaw)
         try container.encode(self.pitch, forKey: .pitch)
+    }
+    
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        return lhs.pitch == rhs.pitch &&
+        lhs.roll == rhs.roll &&
+        lhs.yaw == rhs.yaw
     }
 }

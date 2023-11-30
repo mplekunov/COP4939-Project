@@ -13,22 +13,35 @@ class DeviceLocationSensorViewModel : ObservableObject {
     private let locationManager: LocationManager = LocationManager()
     
     private var locationSubscription: Cancellable?
+    private var isAuthorizedSubscription: Cancellable?
     
     @Published var data: Array<Location> = Array()
+    @Published var isAuthorized: Bool = false
     
     init() {
-        locationSubscription = locationManager.objectWillChange.sink { [weak self] _ in
+        isAuthorizedSubscription = locationManager.$isAuthorized.sink { [weak self] _ in
             guard let self = self else { return }
             
-            if let coordinate = self.locationManager.location?.coordinate,
-               let direction = self.locationManager.location?.course {
-                data.append(Location(
-                    coordinate: Coordinate(
-                        latitude: coordinate.latitude,
-                        longitude: coordinate.longitude
-                    ),
-                    directionInDegrees: direction.magnitude
-                ))
+            DispatchQueue.main.async {
+                self.isAuthorized = self.locationManager.isAuthorized
+            }
+        }
+        
+        locationSubscription = locationManager.$location.sink { [weak self] _ in
+            guard let self = self else { return }
+            
+            DispatchQueue.main.async {
+                if let coordinate = self.locationManager.location?.coordinate,
+                   let direction = self.locationManager.location?.course {
+                    
+                    self.data.append(Location(
+                        coordinate: Coordinate(
+                            latitude: coordinate.latitude,
+                            longitude: coordinate.longitude
+                        ),
+                        directionInDegrees: direction.magnitude
+                    ))
+                }
             }
         }
     }

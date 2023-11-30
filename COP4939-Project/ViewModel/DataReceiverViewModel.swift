@@ -9,67 +9,70 @@ import Foundation
 import Combine
 
 class DataReceiverViewModel : ObservableObject {
-    @Published var isPaired: Bool = false
+    @Published var isDeviceConnected: Bool = false
+    @Published var isSessionCompleted: Bool = false
     @Published var isSessionInProgress: Bool = false
-    @Published var collectedData: Array<CollectedData> = Array()
-    @Published var sessions: Dictionary<String, Array<CollectedData>> = Dictionary()
+    @Published var isSessionInfoReceived: Bool = false
+    @Published var session: Session = Session()
     
-    private var shouldStopConnecting = false
-    private var operationQueue: OperationQueue = OperationQueue()
-    private var updateFrequency: Double
-    private var watchConnectivitySubscription: Cancellable?
+    private let logger: LoggerService
+    
+    private var isDeviceConnectedSubscription: AnyCancellable?
+    private var messageSubscription: AnyCancellable?
     
     private var watchConnectivityManager: WatchConnectivityManager = WatchConnectivityManager()
     
-    init(updateFrequency: Double) {
-        operationQueue.maxConcurrentOperationCount = 1
-        self.updateFrequency = updateFrequency
+    init() {
+        logger = LoggerService(logSource: String(describing: type(of: self)))
         
-        
-        watchConnectivitySubscription = watchConnectivityManager.objectWillChange.sink { [weak self] _ in
+        isDeviceConnectedSubscription = watchConnectivityManager.$isConnected.sink { [weak self] _ in
             guard let self = self else { return }
             
-            isPaired = self.watchConnectivityManager.isConnected
+            DispatchQueue.main.async {
+                self.isDeviceConnected = self.watchConnectivityManager.isConnected
+            }
+        }
+        
+        messageSubscription = watchConnectivityManager.$message.sink { [weak self] _ in
+            guard let self = self else { return }
             
-            let data = self.watchConnectivityManager.collectedData
-            
-            isSessionInProgress = data.sessionStart == nil
-            
-            collectedData.append(data)
-            
-            if data.sessionEnd == true {
-                let uuid = UUID().uuidString
-                sessions[uuid] = collectedData
-                collectedData = Array()
+            DispatchQueue.main.async {
+                self.decodeReceivedMessage(message: self.watchConnectivityManager.message)
             }
         }
     }
     
-    private func connectToDevice() {
-        operationQueue.addOperation { [weak self] in
-            guard let self = self else { return }
-            
-            while !self.isPaired && !self.shouldStopConnecting {
-                print("Internal Log: Trying to connect to device")
-                
-                do {
-                    try self.watchConnectivityManager.connectToDevice()
-                } catch {
-                    print("Internal Error: \(error)")
-                }
-                
-                Thread.sleep(forTimeInterval: self.updateFrequency)
-            }
+    private func decodeReceivedMessage(message: Data) {
+        let decoder = JSONDecoder()
+        
+        if message.isEmpty {
+            logger.log(message: "Empty message has been received")
+            return
         }
-    }
-    
-    func startTransferringChannel() {
-        connectToDevice()
-        shouldStopConnecting = false
-    }
-    
-    func stopTransferringChannel() {
-        operationQueue.cancelAllOperations()
-        shouldStopConnecting = true
+        
+        do {
+            let dataPacket = try decoder.decode(DataPacket.self, from: message)
+            
+            logger.log(message: "\(dataPacket.dataType)")
+            
+            switch dataPacket.dataType {
+            case .WatchSession:
+                logger.log(message: "Session info has been received")
+                session = try decoder.decode(Session.self, from: dataPacket.data)
+                isSessionInfoReceived = true
+            case .WatchSessionStart:
+                isSessionInfoReceived = false
+                logger.log(message: "Session is in progress")
+                isSessionInProgress = true
+                isSessionCompleted = false
+            case .WatchSessionEnd:
+                logger.log(message: "Session is not in progress")
+                isSessionInProgress = false
+                isSessionCompleted = true
+            }
+        } catch {
+            logger.error(message: "Couldn't decode message -> \(error)")
+        }
+        
     }
 }

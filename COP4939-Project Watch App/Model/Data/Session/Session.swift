@@ -1,8 +1,8 @@
 //
 //  Session.swift
-//  PhoneApp
+//  COP4939-Project Watch App
 //
-//  Created by Mikhail Plekunov on 11/27/23.
+//  Created by Mikhail Plekunov on 11/28/23.
 //
 
 import Foundation

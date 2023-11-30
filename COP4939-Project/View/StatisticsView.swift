@@ -6,60 +6,155 @@
 //
 
 import SwiftUI
+import Charts
 
 struct StatisticsView: View {
-    private var dataReceiverViewModel: StateObject<DataReceiverViewModel>
-    
-    @Binding private var collectedData: Array<CollectedData>
-    @State private var lastCollectedData: CollectedData?
-    
-    init(
-        dataReceiverViewModel: StateObject<DataReceiverViewModel>
-    ) {
-        self.dataReceiverViewModel = dataReceiverViewModel
-        _collectedData = dataReceiverViewModel.projectedValue.collectedData
-    }
+    @EnvironmentObject var dataReceiverViewModel: DataReceiverViewModel
     
     var body: some View {
         List {
+            Section("Data Points Received") {
+                Text("\(dataReceiverViewModel.session.data.count)")
+            }.listRowBackground(Color.secondary)
+            
             Section("Location Direction in Degrees") {
-                VStack(alignment: .leading, spacing: 10) {
-                    Text("Degrees: \(collectedData.last?.locationData.directionInDegrees.formatted() ?? "N/A")")
-                }
+                LineChartView(
+                    data: dataReceiverViewModel.session.data.map {
+                        ChartData(
+                            date: Date(timeIntervalSince1970: $0.timeStamp),
+                            data: $0.locationData.directionInDegrees
+                        )
+                    }
+                ).padding()
             }
             .listRowBackground(Color.secondary)
             
             Section("Location Coordinates") {
-                VStack(alignment: .leading, spacing: 10) {
-                    Text("Latitude: \(collectedData.last?.locationData.coordinate.latitude.formatted() ?? "N/A")")
-                    Text("Longitude: \(collectedData.last?.locationData.coordinate.longitude.formatted() ?? "N/A")")
+                
+            }
+            .listRowBackground(Color.secondary)
+            
+            Section("Attitude Pitch") {
+                VStack {
+                    LineChartView(
+                        data: dataReceiverViewModel.session.data.map {
+                            ChartData(
+                                date: Date(timeIntervalSince1970: $0.timeStamp),
+                                data: $0.motionData.attitude.pitch
+                            )
+                        }
+                    ).padding()
+                }
+            }.listRowBackground(Color.secondary)
+            
+            Section("Attitude Yaw") {
+                VStack {
+                    LineChartView(
+                        data: dataReceiverViewModel.session.data.map {
+                            ChartData(
+                                date: Date(timeIntervalSince1970: $0.timeStamp),
+                                data: $0.motionData.attitude.yaw
+                            )
+                        }
+                    ).padding()
+                }
+            }.listRowBackground(Color.secondary)
+            
+            Section("Attitude Roll") {
+                VStack {
+                    LineChartView(
+                        data: dataReceiverViewModel.session.data.map {
+                            ChartData(
+                                date: Date(timeIntervalSince1970: $0.timeStamp),
+                                data: $0.motionData.attitude.roll
+                            )
+                        }
+                    ).padding()
                 }
             }
             .listRowBackground(Color.secondary)
             
-            Section("Attitude") {
-                VStack(alignment: .leading, spacing: 10) {
-                    Text("Pitch: \(collectedData.last?.motionData.attitude.pitch.formatted() ?? "N/A")")
-                    Text("Yaw: \(collectedData.last?.motionData.attitude.yaw.formatted() ?? "N/A")")
-                    Text("Roll: \(collectedData.last?.motionData.attitude.roll.formatted() ?? "N/A")")
+            Section("G Force X") {
+                VStack {
+                    LineChartView(
+                        data: dataReceiverViewModel.session.data.map {
+                            ChartData(
+                                date: Date(timeIntervalSince1970: $0.timeStamp),
+                                data: $0.motionData.gForce.x
+                            )
+                        }
+                    ).padding()
+                }
+            }.listRowBackground(Color.secondary)
+            
+            Section("G Force Y") {
+                VStack {
+                    LineChartView(
+                        data: dataReceiverViewModel.session.data.map {
+                            ChartData(
+                                date: Date(timeIntervalSince1970: $0.timeStamp),
+                                data: $0.motionData.gForce.y
+                            )
+                        }
+                    ).padding()
+                }
+            }.listRowBackground(Color.secondary)
+            
+            Section("G Force z") {
+                VStack {
+                    LineChartView(
+                        data: dataReceiverViewModel.session.data.map {
+                            ChartData(
+                                date: Date(timeIntervalSince1970: $0.timeStamp),
+                                data: $0.motionData.gForce.z
+                            )
+                        }
+                    ).padding()
                 }
             }
             .listRowBackground(Color.secondary)
             
-            Section("G Force") {
-                VStack(alignment: .leading, spacing: 10) {
-                    Text("X: \(collectedData.last?.motionData.gForce.x.formatted() ?? "N/A")")
-                    Text("Y: \(collectedData.last?.motionData.gForce.y.formatted() ?? "N/A")")
-                    Text("Z: \(collectedData.last?.motionData.gForce.z.formatted() ?? "N/A")")
+            Section("Acceleration X") {
+                VStack {
+                    LineChartView(
+                        data: dataReceiverViewModel.session.data.map {
+                            ChartData(
+                                date: Date(timeIntervalSince1970: $0.timeStamp),
+                                data: $0.motionData.acceleration.x
+                            )
+                        }
+                    )
+                    .padding()
                 }
             }
             .listRowBackground(Color.secondary)
             
-            Section("Acceleration") {
-                VStack(alignment: .leading, spacing: 10) {
-                    Text("X: \(collectedData.last?.motionData.acceleration.x.formatted() ?? "N/A")")
-                    Text("Y: \(collectedData.last?.motionData.acceleration.y.formatted() ?? "N/A")")
-                    Text("Z: \(collectedData.last?.motionData.acceleration.z.formatted() ?? "N/A")")
+            Section("Acceleration Y") {
+                VStack {
+                    LineChartView(
+                        data: dataReceiverViewModel.session.data.map {
+                            ChartData(
+                                date: Date(timeIntervalSince1970: $0.timeStamp),
+                                data: $0.motionData.acceleration.y
+                            )
+                        }
+                    )
+                    .padding()
+                }
+            }
+            .listRowBackground(Color.secondary)
+            
+            Section("Acceleration Z") {
+                VStack {
+                    LineChartView(
+                        data: dataReceiverViewModel.session.data.map {
+                            ChartData(
+                                date: Date(timeIntervalSince1970: $0.timeStamp),
+                                data: $0.motionData.acceleration.z
+                            )
+                        }
+                    )
+                    .padding()
                 }
             }
             .listRowBackground(Color.secondary)
@@ -71,7 +166,22 @@ struct StatisticsView: View {
     }
 }
 
-#Preview {
-    StatisticsView(dataReceiverViewModel: StateObject(
-        wrappedValue: DataReceiverViewModel(updateFrequency: 0.05)))
+struct LineChartView: View {
+    let data: [ChartData]
+    
+    var body: some View {
+        Chart {
+            ForEach(data, id: \.date) { item in
+                LineMark(
+                    x: .value("", item.date),
+                    y: .value("", item.data)
+                )
+                .interpolationMethod(.stepCenter)
+            }
+        }
+        .chartYAxis {
+            AxisMarks(position: .leading)
+        }
+        .frame(height: 200)
+    }
 }

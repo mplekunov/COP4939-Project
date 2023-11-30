@@ -8,6 +8,7 @@
 import Foundation
 
 enum DataType : Encodable, Decodable {
-    case WatchStatisticsData
-    case WatchPairingData
+    case WatchSessionStart
+    case WatchSessionEnd
+    case WatchSession
 }

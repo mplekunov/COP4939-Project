@@ -9,76 +9,66 @@ import Foundation
 import WatchConnectivity
 
 class WatchConnectivityManager : NSObject, WCSessionDelegate, ObservableObject {
-    @Published var isConnected: Bool = false
-    @Published var isVerified: Bool = false
+    @Published var message: Data = Data()
     
-    private var session: WCSession
+    @Published var isConnected: Bool = false
+    
+    private var logger: LoggerService
+    
+    private var session: WCSession = WCSession.default
     
     override init() {
-        session = WCSession.default
+        logger = LoggerService(logSource: String(describing: type(of: self)))
+        
         super.init()
         session.delegate = self
+        
+        activateSession()
     }
     
-    func connectToDevice() throws {
+    private func activateSession() {
         if session.activationState != .activated {
             session.activate()
         }
-        
-        if isConnected {
-            let encoder = JSONEncoder()
-            let decoder = JSONDecoder()
-            
-            let verificationData = try encoder.encode(PairingVerification(isVerified: true))
-            let dataPacket = try encoder.encode(DataPacket(dataType: DataType.WatchPairingData, data: verificationData))
-            
-            session.sendMessageData(
-                dataPacket,
-                replyHandler: { data in
-                    do {
-                        print("Are we even fucking here?!")
-                        let replyData = try decoder.decode(PairingVerification.self, from: data)
-                        
-                        self.isVerified = replyData.isVerified
-                    } catch {
-                        print("Internal Error: \(error)")
-                    }
-                },
-                errorHandler: {
-                    (error) in
-                    print("Internal Error Send Message: \(error)")
-                }
-            )
-        }
     }
     
-    func send<T>(dataType: DataType, data: T) throws where T : Encodable {
-        if !isConnected {
-            throw WatchConnectivityError.ConnectionNotActivated
-        }
+    private func isReachable() -> Bool {
+        return session.isReachable
+    }
+    
+    func send(data: Data, replyHandler: @escaping (Data) -> Void) {
+//        if !isReachable() {
+//            logger.log(message: "Session is not reachable")
+//            return
+//        }
         
-        if !isVerified {
-            throw WatchConnectivityError.DeviceNotVerified
-        }
+        session.sendMessageData(
+            data,
+            replyHandler: replyHandler,
+            errorHandler: { [weak self] error in
+                guard let self = self else { return }
+                
+                self.logger.error(message: "\(error)")
+            }
+        )
+    }
+    
+    func send(data: Data) {
+//        if !isReachable() {
+//            logger.log(message: "Session is not reachable")
+//            return
+//        }
         
-        let encoder = JSONEncoder()
-        
-        do {
-            let data = try encoder.encode(data)
-            
-            let dataPacket = try encoder.encode(DataPacket(dataType: dataType, data: data))
-            
-            session.sendMessageData(
-                dataPacket,
-                replyHandler: nil,
-                errorHandler: {
-                    (error) in
-                    print("Internal Error: \(error)")
-                }
-            )
-        } catch {
-            throw JsonError.EncodingError
-        }
+        logger.log(message: "Message is being sent")
+        session.sendMessageData(
+            data,
+            replyHandler: nil,
+            errorHandler: { [weak self] error in
+                guard let self = self else { return }
+                
+                self.logger.error(message: "\(error)")
+            }
+        )
     }
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
@@ -88,9 +78,9 @@ class WatchConnectivityManager : NSObject, WCSessionDelegate, ObservableObject {
         }
         
         if activationState != .activated {
-            print("Internal Error: Device has not been activated")
+            logger.log(message: "Device has not been activated")
         } else if let error = error {
-            print("Internal Error inside Activation Session: \(error)")
+            logger.error(message: "\(error)")
         }
         
         DispatchQueue.main.async {

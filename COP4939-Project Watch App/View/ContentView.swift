@@ -12,36 +12,34 @@ import Combine
 struct ContentView: View {
     @State private var isRecording = false
     
-    private var dataCollectorViewModel: StateObject<DataCollectorViewModel>
-    private var dataSenderViewModel: StateObject<DataSenderViewModel>
+    @StateObject var dataCollectorViewModel: DataCollectorViewModel = DataCollectorViewModel(
+        deviceMotionSensorModel: DeviceMotionSensorViewModel(updateFrequency: 0.05),
+        deviceLocationSensorModel: DeviceLocationSensorViewModel())
     
-    init(
-        dataCollectorViewModel: StateObject<DataCollectorViewModel>,
-        dataSenderViewModel: StateObject<DataSenderViewModel>
-    ) {
-        self.dataCollectorViewModel = dataCollectorViewModel
-        self.dataSenderViewModel = dataSenderViewModel
-    }
+    @StateObject var dataSenderViewModel: DataSenderViewModel = DataSenderViewModel()
     
     var body: some View {
         ZStack {
             Color.black.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
             
-            if isRecording {
+            if isRecording && dataSenderViewModel.isReceiverConnected &&
+                dataCollectorViewModel.isLocationAuthorized {
                 NavigationView {
-                    StatisticsView(dataCollectorViewModel: dataCollectorViewModel, dataSenderViewModel: dataSenderViewModel,  isRecording: $isRecording)
+                    StatisticsView(isRecording: $isRecording)
                 }
             } else {
                 RecordingDataView
             }
         }
         .foregroundColor(.orange)
+        .environmentObject(dataSenderViewModel)
+        .environmentObject(dataCollectorViewModel)
     }
     
     var RecordingDataView: some View {
         Button("Start Recording") {
-            if dataCollectorViewModel.wrappedValue.startDataCollection() {
-                dataSenderViewModel.wrappedValue.startTransferringChannel()
+            if dataCollectorViewModel.startDataCollection() {
+                dataSenderViewModel.startTransferringChannel()
                 isRecording = true
             }
         }
@@ -49,11 +47,11 @@ struct ContentView: View {
     }
 }
 
-#Preview {
-    ContentView(dataCollectorViewModel: StateObject(
-        wrappedValue: DataCollectorViewModel(
-            deviceMotionSensorModel: DeviceMotionSensorViewModel(updateFrequency: 0.01),
-            deviceLocationSensorModel: DeviceLocationSensorViewModel())),
-                dataSenderViewModel: StateObject(
-                    wrappedValue: DataSenderViewModel(updateFrequency: 0.01)))
-}
+//#Preview {
+//    ContentView(dataCollectorViewModel: StateObject(
+//        wrappedValue: DataCollectorViewModel(
+//            deviceMotionSensorModel: DeviceMotionSensorViewModel(updateFrequency: 0.01),
+//            deviceLocationSensorModel: DeviceLocationSensorViewModel())),
+//                dataSenderViewModel: StateObject(
+//                    wrappedValue: DataSenderViewModel()))
+//}

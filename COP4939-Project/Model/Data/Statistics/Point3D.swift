@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Point3D : Encodable, Decodable {
+struct Point3D : Codable, Equatable {
     var x = Double()
     var y = Double()
     var z = Double()
@@ -31,5 +31,11 @@ struct Point3D : Encodable, Decodable {
         try container.encode(self.x, forKey: .x)
         try container.encode(self.y, forKey: .y)
         try container.encode(self.z, forKey: .z)
+    }
+    
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        return lhs.x == rhs.x &&
+        lhs.y == rhs.y &&
+        lhs.z == rhs.z
     }
 }

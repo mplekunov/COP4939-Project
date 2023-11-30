@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Coordinate : Encodable, Decodable {
+struct Coordinate : Codable, Equatable {
     var latitude: Double = Double()
     var longitude: Double = Double()
     
@@ -27,5 +27,10 @@ struct Coordinate : Encodable, Decodable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.latitude, forKey: .latitude)
         try container.encode(self.longitude, forKey: .longitude)
+    }
+    
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        return lhs.latitude == rhs.latitude &&
+        lhs.longitude == rhs.longitude
     }
 }

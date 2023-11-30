@@ -9,67 +9,50 @@ import Foundation
 import Combine
 
 class DataSenderViewModel : ObservableObject {
-    @Published var isPaired: Bool = false
+    @Published var isReceiverConnected: Bool = false
     
-    private var shouldStopConnecting = false
-    private var operationQueue: OperationQueue = OperationQueue()
-    private var updateFrequency: Double
-    
+    private let logger: LoggerService
     private var watchConnectivityManagerSubscription: Cancellable?
     
     private var watchConnectivityManager: WatchConnectivityManager = WatchConnectivityManager()
     
-    init(updateFrequency: Double) {
-        operationQueue.maxConcurrentOperationCount = 1
+    init() {
+        logger = LoggerService(logSource: String(describing: type(of: self)))
         
-        self.updateFrequency = updateFrequency
-        
-        watchConnectivityManagerSubscription = watchConnectivityManager.objectWillChange.sink { [weak self] _ in
+        watchConnectivityManagerSubscription = watchConnectivityManager.$isConnected.sink { [weak self] _ in
             guard let self = self else { return }
             
-            self.isPaired = watchConnectivityManager.isConnected && watchConnectivityManager.isVerified
-        }
-    }
-    
-    private func connectToDevice() {
-        operationQueue.addOperation { [weak self] in
-            guard let self = self else { return }
-            
-            while !self.isPaired && !self.shouldStopConnecting {
-                print("Internal Log: Trying to connect to device")
-                
-                print("is Paired: \(self.isPaired)")
-                
-                do {
-                    try self.watchConnectivityManager.connectToDevice()
-                } catch {
-                    print("Internal Error: \(error)")
-                }
-                
-                Thread.sleep(forTimeInterval: self.updateFrequency)
+            DispatchQueue.main.async {
+                self.isReceiverConnected = self.watchConnectivityManager.isConnected
             }
-            
-            self.send(dataType: .WatchStatisticsData, data: CollectedData(sessionStart: true))
         }
     }
     
     func startTransferringChannel() {
-        connectToDevice()
-        shouldStopConnecting = false
+        send(dataType: .WatchSessionStart, data: Data())
     }
     
     func stopTransferringChannel() {
-        operationQueue.cancelAllOperations()
-        shouldStopConnecting = true
-        
-        send(dataType: .WatchStatisticsData, data: CollectedData(sessionEnd: true))
+        send(dataType: .WatchSessionEnd, data: Data())
     }
 
     func send<T>(dataType: DataType, data: T) where T : Encodable {
         do {
-            try watchConnectivityManager.send(dataType: dataType, data: data)
+            let data = try encodeToData(dataType: dataType, data: data)
+            watchConnectivityManager.send(data: data)
         } catch {
-            print("Internal Error: \(error)")
+            logger.error(message: "Data could not be encoded correctly")
+        }
+    }
+    
+    private func encodeToData<T>(dataType: DataType, data: T) throws -> Data where T : Encodable {
+        let encoder = JSONEncoder()
+        
+        do {
+            let dataEncoded = try encoder.encode(data)
+            return try encoder.encode(DataPacket(dataType: dataType, data: dataEncoded))
+        } catch {
+            throw JsonError.EncodingError
         }
     }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DataPacket : Encodable, Decodable {
+struct DataPacket : Codable {
     let dataType: DataType
     let data: Data
     

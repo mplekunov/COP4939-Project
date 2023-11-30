@@ -8,51 +8,65 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var isRecording: Bool = false
-    
-    private var dataReceiverViewModel: StateObject<DataReceiverViewModel>
-    
-    init(
-        dataReceiverViewModel: StateObject<DataReceiverViewModel>
-    ) {
-        self.dataReceiverViewModel = dataReceiverViewModel
-    }
+    @StateObject var dataReceiverViewModel: DataReceiverViewModel = DataReceiverViewModel()
     
     var body: some View {
         ZStack {
             Color.black.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
             
-            if dataReceiverViewModel.wrappedValue.isPaired && dataReceiverViewModel.wrappedValue.isSessionInProgress {
+            if dataReceiverViewModel.isSessionInfoReceived {
                 NavigationView {
-                    StatisticsView(dataReceiverViewModel: dataReceiverViewModel)
+                    StatisticsView()
                 }
             } else {
-                RecordingDataView
+                LoadingView()
             }
         }
         .foregroundColor(.orange)
-    }
-    
-    var RecordingDataView: some View {
-        VStack {
-            Button(action: {
-                isRecording.toggle()
-                if isRecording {
-                    dataReceiverViewModel.wrappedValue.startTransferringChannel()
-                } else {
-                    dataReceiverViewModel.wrappedValue.stopTransferringChannel()
-                }
-            }) {
-                Text(isRecording ? "Stop Receiving Data" : "Start Receiving Data")
-                    .padding()
-                    .background(Color.secondary)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
-            }
-        }
+        .environmentObject(dataReceiverViewModel)
     }
 }
 
-#Preview {
-    ContentView(dataReceiverViewModel: StateObject(
-        wrappedValue: DataReceiverViewModel(updateFrequency: 0.05)))
+struct ActivityIndicatorView: UIViewRepresentable {
+    func makeUIView(context: Context) -> UIActivityIndicatorView {
+        UIActivityIndicatorView(style: .large)
+    }
+    
+    func updateUIView(_ uiView: UIActivityIndicatorView, context: Context) {
+        uiView.startAnimating()
+        /* : uiView.stopAnimating()*/
+    }
+}
+
+struct LoadingView: View {
+    @EnvironmentObject var dataReceiverViewModel: DataReceiverViewModel
+    
+    var body: some View {
+        ZStack {
+            Color.black.opacity(0.5)
+                .edgesIgnoringSafeArea(.all)
+            
+            VStack {
+                if dataReceiverViewModel.isDeviceConnected && dataReceiverViewModel.isSessionInProgress {
+                        Text("Session in Progress...")
+                        .font(.title)
+                        .foregroundColor(.orange)
+                } else if dataReceiverViewModel.isDeviceConnected && dataReceiverViewModel.isSessionCompleted {
+                        Text("Session has been Completed...")
+                        .font(.title)
+                        .foregroundColor(.orange)
+                } else if dataReceiverViewModel.isDeviceConnected {
+                    Text("Waiting for connection...")
+                    .font(.title)
+                    .foregroundColor(.orange)
+                }
+                
+                ActivityIndicatorView()
+                    .frame(width: 100, height: 100)
+                    .foregroundColor(.orange)
+                    .background(.black.opacity(0.5))
+                    .cornerRadius(10)
+            }
+        }
+    }
 }

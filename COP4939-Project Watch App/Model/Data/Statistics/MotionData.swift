@@ -7,10 +7,24 @@
 
 import Foundation
 
-struct MotionData : Encodable {
+struct MotionData : Codable, Equatable {
     var attitude: Attitude = Attitude()
     var acceleration: Point3D = Point3D()
     var gForce: Point3D = Point3D()
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        let attitude = try container.decode(Attitude.self, forKey: .attitude)
+        
+        let acceleration = try container.decode(Point3D.self, forKey: .acceleration)
+        
+        let gForce = try container.decode(Point3D.self, forKey: .gForce)
+        
+        self.attitude = attitude
+        self.acceleration = acceleration
+        self.gForce = gForce
+    }
     
     init() {}
     
@@ -33,4 +47,11 @@ struct MotionData : Encodable {
         try container.encode(acceleration, forKey: .acceleration)
         try container.encode(gForce, forKey: .gForce)
     }
+    
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        return lhs.attitude == rhs.attitude &&
+        lhs.acceleration == rhs.acceleration &&
+        lhs.gForce == rhs.gForce
+    }
 }
+

@@ -12,21 +12,32 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var location: CLLocation?
     @Published var isAuthorized: Bool = false
     
+    private let logger: LoggerService
+    
     private let locationManager = CLLocationManager()
     
     override init() {
+        logger = LoggerService(logSource: String(describing: type(of: self)))
+        
         super.init()
+        
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.distanceFilter = 1
     }
     
     func requestAuthorization() {
+        self.isAuthorized = self.locationManager.authorizationStatus == .authorizedWhenInUse
+        
         if locationManager.authorizationStatus != .authorizedWhenInUse {
             self.locationManager.requestWhenInUseAuthorization()
         }
-        
-        isAuthorized = locationManager.authorizationStatus == .authorizedWhenInUse
+    }
+    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        DispatchQueue.main.async {
+            self.isAuthorized = self.locationManager.authorizationStatus == .authorizedWhenInUse
+        }
     }
     
     func startLocationRecording() {
@@ -39,7 +50,9 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
-            self.location = location
+            DispatchQueue.main.async {
+                self.location = location
+            }
         }
     }
 }
