@@ -36,39 +36,35 @@ class WatchConnectivityManager : NSObject, WCSessionDelegate, ObservableObject {
         return session.isReachable
     }
     
-    func send(data: Data, replyHandler: @escaping (Data) -> Void) {
-//        if !isReachable() {
-//            logger.log(message: "Session is not reachable")
-//            return
-//        }
+    func send(data: Data, replyHandler: ((Data) -> Void)?, errorHandler: @escaping (Error) -> Void) {
+        if !isReachable() {
+            logger.log(message: "Session is not reachable")
+            return
+        }
         
         session.sendMessageData(
             data,
             replyHandler: replyHandler,
-            errorHandler: { [weak self] error in
-                guard let self = self else { return }
-                
-                self.logger.error(message: "\(error)")
-            }
+            errorHandler: errorHandler
         )
     }
     
-    func send(data: Data) {
-//        if !isReachable() {
-//            logger.log(message: "Session is not reachable")
-//            return
-//        }
+    func session(_ session: WCSession, didReceiveMessageData messageData: Data) {
+        logger.log(message: "Message without reply has been received")
         
-        logger.log(message: "Message is being sent")
-        session.sendMessageData(
-            data,
-            replyHandler: nil,
-            errorHandler: { [weak self] error in
-                guard let self = self else { return }
-                
-                self.logger.error(message: "\(error)")
-            }
-        )
+        DispatchQueue.main.async {
+            self.message = messageData
+        }
+    }
+    
+    func session(_ session: WCSession, didReceiveMessageData messageData: Data, replyHandler: @escaping (Data) -> Void) {
+        logger.log(message: "Message with replyHandler has been received")
+        
+        DispatchQueue.main.async {
+            self.message = messageData
+        }
+        
+        replyHandler(Data())
     }
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {

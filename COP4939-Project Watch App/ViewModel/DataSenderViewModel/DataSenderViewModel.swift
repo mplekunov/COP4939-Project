@@ -9,12 +9,13 @@ import Foundation
 import Combine
 
 class DataSenderViewModel : ObservableObject {
-    @Published var isReceiverConnected: Bool = false
-    
     private let logger: LoggerService
+    
     private var watchConnectivityManagerSubscription: Cancellable?
     
     private var watchConnectivityManager: WatchConnectivityManager = WatchConnectivityManager()
+    
+    @Published var isReceiverConnected: Bool = false
     
     init() {
         logger = LoggerService(logSource: String(describing: type(of: self)))
@@ -39,7 +40,14 @@ class DataSenderViewModel : ObservableObject {
     func send<T>(dataType: DataType, data: T) where T : Encodable {
         do {
             let data = try encodeToData(dataType: dataType, data: data)
-            watchConnectivityManager.send(data: data)
+            
+            watchConnectivityManager.send(
+                data: data,
+                replyHandler: nil,
+                errorHandler: { error in
+                    self.logger.log(message: "\(error)")
+                }
+            )
         } catch {
             logger.error(message: "Data could not be encoded correctly")
         }

@@ -52,37 +52,16 @@ class WatchConnectivityManager : NSObject, WCSessionDelegate, ObservableObject {
         activateSession()
     }
     
-    func send(data: Data, replyHandler: @escaping (Data) -> Void) {
-//        if !isReachable() {
-//            logger.log(message: "Session is not reachable")
-//            return
-//        }
+    func send(data: Data, replyHandler: ((Data) -> Void)?, errorHandler: @escaping (Error) -> Void) {
+        if !isReachable() {
+            logger.log(message: "Session is not reachable")
+            return
+        }
         
         session.sendMessageData(
             data,
             replyHandler: replyHandler,
-            errorHandler: { [weak self] error in
-                guard let self = self else { return }
-                
-                self.logger.error(message: "\(error)")
-            }
-        )
-    }
-    
-    func send(data: Data) {
-//        if !isReachable() {
-//            logger.log(message: "Session is not reachable")
-//            return
-//        }
-        
-        session.sendMessageData(
-            data,
-            replyHandler: nil,
-            errorHandler: { [weak self] error in
-                guard let self = self else { return }
-                
-                self.logger.error(message: "\(error)")
-            }
+            errorHandler: errorHandler
         )
     }
     

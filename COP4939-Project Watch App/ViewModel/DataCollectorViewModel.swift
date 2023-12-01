@@ -18,7 +18,6 @@ class DataCollectorViewModel : ObservableObject {
     
     private let logger: LoggerService
     
-    
     @Published var locations: Array<Location> = Array()
     @Published var motions: Array<MotionData> = Array()
     @Published var collectedData: Array<CollectedData> = Array()
