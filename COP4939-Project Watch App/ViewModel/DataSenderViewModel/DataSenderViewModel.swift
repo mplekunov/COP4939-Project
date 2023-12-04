@@ -71,7 +71,7 @@ class DataSenderViewModel : ObservableObject {
                         let deliveryInformation = try converter.decode(DeliveryInformation.self, from: dataPacket.data)
                         
                         if !deliveryInformation.isDelivered {
-                            self.retryMessageSendingOnFailure(deliveryInformation: deliveryInformation)
+                            retryMessageSendingOnFailure(messageID: deliveryInformation.id)
                         } else {
                             cache.removeValueFromCache(key: deliveryInformation.id)
                             logger.log(message: "Message has been delivered and cache has been cleared.")
@@ -81,6 +81,8 @@ class DataSenderViewModel : ObservableObject {
                     }
                 } catch {
                     logger.error(message: "\(error)")
+                    retryMessageSendingOnFailure(messageID: data.id)
+                    logger.log(message: "Redelivering message...")
                 }
             },
             errorHandler: { [weak self] error in
@@ -91,20 +93,18 @@ class DataSenderViewModel : ObservableObject {
         )
     }
     
-    private func retryMessageSendingOnFailure(deliveryInformation: DeliveryInformation) {
-        let id = deliveryInformation.id
-        
-        if let counter = cache.getRetryCounter(key: id),
-           let data = cache.getCache(key: id) {
+    private func retryMessageSendingOnFailure(messageID: UUID) {
+        if let counter = cache.getRetryCounter(key: messageID),
+           let data = cache.getCache(key: messageID) {
             
             if counter < MAX_RETRY_ATTEMPTS {
-                cache.updateRetryCounter(key: id, counter: counter + 1)
+                cache.updateRetryCounter(key: messageID, counter: counter + 1)
                 send(data: data)
             } else {
                 logger.error(message: "Message couldn't be delivered. Redelivery attempts have been exceeded maximum allowable value of \(MAX_RETRY_ATTEMPTS).")
             }
         } else {
-            logger.error(message: "There is no value with such messageID being cached. ~ \(deliveryInformation)")
+            logger.error(message: "There is no value with such messageID being cached. ~ \(messageID)")
         }
     }
     
