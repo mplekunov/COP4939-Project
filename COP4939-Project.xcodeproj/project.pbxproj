@@ -255,13 +255,13 @@
 			isa = PBXGroup;
 			children = (
 				6DEC849E2B1592DB006746F5 /* COP4939-Project */,
-				6DEC84AF2B1592DC006746F5 /* COP4939-ProjectTests */,
-				6DEC84B92B1592DC006746F5 /* COP4939-ProjectUITests */,
 				6DEC84C62B1592DC006746F5 /* COP4939-Project Watch App */,
 				6DEC84D72B1592DD006746F5 /* COP4939-Project Watch AppTests */,
 				6DEC84E12B1592DD006746F5 /* COP4939-Project Watch AppUITests */,
-				6DEC849D2B1592DB006746F5 /* Products */,
+				6DEC84AF2B1592DC006746F5 /* COP4939-ProjectTests */,
+				6DEC84B92B1592DC006746F5 /* COP4939-ProjectUITests */,
 				6DEC85442B159492006746F5 /* Frameworks */,
+				6DEC849D2B1592DB006746F5 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
