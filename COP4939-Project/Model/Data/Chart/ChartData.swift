@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct ChartData : Identifiable {
+struct ChartData<U> : Identifiable where U : Dimension {
     var id: UUID = UUID()
     var date: Date
-    var data: Double
+    var data: Measurement<U>
     
-    init(date: Date, data: Double) {
+    init(date: Date, data: Measurement<U>) {
         self.data = data
         self.date = date
     }

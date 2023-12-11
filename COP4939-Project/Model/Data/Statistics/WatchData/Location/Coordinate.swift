@@ -1,19 +1,17 @@
 //
 //  Coordinate.swift
-//  WatchApp Watch App
+//  PhoneApp
 //
-//  Created by Mikhail Plekunov on 11/17/23.
+//  Created by Mikhail Plekunov on 11/23/23.
 //
 
 import Foundation
 
 struct Coordinate : Codable, Equatable {
-    var latitude: Double = Double()
-    var longitude: Double = Double()
+    var latitude: Measurement<UnitAngle>
+    var longitude: Measurement<UnitAngle>
     
-    init() {}
-    
-    init(latitude: Double, longitude: Double) {
+    init(latitude: Measurement<UnitAngle>, longitude: Measurement<UnitAngle>) {
         self.latitude = latitude
         self.longitude = longitude
     }

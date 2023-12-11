@@ -18,9 +18,9 @@ class DataCollectorViewModel : ObservableObject {
     
     private let logger: LoggerService
     
-    @Published var locations: Array<Location> = Array()
-    @Published var motions: Array<MotionData> = Array()
-    @Published var collectedData: Array<CollectedData> = Array()
+    @Published var locationRecords: Array<LocationRecord> = Array()
+    @Published var motionRecords: Array<MotionRecord> = Array()
+    @Published var trackingRecords: Array<TrackingRecord> = Array()
     @Published var isLocationAuthorized: Bool = false
     
     init(
@@ -35,30 +35,36 @@ class DataCollectorViewModel : ObservableObject {
         isLocationAuthorizedSubscription = deviceLocationSensorModel.$isAuthorized.sink { [weak self] _ in
             guard let self = self else { return }
             
-            DispatchQueue.main.async {
-                self.isLocationAuthorized = deviceLocationSensorModel.isAuthorized
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                
+                isLocationAuthorized = deviceLocationSensorModel.isAuthorized
             }
         }
         
         locationDataSubscription = deviceLocationSensorModel.$data.sink { [weak self] _ in
             guard let self = self else { return }
             
-            DispatchQueue.main.async {
-                self.locations = deviceLocationSensorModel.data
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
                 
-                let locationData = deviceLocationSensorModel.data.last ?? Location()
-                let motionData = deviceMotionSensorModel.data.last ?? MotionData()
+                locationRecords = deviceLocationSensorModel.data
                 
-                let collectedData = CollectedData(locationData: locationData, motionData: motionData)
-                self.collectedData.append(collectedData)
+                if let location = deviceLocationSensorModel.data.last,
+                   let motion = deviceMotionSensorModel.data.last {
+                    
+                    trackingRecords.append(TrackingRecord(location: location, motion: motion, timeStamp: Date().timeIntervalSince1970))
+                }
             }
         }
         
         motionDataSubscription = deviceMotionSensorModel.$data.sink { [weak self] _ in
             guard let self = self else { return }
             
-            DispatchQueue.main.async {
-                self.motions = deviceMotionSensorModel.data
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                
+                motionRecords = deviceMotionSensorModel.data
             }
         }
     }
@@ -78,8 +84,8 @@ class DataCollectorViewModel : ObservableObject {
     }
     
     func clearData() {
-        locations.removeAll()
-        motions.removeAll()
-        collectedData.removeAll()
+        locationRecords.removeAll()
+        motionRecords.removeAll()
+        trackingRecords.removeAll()
     }
 }

@@ -26,38 +26,38 @@ struct StatisticsView: View {
         List {
             Section("Location Direction in Degrees") {
                 VStack(alignment: .leading, spacing: 10) {
-                    Text("Degrees: \(dataCollectorViewModel.locations.last?.directionInDegrees.formatted() ?? "N/A")")
+                    Text("Degrees: \(dataCollectorViewModel.locationRecords.last?.directionInDegrees.formatted() ?? "N/A")")
                 }
             }
             
             Section("Location Coordinates") {
                 VStack(alignment: .leading, spacing: 10) {
-                    Text("Latitude: \(dataCollectorViewModel.locations.last?.coordinate.latitude.formatted() ?? "N/A")")
-                    Text("Longitude: \(dataCollectorViewModel.locations.last?.coordinate.longitude.formatted() ?? "N/A")")
+                    Text("Latitude: \(dataCollectorViewModel.locationRecords.last?.coordinate.latitude.formatted() ?? "N/A")")
+                    Text("Longitude: \(dataCollectorViewModel.locationRecords.last?.coordinate.longitude.formatted() ?? "N/A")")
                 }
             }
             
             Section("Attitude") {
                 VStack(alignment: .leading, spacing: 10) {
-                    Text("Pitch: \(dataCollectorViewModel.motions.last?.attitude.pitch.formatted() ?? "N/A")")
-                    Text("Yaw: \(dataCollectorViewModel.motions.last?.attitude.yaw.formatted() ?? "N/A")")
-                    Text("Roll: \(dataCollectorViewModel.motions.last?.attitude.roll.formatted() ?? "N/A")")
+                    Text("Pitch: \(dataCollectorViewModel.motionRecords.last?.attitude.pitch.formatted() ?? "N/A")")
+                    Text("Yaw: \(dataCollectorViewModel.motionRecords.last?.attitude.yaw.formatted() ?? "N/A")")
+                    Text("Roll: \(dataCollectorViewModel.motionRecords.last?.attitude.roll.formatted() ?? "N/A")")
                 }
             }
             
             Section("G Force") {
                 VStack(alignment: .leading, spacing: 10) {
-                    Text("X: \(dataCollectorViewModel.motions.last?.gForce.x.formatted() ?? "N/A")")
-                    Text("Y: \(dataCollectorViewModel.motions.last?.gForce.y.formatted() ?? "N/A")")
-                    Text("Z: \(dataCollectorViewModel.motions.last?.gForce.z.formatted() ?? "N/A")")
+                    Text("X: \(dataCollectorViewModel.motionRecords.last?.gForce.x.formatted() ?? "N/A")")
+                    Text("Y: \(dataCollectorViewModel.motionRecords.last?.gForce.y.formatted() ?? "N/A")")
+                    Text("Z: \(dataCollectorViewModel.motionRecords.last?.gForce.z.formatted() ?? "N/A")")
                 }
             }
             
             Section("Acceleration") {
                 VStack(alignment: .leading, spacing: 10) {
-                    Text("X: \(dataCollectorViewModel.motions.last?.acceleration.x.formatted() ?? "N/A")")
-                    Text("Y: \(dataCollectorViewModel.motions.last?.acceleration.y.formatted() ?? "N/A")")
-                    Text("Z: \(dataCollectorViewModel.motions.last?.acceleration.z.formatted() ?? "N/A")")
+                    Text("X: \(dataCollectorViewModel.motionRecords.last?.acceleration.x.formatted() ?? "N/A")")
+                    Text("Y: \(dataCollectorViewModel.motionRecords.last?.acceleration.y.formatted() ?? "N/A")")
+                    Text("Z: \(dataCollectorViewModel.motionRecords.last?.acceleration.z.formatted() ?? "N/A")")
                 }
             }
             
@@ -68,7 +68,7 @@ struct StatisticsView: View {
                         dataCollectorViewModel.stopDataCollection()
                         dataSenderViewModel.stopTransferringChannel()
                         
-                        let session = Session(uuid: UUID(), data: dataCollectorViewModel.collectedData)
+                        let session = WatchTrackingSession(uuid: UUID(), data: dataCollectorViewModel.trackingRecords)
  
                         dataSenderViewModel.send(dataType: .WatchSession, data: session)
                         isRecording = false

@@ -13,7 +13,7 @@ class DataReceiverViewModel : ObservableObject {
     @Published var isSessionCompleted: Bool = false
     @Published var isSessionInProgress: Bool = false
     @Published var isSessionInfoReceived: Bool = false
-    @Published var session: Session = Session()
+    @Published var session: WatchTrackingSession = WatchTrackingSession()
     
     private let logger: LoggerService
     
@@ -54,7 +54,7 @@ class DataReceiverViewModel : ObservableObject {
                 switch message.dataType {
                 case .WatchSession:
                     logger.log(message: "Session info has been received")
-                    session = try converter.decode(Session.self, from: message.data)
+                    session = try converter.decode(WatchTrackingSession.self, from: message.data)
                     isSessionInfoReceived = true
                 case .WatchSessionStart:
                     isSessionInfoReceived = false

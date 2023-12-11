@@ -15,31 +15,35 @@ class DeviceLocationSensorViewModel : ObservableObject {
     private var locationSubscription: Cancellable?
     private var isAuthorizedSubscription: Cancellable?
     
-    @Published var data: Array<Location> = Array()
+    @Published var data: Array<LocationRecord> = Array()
     @Published var isAuthorized: Bool = false
     
     init() {
         isAuthorizedSubscription = locationManager.$isAuthorized.sink { [weak self] _ in
             guard let self = self else { return }
             
-            DispatchQueue.main.async {
-                self.isAuthorized = self.locationManager.isAuthorized
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                
+                isAuthorized = locationManager.isAuthorized
             }
         }
         
         locationSubscription = locationManager.$location.sink { [weak self] _ in
             guard let self = self else { return }
             
-            DispatchQueue.main.async {
-                if let coordinate = self.locationManager.location?.coordinate,
-                   let direction = self.locationManager.location?.course {
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                
+                if let coordinate = locationManager.location?.coordinate,
+                   let direction = locationManager.location?.course {
                     
-                    self.data.append(Location(
+                    self.data.append(LocationRecord(
                         coordinate: Coordinate(
-                            latitude: coordinate.latitude,
-                            longitude: coordinate.longitude
+                            latitude: Measurement(value: coordinate.latitude, unit: .degrees),
+                            longitude: Measurement(value: coordinate.longitude, unit: .degrees)
                         ),
-                        directionInDegrees: direction.magnitude
+                        directionInDegrees: Measurement(value: direction.magnitude, unit: .degrees)
                     ))
                 }
             }

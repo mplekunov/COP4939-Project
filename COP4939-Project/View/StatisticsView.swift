@@ -22,7 +22,7 @@ struct StatisticsView: View {
                     data: dataReceiverViewModel.session.data.map {
                         ChartData(
                             date: Date(timeIntervalSince1970: $0.timeStamp),
-                            data: $0.locationData.directionInDegrees
+                            data: $0.location.directionInDegrees
                         )
                     }
                 ).padding()
@@ -35,7 +35,7 @@ struct StatisticsView: View {
                     data: dataReceiverViewModel.session.data.map {
                         ChartData(
                             date: Date(timeIntervalSince1970: $0.timeStamp),
-                            data: $0.locationData.coordinate.latitude
+                            data: $0.location.coordinate.latitude
                         )
                     }
                 ).padding()
@@ -48,7 +48,7 @@ struct StatisticsView: View {
                     data: dataReceiverViewModel.session.data.map {
                         ChartData(
                             date: Date(timeIntervalSince1970: $0.timeStamp),
-                            data: $0.locationData.coordinate.longitude
+                            data: $0.location.coordinate.longitude
                         )
                     }
                 ).padding()
@@ -61,7 +61,7 @@ struct StatisticsView: View {
                         data: dataReceiverViewModel.session.data.map {
                             ChartData(
                                 date: Date(timeIntervalSince1970: $0.timeStamp),
-                                data: $0.motionData.attitude.pitch
+                                data: $0.motion.attitude.pitch
                             )
                         }
                     ).padding()
@@ -74,7 +74,7 @@ struct StatisticsView: View {
                         data: dataReceiverViewModel.session.data.map {
                             ChartData(
                                 date: Date(timeIntervalSince1970: $0.timeStamp),
-                                data: $0.motionData.attitude.yaw
+                                data: $0.motion.attitude.yaw
                             )
                         }
                     ).padding()
@@ -87,7 +87,7 @@ struct StatisticsView: View {
                         data: dataReceiverViewModel.session.data.map {
                             ChartData(
                                 date: Date(timeIntervalSince1970: $0.timeStamp),
-                                data: $0.motionData.attitude.roll
+                                data: $0.motion.attitude.roll
                             )
                         }
                     ).padding()
@@ -101,7 +101,7 @@ struct StatisticsView: View {
                         data: dataReceiverViewModel.session.data.map {
                             ChartData(
                                 date: Date(timeIntervalSince1970: $0.timeStamp),
-                                data: $0.motionData.gForce.x
+                                data: $0.motion.gForce.x
                             )
                         }
                     ).padding()
@@ -114,7 +114,7 @@ struct StatisticsView: View {
                         data: dataReceiverViewModel.session.data.map {
                             ChartData(
                                 date: Date(timeIntervalSince1970: $0.timeStamp),
-                                data: $0.motionData.gForce.y
+                                data: $0.motion.gForce.y
                             )
                         }
                     ).padding()
@@ -127,7 +127,7 @@ struct StatisticsView: View {
                         data: dataReceiverViewModel.session.data.map {
                             ChartData(
                                 date: Date(timeIntervalSince1970: $0.timeStamp),
-                                data: $0.motionData.gForce.z
+                                data: $0.motion.gForce.z
                             )
                         }
                     ).padding()
@@ -141,7 +141,7 @@ struct StatisticsView: View {
                         data: dataReceiverViewModel.session.data.map {
                             ChartData(
                                 date: Date(timeIntervalSince1970: $0.timeStamp),
-                                data: $0.motionData.acceleration.x
+                                data: $0.motion.acceleration.x
                             )
                         }
                     )
@@ -156,7 +156,7 @@ struct StatisticsView: View {
                         data: dataReceiverViewModel.session.data.map {
                             ChartData(
                                 date: Date(timeIntervalSince1970: $0.timeStamp),
-                                data: $0.motionData.acceleration.y
+                                data: $0.motion.acceleration.y
                             )
                         }
                     )
@@ -171,7 +171,7 @@ struct StatisticsView: View {
                         data: dataReceiverViewModel.session.data.map {
                             ChartData(
                                 date: Date(timeIntervalSince1970: $0.timeStamp),
-                                data: $0.motionData.acceleration.z
+                                data: $0.motion.acceleration.z
                             )
                         }
                     )
@@ -187,21 +187,29 @@ struct StatisticsView: View {
     }
 }
 
-struct LineChartView: View {
-    let data: [ChartData]
+struct LineChartView<U>: View where U: Dimension {
+    let data: [ChartData<U>]
     
     var body: some View {
         Chart {
             ForEach(data, id: \.date) { item in
                 LineMark(
                     x: .value("", item.date),
-                    y: .value("", item.data)
+                    y: .value("", item.data.value)
                 )
                 .interpolationMethod(.stepCenter)
             }
         }
         .chartYAxis {
             AxisMarks(position: .leading)
+        }
+        .chartXAxisLabel(position: .bottom, alignment: .center) {
+            Text("Time")
+                .foregroundColor(.orange)
+        }
+        .chartYAxisLabel(position: .top, alignment: .center) {
+            Text(data.first?.data.unit.symbol.description ?? "N/A")
+                .foregroundColor(.orange)
         }
         .frame(height: 200)
     }

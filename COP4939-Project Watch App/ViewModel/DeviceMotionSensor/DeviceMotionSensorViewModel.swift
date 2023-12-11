@@ -15,7 +15,7 @@ class DeviceMotionSensorViewModel : ObservableObject {
     private let floatingPointAccuracy = 3
     private let logger: LoggerService
     
-    @Published var data: Array<MotionData> = Array()
+    @Published var data: Array<MotionRecord> = Array()
     
     init(updateFrequency: Double) {
         logger = LoggerService(logSource: String(describing: type(of: self)))
@@ -29,33 +29,33 @@ class DeviceMotionSensorViewModel : ObservableObject {
     }
     
     func startRecording() {
-//        operationQueue.addOperation { [weak self] in
-//            guard let self = self else { return }
-//            
-//            while true {
-//                DispatchQueue.main.async {
-//                    self.data.append(MotionData(
-//                        attitude: Attitude(
-//                            roll: Double.random(in: -1...1),
-//                            yaw: Double.random(in: -1...1),
-//                            pitch: Double.random(in: -1...1)
-//                        ),
-//                        acceleration: Point3D(
-//                            x: Double.random(in: -1...1),
-//                            y: Double.random(in: -1...1),
-//                            z: Double.random(in: -1...1)
-//                        ),
-//                        gForce: Point3D(
-//                            x: Double.random(in: -1...1),
-//                            y: Double.random(in: -1...1),
-//                            z: Double.random(in: -1...1)
-//                        ))
-//                    )
-//                }
-//                
-//                Thread.sleep(forTimeInterval: self.updateFrequency)
-//            }
-//        }
+        operationQueue.addOperation { [weak self] in
+            guard let self = self else { return }
+            
+            while true {
+                DispatchQueue.main.async {
+                    self.data.append(MotionRecord(
+                        attitude: Attitude(
+                            roll: Measurement(value: Double.random(in: -1...1), unit: .radians),
+                            yaw: Measurement(value: Double.random(in: -1...1), unit: .radians),
+                            pitch: Measurement(value: Double.random(in: -1...1), unit: .radians)
+                        ),
+                        acceleration: Unit3D(
+                            x: Measurement(value: Double.random(in: -1...1), unit: .gravity),
+                            y: Measurement(value: Double.random(in: -1...1), unit: .gravity),
+                            z: Measurement(value: Double.random(in: -1...1), unit: .gravity)
+                        ),
+                        gForce: Unit3D(
+                            x: Measurement(value: Double.random(in: -1...1), unit: .gravity),
+                            y: Measurement(value: Double.random(in: -1...1), unit: .gravity),
+                            z: Measurement(value: Double.random(in: -1...1), unit: .gravity)
+                        ))
+                    )
+                }
+                
+                Thread.sleep(forTimeInterval: self.updateFrequency)
+            }
+        }
         
         motionManager.startDeviceMotionUpdates(to: operationQueue) { [weak self] motionData, error in
             guard let self = self else { return }
@@ -67,21 +67,21 @@ class DeviceMotionSensorViewModel : ObservableObject {
                 
                 // Update UI on main thread
                 DispatchQueue.main.async {
-                    self.data.append(MotionData(
+                    self.data.append(MotionRecord(
                         attitude: Attitude(
-                            roll: attitude.roll.rounded(toPlaces: self.floatingPointAccuracy),
-                            yaw: attitude.yaw.rounded(toPlaces: self.floatingPointAccuracy),
-                            pitch: attitude.pitch.rounded(toPlaces: self.floatingPointAccuracy)
+                            roll: Measurement(value: attitude.roll, unit: .radians),
+                            yaw: Measurement(value: attitude.yaw, unit: .radians),
+                            pitch: Measurement(value: attitude.pitch, unit: .radians)
                         ),
-                        acceleration: Point3D(
-                            x: acceleration.x.rounded(toPlaces: self.floatingPointAccuracy),
-                            y: acceleration.y.rounded(toPlaces: self.floatingPointAccuracy),
-                            z: acceleration.z.rounded(toPlaces: self.floatingPointAccuracy)
+                        acceleration: Unit3D(
+                            x: Measurement(value: acceleration.x, unit: .gravity),
+                            y: Measurement(value: acceleration.y, unit: .gravity),
+                            z: Measurement(value: acceleration.z, unit: .gravity)
                         ),
-                        gForce: Point3D(
-                            x: gForce.x.rounded(toPlaces: self.floatingPointAccuracy),
-                            y: gForce.y.rounded(toPlaces: self.floatingPointAccuracy),
-                            z: gForce.z.rounded(toPlaces: self.floatingPointAccuracy)
+                        gForce: Unit3D(
+                            x: Measurement(value: gForce.x, unit: .gravity),
+                            y: Measurement(value: gForce.y, unit: .gravity),
+                            z: Measurement(value: gForce.z, unit: .gravity)
                         ))
                     )
                 }

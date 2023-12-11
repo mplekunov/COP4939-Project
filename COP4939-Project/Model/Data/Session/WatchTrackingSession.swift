@@ -7,23 +7,23 @@
 
 import Foundation
 
-struct Session : Codable {
-    let uuid: UUID
-    let data: Array<CollectedData>
+struct WatchTrackingSession : Codable {
+    let id: UUID
+    let data: Array<TrackingRecord>
     
-    init(uuid: UUID, data: Array<CollectedData>) {
-        self.uuid = uuid
+    init(uuid: UUID, data: Array<TrackingRecord>) {
+        self.id = uuid
         self.data = data
     }
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.uuid = try container.decode(UUID.self, forKey: .uuid)
-        self.data = try container.decode(Array<CollectedData>.self, forKey: .data)
+        self.id = try container.decode(UUID.self, forKey: .uuid)
+        self.data = try container.decode(Array<TrackingRecord>.self, forKey: .data)
     }
     
     init() {
-        uuid = UUID()
+        id = UUID()
         data = Array()
     }
     
@@ -34,7 +34,7 @@ struct Session : Codable {
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.uuid, forKey: .uuid)
+        try container.encode(self.id, forKey: .uuid)
         try container.encode(self.data, forKey: .data)
     }
 }

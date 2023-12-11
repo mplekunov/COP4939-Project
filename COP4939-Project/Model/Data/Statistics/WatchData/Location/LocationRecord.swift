@@ -7,24 +7,22 @@
 
 import Foundation
 
-struct Location : Codable, Equatable {
-    var coordinate: Coordinate = Coordinate()
-    var directionInDegrees: Double = Double()
+struct LocationRecord : Codable, Equatable {
+    var coordinate: Coordinate
+    var directionInDegrees: Measurement<UnitAngle>
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         let coordinate = try container.decode(Coordinate.self, forKey: .coordinate)
         
-        let directionInDegrees = try container.decode(Double.self, forKey: .directionInDegrees)
+        let directionInDegrees = try container.decode(Measurement<UnitAngle>.self, forKey: .directionInDegrees)
         
         self.coordinate = coordinate
         self.directionInDegrees = directionInDegrees
     }
     
-    init() {}
-    
-    init(coordinate: Coordinate, directionInDegrees: Double) {
+    init(coordinate: Coordinate, directionInDegrees: Measurement<UnitAngle>) {
         self.coordinate = coordinate
         self.directionInDegrees = directionInDegrees
     }

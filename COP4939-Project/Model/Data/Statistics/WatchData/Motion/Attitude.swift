@@ -8,13 +8,11 @@
 import Foundation
 
 struct Attitude : Codable, Equatable {
-    var roll: Double = Double()
-    var yaw: Double = Double()
-    var pitch: Double = Double()
+    var roll: Measurement<UnitAngle>
+    var yaw: Measurement<UnitAngle>
+    var pitch: Measurement<UnitAngle>
     
-    init() {}
-    
-    init(roll: Double, yaw: Double, pitch: Double) {
+    init(roll: Measurement<UnitAngle>, yaw: Measurement<UnitAngle>, pitch: Measurement<UnitAngle>) {
         self.roll = roll
         self.yaw = yaw
         self.pitch = pitch

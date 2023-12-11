@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6D6DDA612B277A9E00E33CCE /* WaterSkiingProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DDA602B277A9E00E33CCE /* WaterSkiingProcessor.swift */; };
+		6D7088E32B279D2600FA4F54 /* Buoy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7088E22B279D2600FA4F54 /* Buoy.swift */; };
+		6D7088E52B279D4200FA4F54 /* WakeCross.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7088E42B279D4200FA4F54 /* WakeCross.swift */; };
+		6D7088ED2B27A74E00FA4F54 /* Pass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7088EC2B27A74E00FA4F54 /* Pass.swift */; };
+		6D7088EF2B27AA8B00FA4F54 /* WaterSkiingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7088EE2B27AA8B00FA4F54 /* WaterSkiingSession.swift */; };
+		6D7088F12B27AC9E00FA4F54 /* Boat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7088F02B27AC9E00FA4F54 /* Boat.swift */; };
+		6D7088F32B27ACD700FA4F54 /* BoatDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7088F22B27ACD700FA4F54 /* BoatDriver.swift */; };
+		6D7088F82B27AEB000FA4F54 /* Ski.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7088F72B27AEB000FA4F54 /* Ski.swift */; };
+		6D7088FA2B27AEFC00FA4F54 /* Fin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7088F92B27AEFC00FA4F54 /* Fin.swift */; };
+		6D7089012B27C0A800FA4F54 /* Unit3D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7089002B27C0A800FA4F54 /* Unit3D.swift */; };
 		6DEC84A02B1592DB006746F5 /* COP4939_ProjectApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC849F2B1592DB006746F5 /* COP4939_ProjectApp.swift */; };
 		6DEC84A42B1592DC006746F5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6DEC84A32B1592DC006746F5 /* Assets.xcassets */; };
 		6DEC84A72B1592DC006746F5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6DEC84A62B1592DC006746F5 /* Preview Assets.xcassets */; };
@@ -35,12 +45,12 @@
 		6DEC85372B159353006746F5 /* DoubleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85192B159353006746F5 /* DoubleExtension.swift */; };
 		6DEC85382B159353006746F5 /* WatchConnectivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC851A2B159353006746F5 /* WatchConnectivityManager.swift */; };
 		6DEC85392B159353006746F5 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC851B2B159353006746F5 /* LocationManager.swift */; };
-		6DEC853A2B159353006746F5 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC851E2B159353006746F5 /* Location.swift */; };
-		6DEC853B2B159353006746F5 /* CollectedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC851F2B159353006746F5 /* CollectedData.swift */; };
+		6DEC853A2B159353006746F5 /* LocationRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC851E2B159353006746F5 /* LocationRecord.swift */; };
+		6DEC853B2B159353006746F5 /* TrackingRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC851F2B159353006746F5 /* TrackingRecord.swift */; };
 		6DEC853C2B159353006746F5 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85202B159353006746F5 /* Coordinate.swift */; };
-		6DEC853D2B159353006746F5 /* MotionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85212B159353006746F5 /* MotionData.swift */; };
+		6DEC853D2B159353006746F5 /* MotionRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85212B159353006746F5 /* MotionRecord.swift */; };
 		6DEC853E2B159353006746F5 /* Attitude.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85222B159353006746F5 /* Attitude.swift */; };
-		6DEC853F2B159353006746F5 /* Point3D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85232B159353006746F5 /* Point3D.swift */; };
+		6DEC853F2B159353006746F5 /* Unit3D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85232B159353006746F5 /* Unit3D.swift */; };
 		6DEC85402B159353006746F5 /* DataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85242B159353006746F5 /* DataType.swift */; };
 		6DEC85412B159353006746F5 /* DataPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85262B159353006746F5 /* DataPacket.swift */; };
 		6DEC85422B159353006746F5 /* DeliveryInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85272B159353006746F5 /* DeliveryInformation.swift */; };
@@ -52,22 +62,21 @@
 		6DEC85692B159566006746F5 /* WatchConnectivityErrorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85502B159566006746F5 /* WatchConnectivityErrorExtension.swift */; };
 		6DEC856A2B159566006746F5 /* JsonErrorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85512B159566006746F5 /* JsonErrorExtension.swift */; };
 		6DEC856B2B159566006746F5 /* WatchConnectivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85522B159566006746F5 /* WatchConnectivityManager.swift */; };
-		6DEC856C2B159566006746F5 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85552B159566006746F5 /* Location.swift */; };
-		6DEC856D2B159566006746F5 /* CollectedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85562B159566006746F5 /* CollectedData.swift */; };
+		6DEC856C2B159566006746F5 /* LocationRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85552B159566006746F5 /* LocationRecord.swift */; };
+		6DEC856D2B159566006746F5 /* TrackingRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85562B159566006746F5 /* TrackingRecord.swift */; };
 		6DEC856E2B159566006746F5 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85572B159566006746F5 /* Coordinate.swift */; };
-		6DEC856F2B159566006746F5 /* MotionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85582B159566006746F5 /* MotionData.swift */; };
+		6DEC856F2B159566006746F5 /* MotionRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85582B159566006746F5 /* MotionRecord.swift */; };
 		6DEC85702B159566006746F5 /* Attitude.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85592B159566006746F5 /* Attitude.swift */; };
-		6DEC85712B159566006746F5 /* Point3D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC855A2B159566006746F5 /* Point3D.swift */; };
 		6DEC85722B159566006746F5 /* DataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC855C2B159566006746F5 /* DataType.swift */; };
 		6DEC85732B159566006746F5 /* DataPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC855D2B159566006746F5 /* DataPacket.swift */; };
-		6DEC85752B159566006746F5 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85602B159566006746F5 /* Session.swift */; };
+		6DEC85752B159566006746F5 /* WatchTrackingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85602B159566006746F5 /* WatchTrackingSession.swift */; };
 		6DEC85762B159566006746F5 /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85622B159566006746F5 /* StatisticsView.swift */; };
 		6DEC85772B159566006746F5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85632B159566006746F5 /* ContentView.swift */; };
 		6DEC85792B159566006746F5 /* DataReceiverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85662B159566006746F5 /* DataReceiverViewModel.swift */; };
 		6DEC857C2B1616B8006746F5 /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DEC857B2B1616B8006746F5 /* WatchConnectivity.framework */; };
 		6DEC857F2B1661BC006746F5 /* LoggerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC857E2B1661BC006746F5 /* LoggerService.swift */; };
 		6DEC85852B167114006746F5 /* LoggerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85842B167114006746F5 /* LoggerService.swift */; };
-		6DEC85882B16D2F8006746F5 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85872B16D2F8006746F5 /* Session.swift */; };
+		6DEC85882B16D2F8006746F5 /* WatchTrackingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85872B16D2F8006746F5 /* WatchTrackingSession.swift */; };
 		6DEC85932B18E79D006746F5 /* ChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85922B18E79D006746F5 /* ChartData.swift */; };
 		6DEC85982B1E2952006746F5 /* JSONConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85972B1E2952006746F5 /* JSONConverter.swift */; };
 		6DEC859B2B1E2B53006746F5 /* DataCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC859A2B1E2B53006746F5 /* DataCache.swift */; };
@@ -128,6 +137,16 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6D6DDA602B277A9E00E33CCE /* WaterSkiingProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterSkiingProcessor.swift; sourceTree = "<group>"; };
+		6D7088E22B279D2600FA4F54 /* Buoy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buoy.swift; sourceTree = "<group>"; };
+		6D7088E42B279D4200FA4F54 /* WakeCross.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WakeCross.swift; sourceTree = "<group>"; };
+		6D7088EC2B27A74E00FA4F54 /* Pass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pass.swift; sourceTree = "<group>"; };
+		6D7088EE2B27AA8B00FA4F54 /* WaterSkiingSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterSkiingSession.swift; sourceTree = "<group>"; };
+		6D7088F02B27AC9E00FA4F54 /* Boat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Boat.swift; sourceTree = "<group>"; };
+		6D7088F22B27ACD700FA4F54 /* BoatDriver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoatDriver.swift; sourceTree = "<group>"; };
+		6D7088F72B27AEB000FA4F54 /* Ski.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ski.swift; sourceTree = "<group>"; };
+		6D7088F92B27AEFC00FA4F54 /* Fin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fin.swift; sourceTree = "<group>"; };
+		6D7089002B27C0A800FA4F54 /* Unit3D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unit3D.swift; sourceTree = "<group>"; };
 		6DEC849C2B1592DB006746F5 /* COP4939-Project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "COP4939-Project.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DEC849F2B1592DB006746F5 /* COP4939_ProjectApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = COP4939_ProjectApp.swift; sourceTree = "<group>"; };
 		6DEC84A32B1592DC006746F5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -161,12 +180,12 @@
 		6DEC85192B159353006746F5 /* DoubleExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoubleExtension.swift; sourceTree = "<group>"; };
 		6DEC851A2B159353006746F5 /* WatchConnectivityManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchConnectivityManager.swift; sourceTree = "<group>"; };
 		6DEC851B2B159353006746F5 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
-		6DEC851E2B159353006746F5 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
-		6DEC851F2B159353006746F5 /* CollectedData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectedData.swift; sourceTree = "<group>"; };
+		6DEC851E2B159353006746F5 /* LocationRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationRecord.swift; sourceTree = "<group>"; };
+		6DEC851F2B159353006746F5 /* TrackingRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackingRecord.swift; sourceTree = "<group>"; };
 		6DEC85202B159353006746F5 /* Coordinate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
-		6DEC85212B159353006746F5 /* MotionData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionData.swift; sourceTree = "<group>"; };
+		6DEC85212B159353006746F5 /* MotionRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionRecord.swift; sourceTree = "<group>"; };
 		6DEC85222B159353006746F5 /* Attitude.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Attitude.swift; sourceTree = "<group>"; };
-		6DEC85232B159353006746F5 /* Point3D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Point3D.swift; sourceTree = "<group>"; };
+		6DEC85232B159353006746F5 /* Unit3D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Unit3D.swift; sourceTree = "<group>"; };
 		6DEC85242B159353006746F5 /* DataType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataType.swift; sourceTree = "<group>"; };
 		6DEC85262B159353006746F5 /* DataPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataPacket.swift; sourceTree = "<group>"; };
 		6DEC85272B159353006746F5 /* DeliveryInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeliveryInformation.swift; sourceTree = "<group>"; };
@@ -178,22 +197,21 @@
 		6DEC85502B159566006746F5 /* WatchConnectivityErrorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchConnectivityErrorExtension.swift; sourceTree = "<group>"; };
 		6DEC85512B159566006746F5 /* JsonErrorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonErrorExtension.swift; sourceTree = "<group>"; };
 		6DEC85522B159566006746F5 /* WatchConnectivityManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchConnectivityManager.swift; sourceTree = "<group>"; };
-		6DEC85552B159566006746F5 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
-		6DEC85562B159566006746F5 /* CollectedData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectedData.swift; sourceTree = "<group>"; };
+		6DEC85552B159566006746F5 /* LocationRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationRecord.swift; sourceTree = "<group>"; };
+		6DEC85562B159566006746F5 /* TrackingRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackingRecord.swift; sourceTree = "<group>"; };
 		6DEC85572B159566006746F5 /* Coordinate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
-		6DEC85582B159566006746F5 /* MotionData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionData.swift; sourceTree = "<group>"; };
+		6DEC85582B159566006746F5 /* MotionRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionRecord.swift; sourceTree = "<group>"; };
 		6DEC85592B159566006746F5 /* Attitude.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Attitude.swift; sourceTree = "<group>"; };
-		6DEC855A2B159566006746F5 /* Point3D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Point3D.swift; sourceTree = "<group>"; };
 		6DEC855C2B159566006746F5 /* DataType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataType.swift; sourceTree = "<group>"; };
 		6DEC855D2B159566006746F5 /* DataPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataPacket.swift; sourceTree = "<group>"; };
-		6DEC85602B159566006746F5 /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		6DEC85602B159566006746F5 /* WatchTrackingSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchTrackingSession.swift; sourceTree = "<group>"; };
 		6DEC85622B159566006746F5 /* StatisticsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
 		6DEC85632B159566006746F5 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		6DEC85662B159566006746F5 /* DataReceiverViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataReceiverViewModel.swift; sourceTree = "<group>"; };
 		6DEC857B2B1616B8006746F5 /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.0.sdk/System/Library/Frameworks/WatchConnectivity.framework; sourceTree = DEVELOPER_DIR; };
 		6DEC857E2B1661BC006746F5 /* LoggerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerService.swift; sourceTree = "<group>"; };
 		6DEC85842B167114006746F5 /* LoggerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerService.swift; sourceTree = "<group>"; };
-		6DEC85872B16D2F8006746F5 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		6DEC85872B16D2F8006746F5 /* WatchTrackingSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchTrackingSession.swift; sourceTree = "<group>"; };
 		6DEC85922B18E79D006746F5 /* ChartData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartData.swift; sourceTree = "<group>"; };
 		6DEC85972B1E2952006746F5 /* JSONConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONConverter.swift; sourceTree = "<group>"; };
 		6DEC859A2B1E2B53006746F5 /* DataCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataCache.swift; sourceTree = "<group>"; };
@@ -251,6 +269,108 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6D6DDA682B279C9100E33CCE /* WaterSkiing */ = {
+			isa = PBXGroup;
+			children = (
+				6D7088F62B27AE9D00FA4F54 /* Equipment */,
+				6D7088F52B27AE9200FA4F54 /* Boat */,
+				6D7088EC2B27A74E00FA4F54 /* Pass.swift */,
+				6D7088E22B279D2600FA4F54 /* Buoy.swift */,
+				6D7088E42B279D4200FA4F54 /* WakeCross.swift */,
+			);
+			path = WaterSkiing;
+			sourceTree = "<group>";
+		};
+		6D7088E62B279E4E00FA4F54 /* WatchData */ = {
+			isa = PBXGroup;
+			children = (
+				6D7088E82B279EB100FA4F54 /* Motion */,
+				6D7088E72B279EA500FA4F54 /* Location */,
+				6DEC85562B159566006746F5 /* TrackingRecord.swift */,
+			);
+			path = WatchData;
+			sourceTree = "<group>";
+		};
+		6D7088E72B279EA500FA4F54 /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				6DEC85572B159566006746F5 /* Coordinate.swift */,
+				6DEC85552B159566006746F5 /* LocationRecord.swift */,
+			);
+			path = Location;
+			sourceTree = "<group>";
+		};
+		6D7088E82B279EB100FA4F54 /* Motion */ = {
+			isa = PBXGroup;
+			children = (
+				6DEC85592B159566006746F5 /* Attitude.swift */,
+				6DEC85582B159566006746F5 /* MotionRecord.swift */,
+			);
+			path = Motion;
+			sourceTree = "<group>";
+		};
+		6D7088E92B27A17200FA4F54 /* WatchData */ = {
+			isa = PBXGroup;
+			children = (
+				6D7088EA2B27A17D00FA4F54 /* Motion */,
+				6D7088EB2B27A18300FA4F54 /* Location */,
+				6DEC851F2B159353006746F5 /* TrackingRecord.swift */,
+			);
+			path = WatchData;
+			sourceTree = "<group>";
+		};
+		6D7088EA2B27A17D00FA4F54 /* Motion */ = {
+			isa = PBXGroup;
+			children = (
+				6DEC85212B159353006746F5 /* MotionRecord.swift */,
+				6DEC85222B159353006746F5 /* Attitude.swift */,
+			);
+			path = Motion;
+			sourceTree = "<group>";
+		};
+		6D7088EB2B27A18300FA4F54 /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				6DEC851E2B159353006746F5 /* LocationRecord.swift */,
+				6DEC85202B159353006746F5 /* Coordinate.swift */,
+			);
+			path = Location;
+			sourceTree = "<group>";
+		};
+		6D7088F52B27AE9200FA4F54 /* Boat */ = {
+			isa = PBXGroup;
+			children = (
+				6D7088F02B27AC9E00FA4F54 /* Boat.swift */,
+				6D7088F22B27ACD700FA4F54 /* BoatDriver.swift */,
+			);
+			path = Boat;
+			sourceTree = "<group>";
+		};
+		6D7088F62B27AE9D00FA4F54 /* Equipment */ = {
+			isa = PBXGroup;
+			children = (
+				6D7088F72B27AEB000FA4F54 /* Ski.swift */,
+				6D7088F92B27AEFC00FA4F54 /* Fin.swift */,
+			);
+			path = Equipment;
+			sourceTree = "<group>";
+		};
+		6D7088FB2B27AF2800FA4F54 /* Units */ = {
+			isa = PBXGroup;
+			children = (
+				6D7089002B27C0A800FA4F54 /* Unit3D.swift */,
+			);
+			path = Units;
+			sourceTree = "<group>";
+		};
+		6D7089022B27C55100FA4F54 /* Units */ = {
+			isa = PBXGroup;
+			children = (
+				6DEC85232B159353006746F5 /* Unit3D.swift */,
+			);
+			path = Units;
+			sourceTree = "<group>";
+		};
 		6DEC84932B1592DB006746F5 = {
 			isa = PBXGroup;
 			children = (
@@ -437,7 +557,6 @@
 		6DEC851C2B159353006746F5 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				6DEC85242B159353006746F5 /* DataType.swift */,
 				6DEC85862B16D2EC006746F5 /* Session */,
 				6DEC851D2B159353006746F5 /* Statistics */,
 				6DEC85252B159353006746F5 /* Network */,
@@ -448,12 +567,8 @@
 		6DEC851D2B159353006746F5 /* Statistics */ = {
 			isa = PBXGroup;
 			children = (
-				6DEC851E2B159353006746F5 /* Location.swift */,
-				6DEC851F2B159353006746F5 /* CollectedData.swift */,
-				6DEC85202B159353006746F5 /* Coordinate.swift */,
-				6DEC85212B159353006746F5 /* MotionData.swift */,
-				6DEC85222B159353006746F5 /* Attitude.swift */,
-				6DEC85232B159353006746F5 /* Point3D.swift */,
+				6D7089022B27C55100FA4F54 /* Units */,
+				6D7088E92B27A17200FA4F54 /* WatchData */,
 			);
 			path = Statistics;
 			sourceTree = "<group>";
@@ -461,6 +576,7 @@
 		6DEC85252B159353006746F5 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				6DEC85242B159353006746F5 /* DataType.swift */,
 				6DEC85262B159353006746F5 /* DataPacket.swift */,
 				6DEC85272B159353006746F5 /* DeliveryInformation.swift */,
 				6DEC859A2B1E2B53006746F5 /* DataCache.swift */,
@@ -510,6 +626,7 @@
 		6DEC85532B159566006746F5 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				6D7088FB2B27AF2800FA4F54 /* Units */,
 				6DEC85912B18E794006746F5 /* Chart */,
 				6DEC85542B159566006746F5 /* Statistics */,
 				6DEC855B2B159566006746F5 /* Network */,
@@ -521,12 +638,8 @@
 		6DEC85542B159566006746F5 /* Statistics */ = {
 			isa = PBXGroup;
 			children = (
-				6DEC85552B159566006746F5 /* Location.swift */,
-				6DEC85562B159566006746F5 /* CollectedData.swift */,
-				6DEC85572B159566006746F5 /* Coordinate.swift */,
-				6DEC85582B159566006746F5 /* MotionData.swift */,
-				6DEC85592B159566006746F5 /* Attitude.swift */,
-				6DEC855A2B159566006746F5 /* Point3D.swift */,
+				6D7088E62B279E4E00FA4F54 /* WatchData */,
+				6D6DDA682B279C9100E33CCE /* WaterSkiing */,
 			);
 			path = Statistics;
 			sourceTree = "<group>";
@@ -544,7 +657,8 @@
 		6DEC855F2B159566006746F5 /* Session */ = {
 			isa = PBXGroup;
 			children = (
-				6DEC85602B159566006746F5 /* Session.swift */,
+				6DEC85602B159566006746F5 /* WatchTrackingSession.swift */,
+				6D7088EE2B27AA8B00FA4F54 /* WaterSkiingSession.swift */,
 			);
 			path = Session;
 			sourceTree = "<group>";
@@ -562,6 +676,7 @@
 			isa = PBXGroup;
 			children = (
 				6DEC85662B159566006746F5 /* DataReceiverViewModel.swift */,
+				6D6DDA602B277A9E00E33CCE /* WaterSkiingProcessor.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -585,7 +700,7 @@
 		6DEC85862B16D2EC006746F5 /* Session */ = {
 			isa = PBXGroup;
 			children = (
-				6DEC85872B16D2F8006746F5 /* Session.swift */,
+				6DEC85872B16D2F8006746F5 /* WatchTrackingSession.swift */,
 			);
 			path = Session;
 			sourceTree = "<group>";
@@ -854,28 +969,37 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D7088E32B279D2600FA4F54 /* Buoy.swift in Sources */,
 				6DEC85722B159566006746F5 /* DataType.swift in Sources */,
 				6DEC84A02B1592DB006746F5 /* COP4939_ProjectApp.swift in Sources */,
 				6DEC85692B159566006746F5 /* WatchConnectivityErrorExtension.swift in Sources */,
 				6DEC85682B159566006746F5 /* JsonError.swift in Sources */,
+				6D7088F82B27AEB000FA4F54 /* Ski.swift in Sources */,
+				6D6DDA612B277A9E00E33CCE /* WaterSkiingProcessor.swift in Sources */,
 				6DEC85932B18E79D006746F5 /* ChartData.swift in Sources */,
 				6DEC85672B159566006746F5 /* WatchConnectivityError.swift in Sources */,
 				6DEC85702B159566006746F5 /* Attitude.swift in Sources */,
+				6D7088F12B27AC9E00FA4F54 /* Boat.swift in Sources */,
+				6D7088E52B279D4200FA4F54 /* WakeCross.swift in Sources */,
 				6DEC856B2B159566006746F5 /* WatchConnectivityManager.swift in Sources */,
+				6D7088FA2B27AEFC00FA4F54 /* Fin.swift in Sources */,
 				6DEC85A12B1E3071006746F5 /* JSONConverter.swift in Sources */,
 				6DEC856E2B159566006746F5 /* Coordinate.swift in Sources */,
 				6DEC856A2B159566006746F5 /* JsonErrorExtension.swift in Sources */,
-				6DEC856C2B159566006746F5 /* Location.swift in Sources */,
-				6DEC85712B159566006746F5 /* Point3D.swift in Sources */,
+				6DEC856C2B159566006746F5 /* LocationRecord.swift in Sources */,
+				6D7088F32B27ACD700FA4F54 /* BoatDriver.swift in Sources */,
 				6DEC85792B159566006746F5 /* DataReceiverViewModel.swift in Sources */,
-				6DEC85752B159566006746F5 /* Session.swift in Sources */,
+				6DEC85752B159566006746F5 /* WatchTrackingSession.swift in Sources */,
 				6DEC85762B159566006746F5 /* StatisticsView.swift in Sources */,
+				6D7088ED2B27A74E00FA4F54 /* Pass.swift in Sources */,
 				6DEC857F2B1661BC006746F5 /* LoggerService.swift in Sources */,
 				6DEC85772B159566006746F5 /* ContentView.swift in Sources */,
+				6D7088EF2B27AA8B00FA4F54 /* WaterSkiingSession.swift in Sources */,
 				6DEC859D2B1E302C006746F5 /* DeliveryInformation.swift in Sources */,
 				6DEC85732B159566006746F5 /* DataPacket.swift in Sources */,
-				6DEC856D2B159566006746F5 /* CollectedData.swift in Sources */,
-				6DEC856F2B159566006746F5 /* MotionData.swift in Sources */,
+				6DEC856D2B159566006746F5 /* TrackingRecord.swift in Sources */,
+				6D7089012B27C0A800FA4F54 /* Unit3D.swift in Sources */,
+				6DEC856F2B159566006746F5 /* MotionRecord.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -900,17 +1024,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6DEC85882B16D2F8006746F5 /* Session.swift in Sources */,
+				6DEC85882B16D2F8006746F5 /* WatchTrackingSession.swift in Sources */,
 				6DEC852D2B159353006746F5 /* SensorError.swift in Sources */,
 				6DEC853E2B159353006746F5 /* Attitude.swift in Sources */,
 				6DEC85312B159353006746F5 /* DataSenderViewModel.swift in Sources */,
 				6DEC85412B159353006746F5 /* DataPacket.swift in Sources */,
 				6DEC85352B159353006746F5 /* SensorErrorExtension.swift in Sources */,
-				6DEC853B2B159353006746F5 /* CollectedData.swift in Sources */,
+				6DEC853B2B159353006746F5 /* TrackingRecord.swift in Sources */,
 				6DEC852E2B159353006746F5 /* JsonError.swift in Sources */,
 				6DEC85292B159353006746F5 /* StatisticsView.swift in Sources */,
 				6DEC852A2B159353006746F5 /* ContentView.swift in Sources */,
-				6DEC853F2B159353006746F5 /* Point3D.swift in Sources */,
+				6DEC853F2B159353006746F5 /* Unit3D.swift in Sources */,
 				6DEC85342B159353006746F5 /* WatchConnectivityErrorExtension.swift in Sources */,
 				6DEC859B2B1E2B53006746F5 /* DataCache.swift in Sources */,
 				6DEC85392B159353006746F5 /* LocationManager.swift in Sources */,
@@ -923,12 +1047,12 @@
 				6DEC853C2B159353006746F5 /* Coordinate.swift in Sources */,
 				6DEC85982B1E2952006746F5 /* JSONConverter.swift in Sources */,
 				6DEC84C82B1592DC006746F5 /* COP4939_ProjectApp.swift in Sources */,
-				6DEC853A2B159353006746F5 /* Location.swift in Sources */,
+				6DEC853A2B159353006746F5 /* LocationRecord.swift in Sources */,
 				6DEC85322B159353006746F5 /* DataCollectorViewModel.swift in Sources */,
 				6DEC85852B167114006746F5 /* LoggerService.swift in Sources */,
 				6DEC85302B159353006746F5 /* DeviceMotionSensorViewModel.swift in Sources */,
 				6DEC852C2B159353006746F5 /* WatchConnectivityError.swift in Sources */,
-				6DEC853D2B159353006746F5 /* MotionData.swift in Sources */,
+				6DEC853D2B159353006746F5 /* MotionRecord.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
