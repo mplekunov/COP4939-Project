@@ -12,7 +12,6 @@ class DeviceMotionSensorViewModel : ObservableObject {
     private let motionManager: CMMotionManager = CMMotionManager()
     private let operationQueue: OperationQueue = OperationQueue()
     private let updateFrequency: Double
-    private let floatingPointAccuracy = 3
     private let logger: LoggerService
     
     @Published var data: Array<MotionRecord> = Array()
@@ -29,33 +28,33 @@ class DeviceMotionSensorViewModel : ObservableObject {
     }
     
     func startRecording() {
-        operationQueue.addOperation { [weak self] in
-            guard let self = self else { return }
-            
-            while true {
-                DispatchQueue.main.async {
-                    self.data.append(MotionRecord(
-                        attitude: Attitude(
-                            roll: Measurement(value: Double.random(in: -1...1), unit: .radians),
-                            yaw: Measurement(value: Double.random(in: -1...1), unit: .radians),
-                            pitch: Measurement(value: Double.random(in: -1...1), unit: .radians)
-                        ),
-                        acceleration: Unit3D(
-                            x: Measurement(value: Double.random(in: -1...1), unit: .gravity),
-                            y: Measurement(value: Double.random(in: -1...1), unit: .gravity),
-                            z: Measurement(value: Double.random(in: -1...1), unit: .gravity)
-                        ),
-                        gForce: Unit3D(
-                            x: Measurement(value: Double.random(in: -1...1), unit: .gravity),
-                            y: Measurement(value: Double.random(in: -1...1), unit: .gravity),
-                            z: Measurement(value: Double.random(in: -1...1), unit: .gravity)
-                        ))
-                    )
-                }
-                
-                Thread.sleep(forTimeInterval: self.updateFrequency)
-            }
-        }
+//        operationQueue.addOperation { [weak self] in
+//            guard let self = self else { return }
+//            
+//            while true {
+//                DispatchQueue.main.async {
+//                    self.data.append(MotionRecord(
+//                        attitude: Attitude(
+//                            roll: Measurement(value: Double.random(in: -1...1), unit: .radians),
+//                            yaw: Measurement(value: Double.random(in: -1...1), unit: .radians),
+//                            pitch: Measurement(value: Double.random(in: -1...1), unit: .radians)
+//                        ),
+//                        acceleration: Unit3D(
+//                            x: Measurement(value: Double.random(in: -1...1), unit: .gravity),
+//                            y: Measurement(value: Double.random(in: -1...1), unit: .gravity),
+//                            z: Measurement(value: Double.random(in: -1...1), unit: .gravity)
+//                        ),
+//                        gForce: Unit3D(
+//                            x: Measurement(value: Double.random(in: -1...1), unit: .gravity),
+//                            y: Measurement(value: Double.random(in: -1...1), unit: .gravity),
+//                            z: Measurement(value: Double.random(in: -1...1), unit: .gravity)
+//                        ))
+//                    )
+//                }
+//                
+//                Thread.sleep(forTimeInterval: self.updateFrequency)
+//            }
+//        }
         
         motionManager.startDeviceMotionUpdates(to: operationQueue) { [weak self] motionData, error in
             guard let self = self else { return }
@@ -66,8 +65,10 @@ class DeviceMotionSensorViewModel : ObservableObject {
                 let gForce = motionData.gravity
                 
                 // Update UI on main thread
-                DispatchQueue.main.async {
-                    self.data.append(MotionRecord(
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self else { return }
+                    
+                    data.append(MotionRecord(
                         attitude: Attitude(
                             roll: Measurement(value: attitude.roll, unit: .radians),
                             yaw: Measurement(value: attitude.yaw, unit: .radians),
