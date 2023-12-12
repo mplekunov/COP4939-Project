@@ -112,6 +112,29 @@ class WatchConnectivityManager : NSObject, WCSessionDelegate, ObservableObject {
         }
     }
     
+    func session(_ session: WCSession, didReceive file: WCSessionFile) {
+        logger.log(message: "File has been received")
+        
+        if !FileManager.default.fileExists(atPath: file.fileURL.path()) {
+            logger.error(message: "File Doesn't exist at specified location ~ \(file.fileURL.path())")
+        } else {
+            if let jsonData = FileManager.default.contents(atPath: file.fileURL.path()) {
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self else { return }
+                    
+                    do {
+                        message = try converter.decode(DataPacket.self, from: jsonData)
+                    } catch {
+                        logger.error(message: "\(error)")
+                    }
+                }
+            } else {
+                logger.error(message: "File is empty")
+            }
+        }
+    }
+
+    
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }

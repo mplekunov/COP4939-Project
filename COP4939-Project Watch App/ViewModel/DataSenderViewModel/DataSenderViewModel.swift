@@ -57,40 +57,49 @@ class DataSenderViewModel : ObservableObject {
     }
     
     private func send(data: DataPacket) {
-        watchConnectivityManager.send(
+        watchConnectivityManager.sendAsFile(
             data: data,
-            replyHandler: { [weak self] reply in
-                guard let self = self else { return }
-                
-                logger.log(message: "Reply has been received.")
-                
-                do {
-                    let dataPacket = try converter.decode(DataPacket.self, from: reply)
-                    
-                    if dataPacket.dataType == .DataDeliveryInformation {
-                        let deliveryInformation = try converter.decode(DeliveryInformation.self, from: dataPacket.data)
-                        
-                        if !deliveryInformation.isDelivered {
-                            retryMessageSendingOnFailure(messageID: deliveryInformation.id)
-                        } else {
-                            cache.removeValueFromCache(key: deliveryInformation.id)
-                            logger.log(message: "Message has been delivered and cache has been cleared.")
-                        }
-                    } else {
-                        logger.error(message: "DataType has not been recognized in reply.")
-                    }
-                } catch {
-                    logger.error(message: "\(error)")
-                    retryMessageSendingOnFailure(messageID: data.id)
-                    logger.log(message: "Redelivering message...")
-                }
-            },
             errorHandler: { [weak self] error in
                 guard let self = self else { return }
                 
                 logger.log(message: "\(error)")
             }
         )
+        
+//        watchConnectivityManager.sendAsString(
+//            data: data,
+//            replyHandler: { [weak self] reply in
+//                guard let self = self else { return }
+//                
+//                logger.log(message: "Reply has been received.")
+//                
+//                do {
+//                    let dataPacket = try converter.decode(DataPacket.self, from: reply)
+//                    
+//                    if dataPacket.dataType == .DataDeliveryInformation {
+//                        let deliveryInformation = try converter.decode(DeliveryInformation.self, from: dataPacket.data)
+//                        
+//                        if !deliveryInformation.isDelivered {
+//                            retryMessageSendingOnFailure(messageID: deliveryInformation.id)
+//                        } else {
+//                            cache.removeValueFromCache(key: deliveryInformation.id)
+//                            logger.log(message: "Message has been delivered and cache has been cleared.")
+//                        }
+//                    } else {
+//                        logger.error(message: "DataType has not been recognized in reply.")
+//                    }
+//                } catch {
+//                    logger.error(message: "\(error)")
+//                    retryMessageSendingOnFailure(messageID: data.id)
+//                    logger.log(message: "Redelivering message...")
+//                }
+//            },
+//            errorHandler: { [weak self] error in
+//                guard let self = self else { return }
+//                
+//                logger.log(message: "\(error)")
+//            }
+//        )
     }
     
     private func retryMessageSendingOnFailure(messageID: UUID) {
