@@ -10,6 +10,7 @@ import CoreLocation
 
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var location: CLLocation?
+    @Published var heading: CLHeading?
     @Published var isAuthorized: Bool = false
     
     private let logger: LoggerService
@@ -22,8 +23,8 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         super.init()
         
         locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.distanceFilter = 1
+        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+        locationManager.distanceFilter = 0.5
     }
     
     func requestAuthorization() {
@@ -42,15 +43,25 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     func startLocationRecording() {
         locationManager.startUpdatingLocation()
+        locationManager.startUpdatingHeading()
     }
     
     func stopLocationRecording() {
         locationManager.stopUpdatingLocation()
+        locationManager.startUpdatingHeading()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.heading = newHeading
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
                 self.location = location
             }
         }

@@ -1,8 +1,8 @@
 //
 //  Location.swift
-//  WatchApp Watch App
+//  PhoneApp
 //
-//  Created by Mikhail Plekunov on 11/17/23.
+//  Created by Mikhail Plekunov on 11/23/23.
 //
 
 import Foundation

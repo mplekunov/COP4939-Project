@@ -29,16 +29,19 @@ class DeviceLocationSensorViewModel : ObservableObject {
             }
         }
         
-        locationSubscription = locationManager.$location.sink { [weak self] _ in
+        
+        locationSubscription = locationManager.$location.combineLatest(locationManager.$heading).sink { [weak self] _ in
             guard let self = self else { return }
             
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 
                 if let coordinate = locationManager.location?.coordinate,
-                   let direction = locationManager.location?.course {
+                   let direction = locationManager.heading?.trueHeading,
+                   let speed = locationManager.location?.speed {
                     
                     self.data.append(LocationRecord(
+                        speed: Measurement(value: speed, unit: .metersPerSecond),
                         coordinate: Coordinate(
                             latitude: Measurement(value: coordinate.latitude, unit: .degrees),
                             longitude: Measurement(value: coordinate.longitude, unit: .degrees)

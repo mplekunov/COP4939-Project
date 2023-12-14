@@ -49,12 +49,6 @@ class DataCollectorViewModel : ObservableObject {
                 guard let self = self else { return }
                 
                 locationRecords = deviceLocationSensorModel.data
-                
-                if let location = deviceLocationSensorModel.data.last,
-                   let motion = deviceMotionSensorModel.data.last {
-                    
-                    trackingRecords.append(TrackingRecord(location: location, motion: motion, timeStamp: Date().timeIntervalSince1970))
-                }
             }
         }
         
@@ -65,6 +59,12 @@ class DataCollectorViewModel : ObservableObject {
                 guard let self = self else { return }
                 
                 motionRecords = deviceMotionSensorModel.data
+                
+                if let location = deviceLocationSensorModel.data.last,
+                   let motion = deviceMotionSensorModel.data.last {
+                    
+                    trackingRecords.append(TrackingRecord(location: location, motion: motion, timeStamp: Date().timeIntervalSince1970))
+                }
             }
         }
     }

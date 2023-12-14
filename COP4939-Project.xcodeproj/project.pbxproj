@@ -7,9 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6D4C4FF42B28B64700B5874F /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4C4FF32B28B64700B5874F /* User.swift */; };
+		6D4C4FF62B28B68300B5874F /* WaterSkiingAgeGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4C4FF52B28B68300B5874F /* WaterSkiingAgeGroup.swift */; };
+		6D4C4FF82B28B73B00B5874F /* WaterSkier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4C4FF72B28B73B00B5874F /* WaterSkier.swift */; };
+		6D4C4FFA2B28C3AF00B5874F /* Heap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4C4FF92B28C3AF00B5874F /* Heap.swift */; };
+		6D4C4FFE2B2A1B4600B5874F /* WaterSkiingCourse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4C4FFD2B2A1B4600B5874F /* WaterSkiingCourse.swift */; };
+		6D4C50062B2A5BE300B5874F /* Stats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4C50052B2A5BE300B5874F /* Stats.swift */; };
 		6D6DDA612B277A9E00E33CCE /* WaterSkiingProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DDA602B277A9E00E33CCE /* WaterSkiingProcessor.swift */; };
-		6D7088E32B279D2600FA4F54 /* Buoy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7088E22B279D2600FA4F54 /* Buoy.swift */; };
-		6D7088E52B279D4200FA4F54 /* WakeCross.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7088E42B279D4200FA4F54 /* WakeCross.swift */; };
 		6D7088ED2B27A74E00FA4F54 /* Pass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7088EC2B27A74E00FA4F54 /* Pass.swift */; };
 		6D7088EF2B27AA8B00FA4F54 /* WaterSkiingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7088EE2B27AA8B00FA4F54 /* WaterSkiingSession.swift */; };
 		6D7088F12B27AC9E00FA4F54 /* Boat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7088F02B27AC9E00FA4F54 /* Boat.swift */; };
@@ -137,9 +141,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6D4C4FF32B28B64700B5874F /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		6D4C4FF52B28B68300B5874F /* WaterSkiingAgeGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterSkiingAgeGroup.swift; sourceTree = "<group>"; };
+		6D4C4FF72B28B73B00B5874F /* WaterSkier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterSkier.swift; sourceTree = "<group>"; };
+		6D4C4FF92B28C3AF00B5874F /* Heap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Heap.swift; sourceTree = "<group>"; };
+		6D4C4FFD2B2A1B4600B5874F /* WaterSkiingCourse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterSkiingCourse.swift; sourceTree = "<group>"; };
+		6D4C50052B2A5BE300B5874F /* Stats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stats.swift; sourceTree = "<group>"; };
 		6D6DDA602B277A9E00E33CCE /* WaterSkiingProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterSkiingProcessor.swift; sourceTree = "<group>"; };
-		6D7088E22B279D2600FA4F54 /* Buoy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buoy.swift; sourceTree = "<group>"; };
-		6D7088E42B279D4200FA4F54 /* WakeCross.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WakeCross.swift; sourceTree = "<group>"; };
 		6D7088EC2B27A74E00FA4F54 /* Pass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pass.swift; sourceTree = "<group>"; };
 		6D7088EE2B27AA8B00FA4F54 /* WaterSkiingSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterSkiingSession.swift; sourceTree = "<group>"; };
 		6D7088F02B27AC9E00FA4F54 /* Boat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Boat.swift; sourceTree = "<group>"; };
@@ -269,14 +277,40 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6D4C4FF22B28B63900B5874F /* User */ = {
+			isa = PBXGroup;
+			children = (
+				6D4C4FF32B28B64700B5874F /* User.swift */,
+				6D4C4FF52B28B68300B5874F /* WaterSkiingAgeGroup.swift */,
+				6D4C4FF72B28B73B00B5874F /* WaterSkier.swift */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		6D4C4FFB2B28C42200B5874F /* DataStructures */ = {
+			isa = PBXGroup;
+			children = (
+				6D4C4FF92B28C3AF00B5874F /* Heap.swift */,
+			);
+			path = DataStructures;
+			sourceTree = "<group>";
+		};
+		6D4C4FFC2B2A1B3700B5874F /* Course */ = {
+			isa = PBXGroup;
+			children = (
+				6D4C4FFD2B2A1B4600B5874F /* WaterSkiingCourse.swift */,
+			);
+			path = Course;
+			sourceTree = "<group>";
+		};
 		6D6DDA682B279C9100E33CCE /* WaterSkiing */ = {
 			isa = PBXGroup;
 			children = (
+				6D4C4FFC2B2A1B3700B5874F /* Course */,
 				6D7088F62B27AE9D00FA4F54 /* Equipment */,
 				6D7088F52B27AE9200FA4F54 /* Boat */,
 				6D7088EC2B27A74E00FA4F54 /* Pass.swift */,
-				6D7088E22B279D2600FA4F54 /* Buoy.swift */,
-				6D7088E42B279D4200FA4F54 /* WakeCross.swift */,
+				6D4C50052B2A5BE300B5874F /* Stats.swift */,
 			);
 			path = WaterSkiing;
 			sourceTree = "<group>";
@@ -626,22 +660,16 @@
 		6DEC85532B159566006746F5 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				6D4C4FFB2B28C42200B5874F /* DataStructures */,
+				6D4C4FF22B28B63900B5874F /* User */,
+				6D6DDA682B279C9100E33CCE /* WaterSkiing */,
+				6D7088E62B279E4E00FA4F54 /* WatchData */,
 				6D7088FB2B27AF2800FA4F54 /* Units */,
 				6DEC85912B18E794006746F5 /* Chart */,
-				6DEC85542B159566006746F5 /* Statistics */,
 				6DEC855B2B159566006746F5 /* Network */,
 				6DEC855F2B159566006746F5 /* Session */,
 			);
 			path = Data;
-			sourceTree = "<group>";
-		};
-		6DEC85542B159566006746F5 /* Statistics */ = {
-			isa = PBXGroup;
-			children = (
-				6D7088E62B279E4E00FA4F54 /* WatchData */,
-				6D6DDA682B279C9100E33CCE /* WaterSkiing */,
-			);
-			path = Statistics;
 			sourceTree = "<group>";
 		};
 		6DEC855B2B159566006746F5 /* Network */ = {
@@ -969,18 +997,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6D7088E32B279D2600FA4F54 /* Buoy.swift in Sources */,
+				6D4C4FFA2B28C3AF00B5874F /* Heap.swift in Sources */,
 				6DEC85722B159566006746F5 /* DataType.swift in Sources */,
 				6DEC84A02B1592DB006746F5 /* COP4939_ProjectApp.swift in Sources */,
 				6DEC85692B159566006746F5 /* WatchConnectivityErrorExtension.swift in Sources */,
+				6D4C4FF82B28B73B00B5874F /* WaterSkier.swift in Sources */,
+				6D4C4FF42B28B64700B5874F /* User.swift in Sources */,
+				6D4C4FFE2B2A1B4600B5874F /* WaterSkiingCourse.swift in Sources */,
 				6DEC85682B159566006746F5 /* JsonError.swift in Sources */,
 				6D7088F82B27AEB000FA4F54 /* Ski.swift in Sources */,
 				6D6DDA612B277A9E00E33CCE /* WaterSkiingProcessor.swift in Sources */,
+				6D4C4FF62B28B68300B5874F /* WaterSkiingAgeGroup.swift in Sources */,
 				6DEC85932B18E79D006746F5 /* ChartData.swift in Sources */,
 				6DEC85672B159566006746F5 /* WatchConnectivityError.swift in Sources */,
 				6DEC85702B159566006746F5 /* Attitude.swift in Sources */,
 				6D7088F12B27AC9E00FA4F54 /* Boat.swift in Sources */,
-				6D7088E52B279D4200FA4F54 /* WakeCross.swift in Sources */,
 				6DEC856B2B159566006746F5 /* WatchConnectivityManager.swift in Sources */,
 				6D7088FA2B27AEFC00FA4F54 /* Fin.swift in Sources */,
 				6DEC85A12B1E3071006746F5 /* JSONConverter.swift in Sources */,
@@ -988,6 +1019,7 @@
 				6DEC856A2B159566006746F5 /* JsonErrorExtension.swift in Sources */,
 				6DEC856C2B159566006746F5 /* LocationRecord.swift in Sources */,
 				6D7088F32B27ACD700FA4F54 /* BoatDriver.swift in Sources */,
+				6D4C50062B2A5BE300B5874F /* Stats.swift in Sources */,
 				6DEC85792B159566006746F5 /* DataReceiverViewModel.swift in Sources */,
 				6DEC85752B159566006746F5 /* WatchTrackingSession.swift in Sources */,
 				6DEC85762B159566006746F5 /* StatisticsView.swift in Sources */,
