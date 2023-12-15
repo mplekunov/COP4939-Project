@@ -14,6 +14,7 @@ class WaterSkiingProcessor : ObservableObject {
     private let user: WaterSkier
     private let NUM_OF_BUOYS = 6
     private let course: WaterSkiingCourse
+    private let RANGE = Measurement<UnitLength>(value: 1.0, unit: .meters)
     
     init(user: WaterSkier, boat: Boat, course: WaterSkiingCourse) {
         logger = LoggerService(logSource: String(describing: type(of: self)))
@@ -21,6 +22,31 @@ class WaterSkiingProcessor : ObservableObject {
         self.boat = boat
         self.user = user
         self.course = course
+    }
+    
+    private func calculateTotalScore(records: Array<TrackingRecord>) -> Int {
+        var i = 0
+        
+        var score = 0
+        
+        for record in records {
+            if i < course.buoys.count && inRange(point: record.location.coordinate, within: course.buoys[i], withRange: RANGE) {
+                let skier = record.location.coordinate
+                let buoy = course.buoys[i]
+                let entryGate = course.entryGate
+                let exitGate = course.exitGate
+                
+                if i % 2 == 0 {
+                    score += getBuoyScore(skier: skier, buoy: buoy, entryGate: entryGate, exitGate: exitGate, fromSide: .Right)
+                } else {
+                    score += getBuoyScore(skier: skier, buoy: buoy, entryGate: entryGate, exitGate: exitGate, fromSide: .Left)
+                }
+                
+                i += 1
+            }
+        }
+        
+        return score
     }
     
     func processPass(records: Array<TrackingRecord>, videoId: UUID) -> Pass? {
@@ -34,46 +60,46 @@ class WaterSkiingProcessor : ObservableObject {
         var maxPitch = Measurement<UnitAngle>(value: 0.0, unit: records.first!.motion.attitude.pitch.unit)
         var maxGForce = Measurement<UnitAcceleration>(value: 0.0, unit: records.first!.motion.gForce.x.unit)
         var maxAcceleration = Measurement<UnitAcceleration>(value: 0.0, unit: records.first!.motion.acceleration.x.unit)
-        var maxAngle = Measurement<UnitAngle>(value: 0.0, unit: .degrees)
+        var maxAngle = Measurement<UnitAngle>(value: 0.0, unit: records.first!.location.directionInDegrees.unit)
         
         var i = 0
         
-        let range = Measurement<UnitLength>(value: 1.0, unit: .meters)
+        let passBuilder = PassBuilder()
+        passBuilder.setScore(calculateTotalScore(records: records))
         
-        var startSpeed = Measurement<UnitSpeed>(value: 0.0, unit: records.first!.location.speed.unit)
-        var timeStamp = 0.0
-        var entryGate: Stats? = nil
-        var exitGate: Stats? = nil
-        var buoys = Array<Stats>()
-        var wakeCrosses = Array<Stats>()
-        var score = 0
+        var crossedEntryGate: Bool = false
         
         for record in records {
-            maxSpeed = max(record.location.speed, maxSpeed)
-            maxPitch = max(record.motion.attitude.pitch, maxPitch)
-            maxRoll = max(record.motion.attitude.roll, maxRoll)
-            
-            maxGForce = max(
-                getTotalFromPythagorean(x: record.motion.gForce.x, y: record.motion.gForce.y, z: record.motion.gForce.z), 
-                maxGForce
-            )
-            maxAcceleration = max(
-                getTotalFromPythagorean(x: record.motion.acceleration.x, y: record.motion.acceleration.y, z: record.motion.acceleration.z), 
-                maxAcceleration
-            )
-
-            if inRangeWithApproximation(location: record.location.coordinate, locationWithRange: course.entryGate, range: range) {
-                entryGate = Stats(maxSpeed: maxSpeed, maxRoll: maxRoll, maxPitch: maxPitch)
-                startSpeed = record.location.speed
-                timeStamp = record.timeStamp
+            if crossedEntryGate {
+                maxSpeed = max(record.location.speed, maxSpeed)
+                maxPitch = max(record.motion.attitude.pitch, maxPitch)
+                maxRoll = max(record.motion.attitude.roll, maxRoll)
+                maxAngle = max(record.location.directionInDegrees, maxAngle)
+                maxGForce = max(
+                    getTotalFromPythagorean(x: record.motion.gForce.x, y: record.motion.gForce.y, z: record.motion.gForce.z),
+                    maxGForce
+                )
+                maxAcceleration = max(
+                    getTotalFromPythagorean(x: record.motion.acceleration.x, y: record.motion.acceleration.y, z: record.motion.acceleration.z),
+                    maxAcceleration
+                )
             }
             
-            if inRangeWithApproximation(location: record.location.coordinate, locationWithRange: course.exitGate, range: range) {
-                exitGate = Stats(maxSpeed: maxSpeed, maxRoll: maxRoll, maxPitch: maxPitch)
+            if inRange(point: record.location.coordinate, within: course.entryGate, withRange: RANGE) {
+               passBuilder
+                    .setEntryGate(Stats(maxSpeed: record.location.speed, maxRoll: record.motion.attitude.roll, maxPitch: record.motion.attitude.pitch))
+                    .setStartSpeed(record.location.speed)
+                    .setTimeStamp(record.timeStamp)
+                
+                crossedEntryGate = true
             }
             
-            if i < course.wakeCrosses.count && inRangeWithApproximation(location: record.location.coordinate, locationWithRange: course.wakeCrosses[i], range: range) {
-                wakeCrosses.append(Stats(
+            if inRange(point: record.location.coordinate, within: course.exitGate, withRange: RANGE) {
+                passBuilder.setExitGate(Stats(maxSpeed: maxSpeed, maxRoll: maxRoll, maxPitch: maxPitch))
+            }
+            
+            if i < course.wakeCrosses.count && inRange(point: record.location.coordinate, within: course.wakeCrosses[i], withRange: RANGE) {
+                passBuilder.addWakeCross(Stats(
                     maxSpeed: maxSpeed,
                     maxRoll: maxRoll,
                     maxPitch: maxPitch,
@@ -83,8 +109,8 @@ class WaterSkiingProcessor : ObservableObject {
                 ))
             }
             
-            if i < course.buoys.count && inRangeWithApproximation(location: record.location.coordinate, locationWithRange: course.buoys[i], range: range) {
-                buoys.append(Stats(
+            if i < course.buoys.count && inRange(point: record.location.coordinate, within: course.buoys[i], withRange: RANGE) {
+                passBuilder.addBuoy(Stats(
                     maxSpeed: maxSpeed,
                     maxRoll: maxRoll,
                     maxPitch: maxPitch
@@ -94,50 +120,21 @@ class WaterSkiingProcessor : ObservableObject {
             }
         }
         
-        guard entryGate != nil && exitGate != nil else {
-            return nil
-        }
-        
-        i = 0
-        
-        for record in records {
-            if i < course.buoys.count && inRangeWithApproximation(location: record.location.coordinate, locationWithRange: course.buoys[i], range: range) {
-                if i % 2 == 0 {
-                    logger.log(message: "Right")
-                    score += getBuoyScore(location: record.location.coordinate, buoy: course.buoys[i], startGate: course.entryGate, endGate: course.exitGate, fromSide: .Right)
-                } else {
-                    logger.log(message: "Left")
-                    score += getBuoyScore(location: record.location.coordinate, buoy: course.buoys[i], startGate: course.entryGate, endGate: course.exitGate, fromSide: .Left)
-                }
-                
-                i += 1
-            }
-        }
-        
-        return Pass(
-            score: score,
-            startSpeed: startSpeed,
-            entryGate: entryGate!,
-            exitGate: exitGate!,
-            wakeCrosses: wakeCrosses,
-            buoys: buoys,
-            timeStamp: timeStamp,
-            videoId: videoId
-        )
+        return passBuilder.build()
     }
     
-    private func getBuoyScore(location: Coordinate, buoy: Coordinate, startGate: Coordinate, endGate: Coordinate, fromSide: Side) -> Int {
-        if fromSide == .Left && isLeftOf(location: location, buoy: buoy, startGate: startGate, endGate: endGate) ||
-            fromSide == .Right && isRightOf(location: location, buoy: buoy, startGate: startGate, endGate: endGate) {
+    private func getBuoyScore(skier: Coordinate, buoy: Coordinate, entryGate: Coordinate, exitGate: Coordinate, fromSide: Side) -> Int {
+        if fromSide == .Left && isLeftOf(skier: skier, buoy: buoy, entryGate: entryGate, exitGate: exitGate) ||
+            fromSide == .Right && isRightOf(location: skier, buoy: buoy, entryGate: entryGate, exitGate: exitGate) {
             return 1
         }
         
         return 0
     }
     
-    private func isLeftOf(location: Coordinate, buoy: Coordinate, startGate: Coordinate, endGate: Coordinate) -> Bool {
-        var bearingA = getBearingAngle(from: buoy, to: location)
-        let bearingB = getBearingAngle(from: startGate, to: endGate)
+    private func isLeftOf(skier: Coordinate, buoy: Coordinate, entryGate: Coordinate, exitGate: Coordinate) -> Bool {
+        var bearingA = getBearingAngle(from: buoy, to: skier)
+        let bearingB = getBearingAngle(from: entryGate, to: exitGate)
         
         let offset = Measurement<UnitAngle>(value: 90, unit: .degrees) - bearingB
         bearingA = bearingA - offset
@@ -145,9 +142,9 @@ class WaterSkiingProcessor : ObservableObject {
         return bearingA > Measurement(value: 90, unit: .degrees) && bearingA < Measurement(value: 270, unit: .degrees)
     }
     
-    private func isRightOf(location: Coordinate, buoy: Coordinate, startGate: Coordinate, endGate: Coordinate) -> Bool {
+    private func isRightOf(location: Coordinate, buoy: Coordinate, entryGate: Coordinate, exitGate: Coordinate) -> Bool {
         var bearingA = getBearingAngle(from: buoy, to: location)
-        let bearingB = getBearingAngle(from: startGate, to: endGate)
+        let bearingB = getBearingAngle(from: entryGate, to: exitGate)
         
         let offset = Measurement<UnitAngle>(value: 90, unit: .degrees) - bearingB
         bearingA = bearingA - offset
@@ -166,7 +163,7 @@ class WaterSkiingProcessor : ObservableObject {
         let y = sin(dLon.value) * cos(endLon.value)
         let x = cos(startLat.value) * sin(endLat.value) - sin(startLat.value) * cos(endLat.value) * cos(dLon.value)
         
-        let c = atan2(y, x) 
+        let c = atan2(y, x)
         
         var bearing = Measurement<UnitAngle>(value: c, unit: .radians)
         
@@ -175,10 +172,10 @@ class WaterSkiingProcessor : ObservableObject {
         return Measurement(value: bearing.value.truncatingRemainder(dividingBy: 360), unit: .degrees)
     }
     
-    private func inRangeWithApproximation(location: Coordinate, locationWithRange: Coordinate, range: Measurement<UnitLength>) -> Bool {
-        let distance = getHaversineDistance(from: location, to: locationWithRange)
+    private func inRange(point: Coordinate, within locationWithRange: Coordinate, withRange: Measurement<UnitLength>) -> Bool {
+        let distance = getHaversineDistance(from: point, to: locationWithRange)
         
-        return distance <= range
+        return distance <= withRange
     }
     
     private func getHaversineDistance(from start: Coordinate, to end: Coordinate) -> Measurement<UnitLength> {
@@ -188,7 +185,7 @@ class WaterSkiingProcessor : ObservableObject {
         let secondLat = end.latitude.converted(to: .radians)
         let firstLon = start.longitude.converted(to: .radians)
         let secondLon = end.longitude.converted(to: .radians)
-    
+        
         let dLat = secondLat - firstLat
         let dLon = secondLon - firstLon
         
@@ -206,13 +203,13 @@ class WaterSkiingProcessor : ObservableObject {
         let xValue = x.value
         let yValue = y.value
         let zValue = z.value
-
+        
         if x.unit != y.unit || y.unit != z.unit {
             logger.error(message: "Units are not the same.")
         }
-
+        
         let totalValue = sqrt(xValue * xValue + yValue * yValue + zValue * zValue)
-
+        
         return Measurement(value: totalValue, unit: x.unit)
     }
     
