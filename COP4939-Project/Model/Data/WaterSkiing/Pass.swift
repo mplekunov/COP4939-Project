@@ -9,19 +9,20 @@ import Foundation
 
 class PassBuilder {
     public private(set) var score: Int = 0
-    public private(set) var startSpeed: Measurement<UnitSpeed> = Measurement(value: 0, unit: .metersPerSecond)
-    public private(set) var entryGate: Stats = Stats(
+    public private(set) var entryGate: Gate = Gate(
+        location: Coordinate(latitude: Measurement(value: 0, unit: .degrees), longitude: Measurement(value: 0, unit: .degrees)),
         maxSpeed: Measurement(value: 0, unit: .metersPerSecond),
         maxRoll: Measurement(value: 0, unit: .degrees),
         maxPitch: Measurement(value: 0, unit: .degrees)
     )
-    public private(set) var exitGate: Stats = Stats(
+    public private(set) var exitGate: Gate = Gate(
+        location: Coordinate(latitude: Measurement(value: 0, unit: .degrees), longitude: Measurement(value: 0, unit: .degrees)),
         maxSpeed: Measurement(value: 0, unit: .metersPerSecond),
         maxRoll: Measurement(value: 0, unit: .degrees),
         maxPitch: Measurement(value: 0, unit: .degrees)
     )
-    public private(set) var wakeCrosses: Array<Stats> = Array()
-    public private(set) var buoys: Array<Stats> = Array()
+    public private(set) var wakeCrosses: Array<WakeCross> = Array()
+    public private(set) var buoys: Array<Buoy> = Array()
     public private(set) var timeStamp: Double = Date().timeIntervalSince1970
     public private(set) var videoId: UUID = UUID()
     
@@ -32,43 +33,37 @@ class PassBuilder {
     }
     
     @discardableResult
-    public func setStartSpeed(_ speed: Measurement<UnitSpeed>) -> PassBuilder {
-        self.startSpeed = speed
-        return self
-    }
-    
-    @discardableResult
-    public func setEntryGate(_ gate: Stats) -> PassBuilder {
+    public func setEntryGate(_ gate: Gate) -> PassBuilder {
         self.entryGate = gate
         return self
     }
     
     @discardableResult
-    public func setExitGate(_ gate: Stats) -> PassBuilder {
+    public func setExitGate(_ gate: Gate) -> PassBuilder {
         self.exitGate = gate
         return self
     }
     
     @discardableResult
-    public func addWakeCross(_ stats: Stats) -> PassBuilder {
+    public func addWakeCross(_ stats: WakeCross) -> PassBuilder {
         self.wakeCrosses.append(stats)
         return self
     }
     
     @discardableResult
-    public func setWakeCrosses(_ stats: Array<Stats>) -> PassBuilder {
+    public func setWakeCrosses(_ stats: Array<WakeCross>) -> PassBuilder {
         self.wakeCrosses = stats
         return self
     }
     
     @discardableResult
-    public func addBuoy(_ stats: Stats) -> PassBuilder {
+    public func addBuoy(_ stats: Buoy) -> PassBuilder {
         self.buoys.append(stats)
         return self
     }
     
     @discardableResult
-    public func setBuoys(_ stats: Array<Stats>) -> PassBuilder {
+    public func setBuoys(_ stats: Array<Buoy>) -> PassBuilder {
         self.buoys = stats
         return self
     }
@@ -88,7 +83,6 @@ class PassBuilder {
     public func build() -> Pass {
         return Pass(
             score: score,
-            startSpeed: startSpeed,
             entryGate: entryGate,
             exitGate: exitGate,
             wakeCrosses: wakeCrosses,
@@ -101,11 +95,10 @@ class PassBuilder {
 
 struct Pass {
     public let score: Int
-    public let startSpeed: Measurement<UnitSpeed>
-    public let entryGate: Stats
-    public let exitGate: Stats
-    public let wakeCrosses: Array<Stats>
-    public let buoys: Array<Stats>
+    public let entryGate: Gate
+    public let exitGate: Gate
+    public let wakeCrosses: Array<WakeCross>
+    public let buoys: Array<Buoy>
     public let timeStamp: Double
     public let videoId: UUID
 }

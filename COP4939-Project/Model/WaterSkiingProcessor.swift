@@ -7,7 +7,7 @@
 
 import Foundation
 
-class WaterSkiingProcessor : ObservableObject {
+class WaterSkiingProcessor {
     private var logger: LoggerService
     
     private let boat: Boat
@@ -22,6 +22,94 @@ class WaterSkiingProcessor : ObservableObject {
         self.boat = boat
         self.user = user
         self.course = course
+    }
+    
+    func processPass(records: Array<TrackingRecord>, videoId: UUID) -> Pass {
+        let passBuilder = PassBuilder()
+        
+        if records.isEmpty {
+            logger.error(message: "Data array cannot be empty")
+            return passBuilder.build()
+        }
+        
+        if course.buoys.count != course.wakeCrosses.count && course.wakeCrosses.count != NUM_OF_BUOYS {
+            logger.error(message: "The number of buoys/wake crosses is incorrect")
+            return passBuilder.build()
+        }
+        
+        var maxSpeed = Measurement<UnitSpeed>(value: 0.0, unit: records.first!.location.speed.unit)
+        var maxRoll = Measurement<UnitAngle>(value: 0.0, unit: records.first!.motion.attitude.roll.unit)
+        var maxPitch = Measurement<UnitAngle>(value: 0.0, unit: records.first!.motion.attitude.pitch.unit)
+        var maxGForce = Measurement<UnitAcceleration>(value: 0.0, unit: records.first!.motion.gForce.x.unit)
+        var maxAcceleration = Measurement<UnitAcceleration>(value: 0.0, unit: records.first!.motion.acceleration.x.unit)
+        var maxAngle = Measurement<UnitAngle>(value: 0.0, unit: records.first!.motion.attitude.yaw.unit)
+        
+        var i = 0
+        
+        passBuilder.setScore(calculateTotalScore(records: records))
+        
+        var crossedEntryGate: Bool = false
+        
+        for record in records {
+            if crossedEntryGate {
+                maxSpeed = max(record.location.speed, maxSpeed)
+                maxPitch = max(record.motion.attitude.pitch, maxPitch)
+                maxRoll = max(record.motion.attitude.roll, maxRoll)
+                maxAngle = max(record.motion.attitude.yaw, maxAngle)
+                maxGForce = max(
+                    getTotalFromPythagorean(x: record.motion.gForce.x, y: record.motion.gForce.y, z: record.motion.gForce.z),
+                    maxGForce
+                )
+                maxAcceleration = max(
+                    getTotalFromPythagorean(x: record.motion.acceleration.x, y: record.motion.acceleration.y, z: record.motion.acceleration.z),
+                    maxAcceleration
+                )
+            }
+            
+            if inRange(point: record.location.coordinate, within: course.entryGate, withRange: RANGE) {
+               passBuilder.setEntryGate(Gate(
+                        location: course.entryGate,
+                        maxSpeed: record.location.speed,
+                        maxRoll: record.motion.attitude.roll,
+                        maxPitch: record.motion.attitude.pitch)
+                    ).setTimeStamp(record.timeStamp)
+                
+                crossedEntryGate = true
+            }
+            
+            if inRange(point: record.location.coordinate, within: course.exitGate, withRange: RANGE) {
+                passBuilder.setExitGate(Gate(
+                    location: course.exitGate,
+                    maxSpeed: maxSpeed,
+                    maxRoll: maxRoll,
+                    maxPitch: maxPitch))
+            }
+            
+            if i < course.wakeCrosses.count && inRange(point: record.location.coordinate, within: course.wakeCrosses[i], withRange: RANGE) {
+                passBuilder.addWakeCross(WakeCross(
+                    location: course.wakeCrosses[i],
+                    maxSpeed: maxSpeed,
+                    maxRoll: maxRoll,
+                    maxPitch: maxPitch,
+                    maxAngle: maxAngle,
+                    maxGForce: maxGForce,
+                    maxAcceleration: maxAcceleration
+                ))
+            }
+            
+            if i < course.buoys.count && inRange(point: record.location.coordinate, within: course.buoys[i], withRange: RANGE) {
+                passBuilder.addBuoy(Buoy(
+                    location: course.buoys[i],
+                    maxSpeed: maxSpeed,
+                    maxRoll: maxRoll,
+                    maxPitch: maxPitch
+                ))
+                
+                i += 1
+            }
+        }
+        
+        return passBuilder.build()
     }
     
     private func calculateTotalScore(records: Array<TrackingRecord>) -> Int {
@@ -47,80 +135,6 @@ class WaterSkiingProcessor : ObservableObject {
         }
         
         return score
-    }
-    
-    func processPass(records: Array<TrackingRecord>, videoId: UUID) -> Pass? {
-        if records.isEmpty {
-            logger.error(message: "Data array cannot be empty")
-            return nil
-        }
-        
-        var maxSpeed = Measurement<UnitSpeed>(value: 0.0, unit: records.first!.location.speed.unit)
-        var maxRoll = Measurement<UnitAngle>(value: 0.0, unit: records.first!.motion.attitude.roll.unit)
-        var maxPitch = Measurement<UnitAngle>(value: 0.0, unit: records.first!.motion.attitude.pitch.unit)
-        var maxGForce = Measurement<UnitAcceleration>(value: 0.0, unit: records.first!.motion.gForce.x.unit)
-        var maxAcceleration = Measurement<UnitAcceleration>(value: 0.0, unit: records.first!.motion.acceleration.x.unit)
-        var maxAngle = Measurement<UnitAngle>(value: 0.0, unit: records.first!.location.directionInDegrees.unit)
-        
-        var i = 0
-        
-        let passBuilder = PassBuilder()
-        passBuilder.setScore(calculateTotalScore(records: records))
-        
-        var crossedEntryGate: Bool = false
-        
-        for record in records {
-            if crossedEntryGate {
-                maxSpeed = max(record.location.speed, maxSpeed)
-                maxPitch = max(record.motion.attitude.pitch, maxPitch)
-                maxRoll = max(record.motion.attitude.roll, maxRoll)
-                maxAngle = max(record.location.directionInDegrees, maxAngle)
-                maxGForce = max(
-                    getTotalFromPythagorean(x: record.motion.gForce.x, y: record.motion.gForce.y, z: record.motion.gForce.z),
-                    maxGForce
-                )
-                maxAcceleration = max(
-                    getTotalFromPythagorean(x: record.motion.acceleration.x, y: record.motion.acceleration.y, z: record.motion.acceleration.z),
-                    maxAcceleration
-                )
-            }
-            
-            if inRange(point: record.location.coordinate, within: course.entryGate, withRange: RANGE) {
-               passBuilder
-                    .setEntryGate(Stats(maxSpeed: record.location.speed, maxRoll: record.motion.attitude.roll, maxPitch: record.motion.attitude.pitch))
-                    .setStartSpeed(record.location.speed)
-                    .setTimeStamp(record.timeStamp)
-                
-                crossedEntryGate = true
-            }
-            
-            if inRange(point: record.location.coordinate, within: course.exitGate, withRange: RANGE) {
-                passBuilder.setExitGate(Stats(maxSpeed: maxSpeed, maxRoll: maxRoll, maxPitch: maxPitch))
-            }
-            
-            if i < course.wakeCrosses.count && inRange(point: record.location.coordinate, within: course.wakeCrosses[i], withRange: RANGE) {
-                passBuilder.addWakeCross(Stats(
-                    maxSpeed: maxSpeed,
-                    maxRoll: maxRoll,
-                    maxPitch: maxPitch,
-                    maxAngle: maxAngle,
-                    maxGForce: maxGForce,
-                    maxAcceleration: maxAcceleration
-                ))
-            }
-            
-            if i < course.buoys.count && inRange(point: record.location.coordinate, within: course.buoys[i], withRange: RANGE) {
-                passBuilder.addBuoy(Stats(
-                    maxSpeed: maxSpeed,
-                    maxRoll: maxRoll,
-                    maxPitch: maxPitch
-                ))
-                
-                i += 1
-            }
-        }
-        
-        return passBuilder.build()
     }
     
     private func getBuoyScore(skier: Coordinate, buoy: Coordinate, entryGate: Coordinate, exitGate: Coordinate, fromSide: Side) -> Int {
@@ -213,7 +227,7 @@ class WaterSkiingProcessor : ObservableObject {
         return Measurement(value: totalValue, unit: x.unit)
     }
     
-    enum Side {
+    private enum Side {
         case Left
         case Right
     }

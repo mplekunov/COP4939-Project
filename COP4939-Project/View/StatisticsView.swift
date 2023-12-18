@@ -17,18 +17,6 @@ struct StatisticsView: View {
                 Text("\(dataReceiverViewModel.session.data.count)")
             }.listRowBackground(Color.secondary)
             
-            Section("Location Direction in Degrees") {
-                LineChartView(
-                    data: dataReceiverViewModel.session.data.map {
-                        ChartData(
-                            date: Date(timeIntervalSince1970: $0.timeStamp),
-                            data: $0.location.directionInDegrees
-                        )
-                    }
-                ).padding()
-            }
-            .listRowBackground(Color.secondary)
-            
             Section("Location latitude") {
                 
                 LineChartView(

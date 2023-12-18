@@ -1,24 +1,27 @@
 //
 //  DeviceLocationSensorViewModel.swift
-//  WatchApp Watch App
+//  COP4939-Project
 //
-//  Created by Mikhail Plekunov on 11/16/23.
+//  Created by Mikhail Plekunov on 12/18/23.
 //
 
 import Foundation
-import CoreLocation
 import Combine
 
 class DeviceLocationSensorViewModel : ObservableObject {
     private let locationManager: LocationManager = LocationManager()
     
+    private let logger: LoggerService
+    
     private var locationSubscription: Cancellable?
     private var isAuthorizedSubscription: Cancellable?
     
-    @Published var data: Array<LocationRecord> = Array()
+    @Published var lastLocation: LocationRecord?
     @Published var isAuthorized: Bool = false
     
     init() {
+        logger = LoggerService(logSource: String(describing: type(of: self)))
+        
         isAuthorizedSubscription = locationManager.$isAuthorized.sink { [weak self] _ in
             guard let self = self else { return }
             
@@ -29,7 +32,6 @@ class DeviceLocationSensorViewModel : ObservableObject {
             }
         }
         
-        
         locationSubscription = locationManager.$location.sink { [weak self] _ in
             guard let self = self else { return }
             
@@ -39,18 +41,19 @@ class DeviceLocationSensorViewModel : ObservableObject {
                 if let coordinate = locationManager.location?.coordinate,
                    let speed = locationManager.location?.speed {
                     
-                    self.data.append(LocationRecord(
+                    self.lastLocation = LocationRecord(
                         speed: Measurement(value: speed, unit: .metersPerSecond),
                         coordinate: Coordinate(
                             latitude: Measurement(value: coordinate.latitude, unit: .degrees),
                             longitude: Measurement(value: coordinate.longitude, unit: .degrees)
                         )
-                    ))
+                    )
                 }
             }
         }
     }
     
+    @discardableResult
     func startRecording() -> Bool {
         if !locationManager.isAuthorized {
             locationManager.requestAuthorization()

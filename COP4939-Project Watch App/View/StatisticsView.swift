@@ -24,12 +24,6 @@ struct StatisticsView: View {
     
     var body: some View {
         List {
-            Section("Location Direction in Degrees") {
-                VStack(alignment: .leading, spacing: 10) {
-                    Text("Degrees: \(dataCollectorViewModel.locationRecords.last?.directionInDegrees.formatted() ?? "N/A")")
-                }
-            }
-            
             Section("Location Coordinates") {
                 VStack(alignment: .leading, spacing: 10) {
                     Text("Latitude: \(dataCollectorViewModel.locationRecords.last?.coordinate.latitude.formatted() ?? "N/A")")

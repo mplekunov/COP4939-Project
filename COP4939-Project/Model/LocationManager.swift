@@ -1,9 +1,11 @@
 //
 //  LocationManager.swift
-//  WatchApp Watch App
+//  COP4939-Project
 //
-//  Created by Mikhail Plekunov on 11/18/23.
+//  Created by Mikhail Plekunov on 12/18/23.
 //
+
+import Foundation
 
 import Foundation
 import CoreLocation
@@ -46,6 +48,10 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     func stopLocationRecording() {
         locationManager.stopUpdatingLocation()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        logger.error(message: "\(error)")
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {

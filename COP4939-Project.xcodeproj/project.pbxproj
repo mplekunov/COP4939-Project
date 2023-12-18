@@ -12,7 +12,15 @@
 		6D4C4FF82B28B73B00B5874F /* WaterSkier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4C4FF72B28B73B00B5874F /* WaterSkier.swift */; };
 		6D4C4FFA2B28C3AF00B5874F /* Heap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4C4FF92B28C3AF00B5874F /* Heap.swift */; };
 		6D4C4FFE2B2A1B4600B5874F /* WaterSkiingCourse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4C4FFD2B2A1B4600B5874F /* WaterSkiingCourse.swift */; };
-		6D4C50062B2A5BE300B5874F /* Stats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4C50052B2A5BE300B5874F /* Stats.swift */; };
+		6D52DF672B2C9CBE00E96713 /* Buoy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF662B2C9CBE00E96713 /* Buoy.swift */; };
+		6D52DF692B2CA79B00E96713 /* WakeCross.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF682B2CA79B00E96713 /* WakeCross.swift */; };
+		6D52DF6B2B2CA7DF00E96713 /* Gate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF6A2B2CA7DF00E96713 /* Gate.swift */; };
+		6D52DF6D2B2CAD5B00E96713 /* WaterSkiingCourseSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF6C2B2CAD5B00E96713 /* WaterSkiingCourseSetupView.swift */; };
+		6D52DF6F2B30C0ED00E96713 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF6E2B30C0ED00E96713 /* LocationManager.swift */; };
+		6D52DF712B30C11700E96713 /* DeviceLocationSensorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF702B30C11700E96713 /* DeviceLocationSensorViewModel.swift */; };
+		6D52DF732B30D81200E96713 /* PopOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF722B30D81200E96713 /* PopOverView.swift */; };
+		6D52DF772B30E79700E96713 /* CoursePointUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF762B30E79700E96713 /* CoursePointUI.swift */; };
+		6D52DF792B30E7D200E96713 /* LabelSideUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF782B30E7D200E96713 /* LabelSideUI.swift */; };
 		6D6DDA612B277A9E00E33CCE /* WaterSkiingProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DDA602B277A9E00E33CCE /* WaterSkiingProcessor.swift */; };
 		6D7088ED2B27A74E00FA4F54 /* Pass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7088EC2B27A74E00FA4F54 /* Pass.swift */; };
 		6D7088EF2B27AA8B00FA4F54 /* WaterSkiingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7088EE2B27AA8B00FA4F54 /* WaterSkiingSession.swift */; };
@@ -146,7 +154,15 @@
 		6D4C4FF72B28B73B00B5874F /* WaterSkier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterSkier.swift; sourceTree = "<group>"; };
 		6D4C4FF92B28C3AF00B5874F /* Heap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Heap.swift; sourceTree = "<group>"; };
 		6D4C4FFD2B2A1B4600B5874F /* WaterSkiingCourse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterSkiingCourse.swift; sourceTree = "<group>"; };
-		6D4C50052B2A5BE300B5874F /* Stats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stats.swift; sourceTree = "<group>"; };
+		6D52DF662B2C9CBE00E96713 /* Buoy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buoy.swift; sourceTree = "<group>"; };
+		6D52DF682B2CA79B00E96713 /* WakeCross.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WakeCross.swift; sourceTree = "<group>"; };
+		6D52DF6A2B2CA7DF00E96713 /* Gate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gate.swift; sourceTree = "<group>"; };
+		6D52DF6C2B2CAD5B00E96713 /* WaterSkiingCourseSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterSkiingCourseSetupView.swift; sourceTree = "<group>"; };
+		6D52DF6E2B30C0ED00E96713 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		6D52DF702B30C11700E96713 /* DeviceLocationSensorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceLocationSensorViewModel.swift; sourceTree = "<group>"; };
+		6D52DF722B30D81200E96713 /* PopOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopOverView.swift; sourceTree = "<group>"; };
+		6D52DF762B30E79700E96713 /* CoursePointUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoursePointUI.swift; sourceTree = "<group>"; };
+		6D52DF782B30E7D200E96713 /* LabelSideUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelSideUI.swift; sourceTree = "<group>"; };
 		6D6DDA602B277A9E00E33CCE /* WaterSkiingProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterSkiingProcessor.swift; sourceTree = "<group>"; };
 		6D7088EC2B27A74E00FA4F54 /* Pass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pass.swift; sourceTree = "<group>"; };
 		6D7088EE2B27AA8B00FA4F54 /* WaterSkiingSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterSkiingSession.swift; sourceTree = "<group>"; };
@@ -299,8 +315,20 @@
 			isa = PBXGroup;
 			children = (
 				6D4C4FFD2B2A1B4600B5874F /* WaterSkiingCourse.swift */,
+				6D52DF662B2C9CBE00E96713 /* Buoy.swift */,
+				6D52DF682B2CA79B00E96713 /* WakeCross.swift */,
+				6D52DF6A2B2CA7DF00E96713 /* Gate.swift */,
 			);
 			path = Course;
+			sourceTree = "<group>";
+		};
+		6D52DF752B30E78400E96713 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				6D52DF762B30E79700E96713 /* CoursePointUI.swift */,
+				6D52DF782B30E7D200E96713 /* LabelSideUI.swift */,
+			);
+			path = UI;
 			sourceTree = "<group>";
 		};
 		6D6DDA682B279C9100E33CCE /* WaterSkiing */ = {
@@ -310,7 +338,6 @@
 				6D7088F62B27AE9D00FA4F54 /* Equipment */,
 				6D7088F52B27AE9200FA4F54 /* Boat */,
 				6D7088EC2B27A74E00FA4F54 /* Pass.swift */,
-				6D4C50052B2A5BE300B5874F /* Stats.swift */,
 			);
 			path = WaterSkiing;
 			sourceTree = "<group>";
@@ -641,6 +668,9 @@
 		6DEC854E2B159566006746F5 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				6D52DF6E2B30C0ED00E96713 /* LocationManager.swift */,
+				6D6DDA602B277A9E00E33CCE /* WaterSkiingProcessor.swift */,
+				6D52DF752B30E78400E96713 /* UI */,
 				6DEC85522B159566006746F5 /* WatchConnectivityManager.swift */,
 				6DEC854F2B159566006746F5 /* Extension */,
 				6DEC85532B159566006746F5 /* Data */,
@@ -696,6 +726,8 @@
 			children = (
 				6DEC85622B159566006746F5 /* StatisticsView.swift */,
 				6DEC85632B159566006746F5 /* ContentView.swift */,
+				6D52DF6C2B2CAD5B00E96713 /* WaterSkiingCourseSetupView.swift */,
+				6D52DF722B30D81200E96713 /* PopOverView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -704,7 +736,7 @@
 			isa = PBXGroup;
 			children = (
 				6DEC85662B159566006746F5 /* DataReceiverViewModel.swift */,
-				6D6DDA602B277A9E00E33CCE /* WaterSkiingProcessor.swift */,
+				6D52DF702B30C11700E96713 /* DeviceLocationSensorViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1006,10 +1038,14 @@
 				6D4C4FFE2B2A1B4600B5874F /* WaterSkiingCourse.swift in Sources */,
 				6DEC85682B159566006746F5 /* JsonError.swift in Sources */,
 				6D7088F82B27AEB000FA4F54 /* Ski.swift in Sources */,
+				6D52DF792B30E7D200E96713 /* LabelSideUI.swift in Sources */,
 				6D6DDA612B277A9E00E33CCE /* WaterSkiingProcessor.swift in Sources */,
 				6D4C4FF62B28B68300B5874F /* WaterSkiingAgeGroup.swift in Sources */,
+				6D52DF732B30D81200E96713 /* PopOverView.swift in Sources */,
 				6DEC85932B18E79D006746F5 /* ChartData.swift in Sources */,
+				6D52DF672B2C9CBE00E96713 /* Buoy.swift in Sources */,
 				6DEC85672B159566006746F5 /* WatchConnectivityError.swift in Sources */,
+				6D52DF6B2B2CA7DF00E96713 /* Gate.swift in Sources */,
 				6DEC85702B159566006746F5 /* Attitude.swift in Sources */,
 				6D7088F12B27AC9E00FA4F54 /* Boat.swift in Sources */,
 				6DEC856B2B159566006746F5 /* WatchConnectivityManager.swift in Sources */,
@@ -1017,21 +1053,25 @@
 				6DEC85A12B1E3071006746F5 /* JSONConverter.swift in Sources */,
 				6DEC856E2B159566006746F5 /* Coordinate.swift in Sources */,
 				6DEC856A2B159566006746F5 /* JsonErrorExtension.swift in Sources */,
+				6D52DF6D2B2CAD5B00E96713 /* WaterSkiingCourseSetupView.swift in Sources */,
 				6DEC856C2B159566006746F5 /* LocationRecord.swift in Sources */,
 				6D7088F32B27ACD700FA4F54 /* BoatDriver.swift in Sources */,
-				6D4C50062B2A5BE300B5874F /* Stats.swift in Sources */,
 				6DEC85792B159566006746F5 /* DataReceiverViewModel.swift in Sources */,
+				6D52DF772B30E79700E96713 /* CoursePointUI.swift in Sources */,
 				6DEC85752B159566006746F5 /* WatchTrackingSession.swift in Sources */,
 				6DEC85762B159566006746F5 /* StatisticsView.swift in Sources */,
 				6D7088ED2B27A74E00FA4F54 /* Pass.swift in Sources */,
+				6D52DF712B30C11700E96713 /* DeviceLocationSensorViewModel.swift in Sources */,
 				6DEC857F2B1661BC006746F5 /* LoggerService.swift in Sources */,
 				6DEC85772B159566006746F5 /* ContentView.swift in Sources */,
 				6D7088EF2B27AA8B00FA4F54 /* WaterSkiingSession.swift in Sources */,
+				6D52DF692B2CA79B00E96713 /* WakeCross.swift in Sources */,
 				6DEC859D2B1E302C006746F5 /* DeliveryInformation.swift in Sources */,
 				6DEC85732B159566006746F5 /* DataPacket.swift in Sources */,
 				6DEC856D2B159566006746F5 /* TrackingRecord.swift in Sources */,
 				6D7089012B27C0A800FA4F54 /* Unit3D.swift in Sources */,
 				6DEC856F2B159566006746F5 /* MotionRecord.swift in Sources */,
+				6D52DF6F2B30C0ED00E96713 /* LocationManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1332,6 +1372,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "COP4939-Project";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "";
+				INFOPLIST_KEY_NSLocationUsageDescription = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1365,6 +1408,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "COP4939-Project";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "";
+				INFOPLIST_KEY_NSLocationUsageDescription = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
