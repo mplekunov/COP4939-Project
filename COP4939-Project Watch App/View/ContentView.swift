@@ -10,48 +10,22 @@ import CoreMotion
 import Combine
 
 struct ContentView: View {
-    @State private var isRecording = false
-    
-    @StateObject var dataCollectorViewModel: DataCollectorViewModel = DataCollectorViewModel(
-        deviceMotionSensorModel: DeviceMotionSensorViewModel(updateFrequency: 0.05),
-        deviceLocationSensorModel: DeviceLocationSensorViewModel())
-    
     @StateObject var dataSenderViewModel: DataSenderViewModel = DataSenderViewModel()
+    @StateObject var dataReceiverViewModel: DataReceiverViewModel = DataReceiverViewModel()
     
     var body: some View {
         ZStack {
             Color.black.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
             
-            if isRecording && dataSenderViewModel.isReceiverConnected &&
-                dataCollectorViewModel.isLocationAuthorized {
-                NavigationView {
-                    StatisticsView(isRecording: $isRecording)
-                }
+            if dataReceiverViewModel.isSessionInProgress {
+                SessionRecordingView()
+                    .environmentObject(dataReceiverViewModel)
+                    .environmentObject(dataSenderViewModel)
             } else {
-                RecordingDataView
+                Text("Waiting for session to start recording")
+                    .foregroundStyle(.orange)
             }
         }
         .foregroundColor(.orange)
-        .environmentObject(dataSenderViewModel)
-        .environmentObject(dataCollectorViewModel)
-    }
-    
-    var RecordingDataView: some View {
-        Button("Start Recording") {
-            if dataCollectorViewModel.startDataCollection() {
-                dataSenderViewModel.startTransferringChannel()
-                isRecording = true
-            }
-        }
-        .padding()
     }
 }
-
-//#Preview {
-//    ContentView(dataCollectorViewModel: StateObject(
-//        wrappedValue: DataCollectorViewModel(
-//            deviceMotionSensorModel: DeviceMotionSensorViewModel(updateFrequency: 0.01),
-//            deviceLocationSensorModel: DeviceLocationSensorViewModel())),
-//                dataSenderViewModel: StateObject(
-//                    wrappedValue: DataSenderViewModel()))
-//}

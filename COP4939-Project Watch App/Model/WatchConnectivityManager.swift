@@ -7,27 +7,32 @@
 
 import Foundation
 import WatchConnectivity
+import Compression
 
 class WatchConnectivityManager : NSObject, WCSessionDelegate, ObservableObject {
-    @Published var message: DataPacket?
+    private static var instance: WatchConnectivityManager = WatchConnectivityManager()
+    
+    @Published var message: Data = Data()
     
     @Published var isConnected: Bool = false
     
     private var logger: LoggerService
     
-    private let converter: JSONConverter = JSONConverter()
-    
     private var session: WCSession = WCSession.default
     
     private let JSON_FILE_EXTENSION = ".json"
     
-    override init() {
+    private override init() {
         logger = LoggerService(logSource: String(describing: type(of: self)))
         
         super.init()
         session.delegate = self
         
         activateSession()
+    }
+    
+    static func getInstance() -> WatchConnectivityManager {
+        return WatchConnectivityManager.instance
     }
     
     private func activateSession() {
@@ -40,19 +45,17 @@ class WatchConnectivityManager : NSObject, WCSessionDelegate, ObservableObject {
         return session.isReachable
     }
     
-    private func writeDataToFile(data: DataPacket) throws -> URL {
+    private func writeDataToFile(data: Data) throws -> URL {
         let temporaryDir = FileManager.default.temporaryDirectory
-        let fileName = data.id.uuidString + JSON_FILE_EXTENSION
+        let fileName = UUID().uuidString + JSON_FILE_EXTENSION
         let fileUrl = temporaryDir.appendingPathComponent(fileName)
         
-        let jsonData = try converter.encode(data)
-            
-        try jsonData.write(to: fileUrl, options: .atomic)
-            
+        try data.write(to: fileUrl, options: .atomic)
+        
         return fileUrl
     }
     
-    func sendAsFile(data: DataPacket, errorHandler: @escaping (Error) -> Void) {
+    func sendAsFile(data: Data, errorHandler: @escaping (Error) -> Void) {
         if !isReachable() {
             logger.log(message: "Session is not reachable")
             return
@@ -60,22 +63,27 @@ class WatchConnectivityManager : NSObject, WCSessionDelegate, ObservableObject {
         
         do {
             let fileUrl = try writeDataToFile(data: data)
-
+            
             session.transferFile(fileUrl, metadata: nil)
         } catch {
             errorHandler(error)
         }
     }
-
-    func sendAsString(data: DataPacket, replyHandler: ((Data) -> Void)?, errorHandler: @escaping (Error) -> Void) {
+    
+    func sendAsString(data: Data, replyHandler: ((Data) -> Void)?, errorHandler: @escaping (Error) -> Void) {
         if !isReachable() {
             logger.log(message: "Session is not reachable")
             return
         }
         
         do {
+            let compressedData = try (data as NSData).compressed(using: .lzma)
+            
+            logger.log(message: "\(compressedData.length)")
+            logger.log(message: "\(data.count)")
+            
             session.sendMessageData(
-                try converter.encode(data),
+                compressedData as Data,
                 replyHandler: replyHandler,
                 errorHandler: errorHandler
             )
@@ -91,40 +99,82 @@ class WatchConnectivityManager : NSObject, WCSessionDelegate, ObservableObject {
     }
     
     func session(_ session: WCSession, didReceiveMessageData messageData: Data) {
-        logger.log(message: "Message without reply has been received")
+        logger.log(message: "MessageData without replyHandler has been received")
         
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             
             do {
-                message = try converter.decode(DataPacket.self, from: messageData)
+                let decompressedData = try (messageData as NSData).decompressed(using: .lzma)
+                
+                message = decompressedData as Data
             } catch {
-                logger.error(message: "\(error)")
+                logger.error(message: "\(error.localizedDescription)")
             }
+            
+            objectWillChange.send()
         }
     }
     
     func session(_ session: WCSession, didReceiveMessageData messageData: Data, replyHandler: @escaping (Data) -> Void) {
-        logger.log(message: "Message with replyHandler has been received")
-        
-        var dataPacket: DataPacket?
-        
-        do {
-            dataPacket = try converter.decode(DataPacket.self, from: messageData)
-            
-            if let dataPacket = dataPacket {
-                replyHandler(try converter.encode(DeliveryInformation(messageID: dataPacket.id, isDelivered: true)))
-            }
-        } catch {
-            logger.error(message: "\(error)")
-        }
+        logger.log(message: "MessageData with replyHandler has been received")
         
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
+            
+            do {
+                let decompressedData = try (messageData as NSData).decompressed(using: .lzma)
                 
-            if let dataPacket = dataPacket {
-                message = dataPacket
+                message = decompressedData as Data
+            } catch {
+                logger.error(message: "\(error)")
             }
+            
+            objectWillChange.send()
+        }
+    }
+    
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+        logger.log(message: "Message without replyHandler has been received")
+        
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            
+            do {
+                if let first = message.first,
+                    let data = first.value as? NSData {
+                    
+                    let decompressedData = try data.decompressed(using: .lzma)
+                    
+                    self.message = decompressedData as Data
+                }
+            } catch {
+                logger.error(message: "\(error.localizedDescription)")
+            }
+            
+            objectWillChange.send()
+        }
+    }
+    
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
+        logger.log(message: "Message with replyHandler has been received")
+        
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            
+            do {
+                if let first = message.first,
+                    let data = first.value as? NSData {
+                    
+                    let decompressedData = try data.decompressed(using: .lzma)
+                    
+                    self.message = decompressedData as Data
+                }
+            } catch {
+                logger.error(message: "\(error.localizedDescription)")
+            }
+            
+            objectWillChange.send()
         }
     }
     

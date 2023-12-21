@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct WaterSkiingCourse {
+struct WaterSkiingCourse : Codable {
     let location: Coordinate
     let name: String
     let buoys: Array<Coordinate>

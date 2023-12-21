@@ -1,8 +1,8 @@
 //
-//  DataSenderViewModel.swift
-//  WatchApp Watch App
+//  DataReceiverViewModel.swift
+//  COP4939-Project Watch App
 //
-//  Created by Mikhail Plekunov on 11/20/23.
+//  Created by Mikhail Plekunov on 12/20/23.
 //
 
 import Foundation
@@ -12,7 +12,6 @@ class DataReceiverViewModel : ObservableObject {
     @Published var isDeviceConnected: Bool = false
     @Published var isSessionCompleted: Bool = false
     @Published var isSessionInProgress: Bool = false
-    @Published var isSessionInfoReceived: Bool = false
     
     @Published var session: WatchTrackingSession = WatchTrackingSession()
     
@@ -34,7 +33,7 @@ class DataReceiverViewModel : ObservableObject {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 
-                isDeviceConnected = self.watchConnectivityManager.isConnected
+                isDeviceConnected = watchConnectivityManager.isConnected
                 objectWillChange.send()
             }
         }
@@ -57,23 +56,14 @@ class DataReceiverViewModel : ObservableObject {
                 let dataPacket = try converter.decode(DataPacket.self, from: message)
                 
                 switch dataPacket.dataType {
-                case .WatchSession:
-                    logger.log(message: "Session info has been received")
-                    session = try converter.decode(WatchTrackingSession.self, from: dataPacket.data)
-                    isSessionInfoReceived = true
-                    isSessionCompleted = false
-                    isSessionInProgress = false
                 case .WatchSessionStart:
-                    isSessionInfoReceived = false
                     logger.log(message: "Session is in progress")
                     isSessionInProgress = true
                     isSessionCompleted = false
-                    isSessionInfoReceived = false
                 case .WatchSessionEnd:
                     logger.log(message: "Session is completed")
                     isSessionInProgress = false
                     isSessionCompleted = true
-                    isSessionInfoReceived = false
                 default:
                     logger.error(message: "DataType is not recognized")
                 }

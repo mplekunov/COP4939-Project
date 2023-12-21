@@ -21,6 +21,15 @@
 		6D52DF732B30D81200E96713 /* PopOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF722B30D81200E96713 /* PopOverView.swift */; };
 		6D52DF772B30E79700E96713 /* CoursePointUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF762B30E79700E96713 /* CoursePointUI.swift */; };
 		6D52DF792B30E7D200E96713 /* LabelSideUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF782B30E7D200E96713 /* LabelSideUI.swift */; };
+		6D52DF7E2B31F84A00E96713 /* WaterSkiingCourseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF7D2B31F84A00E96713 /* WaterSkiingCourseViewModel.swift */; };
+		6D52DF802B3220A500E96713 /* DataSenderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF7F2B3220A500E96713 /* DataSenderViewModel.swift */; };
+		6D52DF822B3352DC00E96713 /* SessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF812B3352DC00E96713 /* SessionView.swift */; };
+		6D52DF842B33543500E96713 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF832B33543500E96713 /* MainView.swift */; };
+		6D52DF862B33570000E96713 /* VideoRecordingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF852B33570000E96713 /* VideoRecordingView.swift */; };
+		6D52DF882B3358D300E96713 /* SessionResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF872B3358D300E96713 /* SessionResultView.swift */; };
+		6D52DF8A2B33625400E96713 /* DataReceiverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF892B33625400E96713 /* DataReceiverViewModel.swift */; };
+		6D52DF8C2B337C0000E96713 /* SessionRecordingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF8B2B337C0000E96713 /* SessionRecordingView.swift */; };
+		6D52DF8E2B33BBA400E96713 /* DeliveryInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF8D2B33BBA400E96713 /* DeliveryInformation.swift */; };
 		6D6DDA612B277A9E00E33CCE /* WaterSkiingProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DDA602B277A9E00E33CCE /* WaterSkiingProcessor.swift */; };
 		6D7088ED2B27A74E00FA4F54 /* Pass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7088EC2B27A74E00FA4F54 /* Pass.swift */; };
 		6D7088EF2B27AA8B00FA4F54 /* WaterSkiingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7088EE2B27AA8B00FA4F54 /* WaterSkiingSession.swift */; };
@@ -65,7 +74,6 @@
 		6DEC853F2B159353006746F5 /* Unit3D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85232B159353006746F5 /* Unit3D.swift */; };
 		6DEC85402B159353006746F5 /* DataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85242B159353006746F5 /* DataType.swift */; };
 		6DEC85412B159353006746F5 /* DataPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85262B159353006746F5 /* DataPacket.swift */; };
-		6DEC85422B159353006746F5 /* DeliveryInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85272B159353006746F5 /* DeliveryInformation.swift */; };
 		6DEC85462B159492006746F5 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DEC85452B159492006746F5 /* CoreMotion.framework */; };
 		6DEC85482B159499006746F5 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DEC85472B159499006746F5 /* CoreLocation.framework */; };
 		6DEC854A2B15949E006746F5 /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DEC85492B15949E006746F5 /* WatchConnectivity.framework */; };
@@ -163,6 +171,15 @@
 		6D52DF722B30D81200E96713 /* PopOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopOverView.swift; sourceTree = "<group>"; };
 		6D52DF762B30E79700E96713 /* CoursePointUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoursePointUI.swift; sourceTree = "<group>"; };
 		6D52DF782B30E7D200E96713 /* LabelSideUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelSideUI.swift; sourceTree = "<group>"; };
+		6D52DF7D2B31F84A00E96713 /* WaterSkiingCourseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterSkiingCourseViewModel.swift; sourceTree = "<group>"; };
+		6D52DF7F2B3220A500E96713 /* DataSenderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSenderViewModel.swift; sourceTree = "<group>"; };
+		6D52DF812B3352DC00E96713 /* SessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionView.swift; sourceTree = "<group>"; };
+		6D52DF832B33543500E96713 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		6D52DF852B33570000E96713 /* VideoRecordingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRecordingView.swift; sourceTree = "<group>"; };
+		6D52DF872B3358D300E96713 /* SessionResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionResultView.swift; sourceTree = "<group>"; };
+		6D52DF892B33625400E96713 /* DataReceiverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataReceiverViewModel.swift; sourceTree = "<group>"; };
+		6D52DF8B2B337C0000E96713 /* SessionRecordingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionRecordingView.swift; sourceTree = "<group>"; };
+		6D52DF8D2B33BBA400E96713 /* DeliveryInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliveryInformation.swift; sourceTree = "<group>"; };
 		6D6DDA602B277A9E00E33CCE /* WaterSkiingProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterSkiingProcessor.swift; sourceTree = "<group>"; };
 		6D7088EC2B27A74E00FA4F54 /* Pass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pass.swift; sourceTree = "<group>"; };
 		6D7088EE2B27AA8B00FA4F54 /* WaterSkiingSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterSkiingSession.swift; sourceTree = "<group>"; };
@@ -212,7 +229,6 @@
 		6DEC85232B159353006746F5 /* Unit3D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Unit3D.swift; sourceTree = "<group>"; };
 		6DEC85242B159353006746F5 /* DataType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataType.swift; sourceTree = "<group>"; };
 		6DEC85262B159353006746F5 /* DataPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataPacket.swift; sourceTree = "<group>"; };
-		6DEC85272B159353006746F5 /* DeliveryInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeliveryInformation.swift; sourceTree = "<group>"; };
 		6DEC85452B159492006746F5 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS10.0.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
 		6DEC85472B159499006746F5 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS10.0.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
 		6DEC85492B15949E006746F5 /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS10.0.sdk/System/Library/Frameworks/WatchConnectivity.framework; sourceTree = DEVELOPER_DIR; };
@@ -544,6 +560,7 @@
 			children = (
 				6DEC85032B159353006746F5 /* StatisticsView.swift */,
 				6DEC85042B159353006746F5 /* ContentView.swift */,
+				6D52DF8B2B337C0000E96713 /* SessionRecordingView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -561,36 +578,13 @@
 		6DEC850B2B159353006746F5 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				6DEC850C2B159353006746F5 /* DeviceLocationSensor */,
-				6DEC850E2B159353006746F5 /* DeviceMotionSensor */,
-				6DEC85102B159353006746F5 /* DataSenderViewModel */,
 				6DEC85122B159353006746F5 /* DataCollectorViewModel.swift */,
+				6DEC850F2B159353006746F5 /* DeviceMotionSensorViewModel.swift */,
+				6DEC850D2B159353006746F5 /* DeviceLocationSensorViewModel.swift */,
+				6DEC85112B159353006746F5 /* DataSenderViewModel.swift */,
+				6D52DF892B33625400E96713 /* DataReceiverViewModel.swift */,
 			);
 			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		6DEC850C2B159353006746F5 /* DeviceLocationSensor */ = {
-			isa = PBXGroup;
-			children = (
-				6DEC850D2B159353006746F5 /* DeviceLocationSensorViewModel.swift */,
-			);
-			path = DeviceLocationSensor;
-			sourceTree = "<group>";
-		};
-		6DEC850E2B159353006746F5 /* DeviceMotionSensor */ = {
-			isa = PBXGroup;
-			children = (
-				6DEC850F2B159353006746F5 /* DeviceMotionSensorViewModel.swift */,
-			);
-			path = DeviceMotionSensor;
-			sourceTree = "<group>";
-		};
-		6DEC85102B159353006746F5 /* DataSenderViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				6DEC85112B159353006746F5 /* DataSenderViewModel.swift */,
-			);
-			path = DataSenderViewModel;
 			sourceTree = "<group>";
 		};
 		6DEC85142B159353006746F5 /* Model */ = {
@@ -639,8 +633,8 @@
 			children = (
 				6DEC85242B159353006746F5 /* DataType.swift */,
 				6DEC85262B159353006746F5 /* DataPacket.swift */,
-				6DEC85272B159353006746F5 /* DeliveryInformation.swift */,
 				6DEC859A2B1E2B53006746F5 /* DataCache.swift */,
+				6D52DF8D2B33BBA400E96713 /* DeliveryInformation.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -668,10 +662,10 @@
 		6DEC854E2B159566006746F5 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				6DEC85522B159566006746F5 /* WatchConnectivityManager.swift */,
 				6D52DF6E2B30C0ED00E96713 /* LocationManager.swift */,
 				6D6DDA602B277A9E00E33CCE /* WaterSkiingProcessor.swift */,
 				6D52DF752B30E78400E96713 /* UI */,
-				6DEC85522B159566006746F5 /* WatchConnectivityManager.swift */,
 				6DEC854F2B159566006746F5 /* Extension */,
 				6DEC85532B159566006746F5 /* Data */,
 			);
@@ -728,6 +722,10 @@
 				6DEC85632B159566006746F5 /* ContentView.swift */,
 				6D52DF6C2B2CAD5B00E96713 /* WaterSkiingCourseSetupView.swift */,
 				6D52DF722B30D81200E96713 /* PopOverView.swift */,
+				6D52DF812B3352DC00E96713 /* SessionView.swift */,
+				6D52DF832B33543500E96713 /* MainView.swift */,
+				6D52DF852B33570000E96713 /* VideoRecordingView.swift */,
+				6D52DF872B3358D300E96713 /* SessionResultView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -737,6 +735,8 @@
 			children = (
 				6DEC85662B159566006746F5 /* DataReceiverViewModel.swift */,
 				6D52DF702B30C11700E96713 /* DeviceLocationSensorViewModel.swift */,
+				6D52DF7D2B31F84A00E96713 /* WaterSkiingCourseViewModel.swift */,
+				6D52DF7F2B3220A500E96713 /* DataSenderViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1031,10 +1031,12 @@
 			files = (
 				6D4C4FFA2B28C3AF00B5874F /* Heap.swift in Sources */,
 				6DEC85722B159566006746F5 /* DataType.swift in Sources */,
+				6D52DF862B33570000E96713 /* VideoRecordingView.swift in Sources */,
 				6DEC84A02B1592DB006746F5 /* COP4939_ProjectApp.swift in Sources */,
 				6DEC85692B159566006746F5 /* WatchConnectivityErrorExtension.swift in Sources */,
 				6D4C4FF82B28B73B00B5874F /* WaterSkier.swift in Sources */,
 				6D4C4FF42B28B64700B5874F /* User.swift in Sources */,
+				6D52DF842B33543500E96713 /* MainView.swift in Sources */,
 				6D4C4FFE2B2A1B4600B5874F /* WaterSkiingCourse.swift in Sources */,
 				6DEC85682B159566006746F5 /* JsonError.swift in Sources */,
 				6D7088F82B27AEB000FA4F54 /* Ski.swift in Sources */,
@@ -1049,7 +1051,9 @@
 				6DEC85702B159566006746F5 /* Attitude.swift in Sources */,
 				6D7088F12B27AC9E00FA4F54 /* Boat.swift in Sources */,
 				6DEC856B2B159566006746F5 /* WatchConnectivityManager.swift in Sources */,
+				6D52DF822B3352DC00E96713 /* SessionView.swift in Sources */,
 				6D7088FA2B27AEFC00FA4F54 /* Fin.swift in Sources */,
+				6D52DF802B3220A500E96713 /* DataSenderViewModel.swift in Sources */,
 				6DEC85A12B1E3071006746F5 /* JSONConverter.swift in Sources */,
 				6DEC856E2B159566006746F5 /* Coordinate.swift in Sources */,
 				6DEC856A2B159566006746F5 /* JsonErrorExtension.swift in Sources */,
@@ -1057,12 +1061,14 @@
 				6DEC856C2B159566006746F5 /* LocationRecord.swift in Sources */,
 				6D7088F32B27ACD700FA4F54 /* BoatDriver.swift in Sources */,
 				6DEC85792B159566006746F5 /* DataReceiverViewModel.swift in Sources */,
+				6D52DF7E2B31F84A00E96713 /* WaterSkiingCourseViewModel.swift in Sources */,
 				6D52DF772B30E79700E96713 /* CoursePointUI.swift in Sources */,
 				6DEC85752B159566006746F5 /* WatchTrackingSession.swift in Sources */,
 				6DEC85762B159566006746F5 /* StatisticsView.swift in Sources */,
 				6D7088ED2B27A74E00FA4F54 /* Pass.swift in Sources */,
 				6D52DF712B30C11700E96713 /* DeviceLocationSensorViewModel.swift in Sources */,
 				6DEC857F2B1661BC006746F5 /* LoggerService.swift in Sources */,
+				6D52DF882B3358D300E96713 /* SessionResultView.swift in Sources */,
 				6DEC85772B159566006746F5 /* ContentView.swift in Sources */,
 				6D7088EF2B27AA8B00FA4F54 /* WaterSkiingSession.swift in Sources */,
 				6D52DF692B2CA79B00E96713 /* WakeCross.swift in Sources */,
@@ -1098,7 +1104,9 @@
 			files = (
 				6DEC85882B16D2F8006746F5 /* WatchTrackingSession.swift in Sources */,
 				6DEC852D2B159353006746F5 /* SensorError.swift in Sources */,
+				6D52DF8C2B337C0000E96713 /* SessionRecordingView.swift in Sources */,
 				6DEC853E2B159353006746F5 /* Attitude.swift in Sources */,
+				6D52DF8A2B33625400E96713 /* DataReceiverViewModel.swift in Sources */,
 				6DEC85312B159353006746F5 /* DataSenderViewModel.swift in Sources */,
 				6DEC85412B159353006746F5 /* DataPacket.swift in Sources */,
 				6DEC85352B159353006746F5 /* SensorErrorExtension.swift in Sources */,
@@ -1110,7 +1118,6 @@
 				6DEC85342B159353006746F5 /* WatchConnectivityErrorExtension.swift in Sources */,
 				6DEC859B2B1E2B53006746F5 /* DataCache.swift in Sources */,
 				6DEC85392B159353006746F5 /* LocationManager.swift in Sources */,
-				6DEC85422B159353006746F5 /* DeliveryInformation.swift in Sources */,
 				6DEC85372B159353006746F5 /* DoubleExtension.swift in Sources */,
 				6DEC85382B159353006746F5 /* WatchConnectivityManager.swift in Sources */,
 				6DEC852F2B159353006746F5 /* DeviceLocationSensorViewModel.swift in Sources */,
@@ -1124,6 +1131,7 @@
 				6DEC85852B167114006746F5 /* LoggerService.swift in Sources */,
 				6DEC85302B159353006746F5 /* DeviceMotionSensorViewModel.swift in Sources */,
 				6DEC852C2B159353006746F5 /* WatchConnectivityError.swift in Sources */,
+				6D52DF8E2B33BBA400E96713 /* DeliveryInformation.swift in Sources */,
 				6DEC853D2B159353006746F5 /* MotionRecord.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

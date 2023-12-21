@@ -12,6 +12,8 @@ import Combine
 class DeviceLocationSensorViewModel : ObservableObject {
     private let locationManager: LocationManager = LocationManager()
     
+    private var logger: LoggerService
+    
     private var locationSubscription: Cancellable?
     private var isAuthorizedSubscription: Cancellable?
     
@@ -19,6 +21,8 @@ class DeviceLocationSensorViewModel : ObservableObject {
     @Published var isAuthorized: Bool = false
     
     init() {
+        logger = LoggerService(logSource: String(describing: type(of: self)))
+        
         isAuthorizedSubscription = locationManager.$isAuthorized.sink { [weak self] _ in
             guard let self = self else { return }
             
@@ -51,15 +55,12 @@ class DeviceLocationSensorViewModel : ObservableObject {
         }
     }
     
-    func startRecording() -> Bool {
+    func startRecording() {
         if !locationManager.isAuthorized {
             locationManager.requestAuthorization()
-            return false
         }
-
-        locationManager.startLocationRecording()
         
-        return true
+        locationManager.startLocationRecording()
     }
     
     func stopRecording() {

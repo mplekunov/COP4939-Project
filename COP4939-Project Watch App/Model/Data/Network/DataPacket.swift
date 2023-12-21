@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DataPacket : Codable {
+struct DataPacket : Codable{
     let dataType: DataType
     let id: UUID
     let data: Data

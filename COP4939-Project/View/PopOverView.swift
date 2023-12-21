@@ -39,7 +39,7 @@ struct PopOverView: View {
                     Text("Current Latitude: \(locationSensorViewModel.lastLocation?.coordinate.latitude.formatted() != nil ? locationSensorViewModel.lastLocation!.coordinate.latitude.formatted() : "N/A")")
                         .foregroundStyle(.orange)
                     
-                    Text("Current Longitude: \(locationSensorViewModel.lastLocation?.coordinate.longitude.formatted() != nil ? locationSensorViewModel.lastLocation!.coordinate.latitude.formatted() : "N/A")")
+                    Text("Current Longitude: \(locationSensorViewModel.lastLocation?.coordinate.longitude.formatted() != nil ? locationSensorViewModel.lastLocation!.coordinate.longitude.formatted() : "N/A")")
                         .foregroundStyle(.orange)
                     
                     Text("Saved Latitude: \(coursePointLocations[activeElement!.id] != nil ? coursePointLocations[activeElement!.id]!.latitude.formatted() : "N/A")")
@@ -53,8 +53,6 @@ struct PopOverView: View {
                 createButton(text: "Set Location", width: 200, height: nil) {
                     if let currentLocation = locationSensorViewModel.lastLocation {
                         coursePointLocations[activeElement!.id] = currentLocation.coordinate
-                        
-                        print(coursePointLocations)
                     }
                 }
                 

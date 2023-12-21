@@ -8,17 +8,19 @@
 import Foundation
 import SwiftUI
 import MapKit
+import Combine
 
 struct WaterSkiingCourseSetupView: View {
     private let logger: LoggerService
     
     @EnvironmentObject var locationSensorViewModel: DeviceLocationSensorViewModel
+    @EnvironmentObject var waterSkiingCourseViewModel: WaterSkiingCourseViewModel
+    
+    @Binding private var showCourseSetupView: Bool
+    
     @State private var showPopOverView = false
     @State private var activeElement: CoursePointUI? = nil
     @State private var coursePointLocations: Dictionary<UUID, Coordinate> = [:]
-    
-    @Binding private var showSetupView: Bool
-    
     @State private var showAlert: Bool = false
     
     @State private var buoysUI: [CoursePointUI] = [
@@ -61,8 +63,8 @@ struct WaterSkiingCourseSetupView: View {
         "F" : "Finish/Exit Gate"
     ]
     
-    init(showSetupView: Binding<Bool>, course: WaterSkiingCourse?) {
-        _showSetupView = showSetupView
+    init(showCourseSetupView: Binding<Bool>) {
+        _showCourseSetupView = showCourseSetupView
         
         logger = LoggerService(logSource: String(describing: type(of: self)))
     }
@@ -79,38 +81,94 @@ struct WaterSkiingCourseSetupView: View {
                     showPopOverView: $showPopOverView
                 )
             } else {
-                VStack {
-                    GeometryReader { geometry in
-                        ZStack {
-                            drawCourseElements(elements: buoysUI, geometry: geometry)
-                            drawCourseElements(elements: wakeCrossesUI, geometry: geometry)
-                            drawCourseElement(element: entryGateUI, geometry: geometry)
-                            drawCourseElement(element: exitGateUI, geometry: geometry)
-                        }
-                        .background(.primary)
-                    }
-                    
-                    createButton(text: "Save Course", width: 300, height: nil) {
-                        if coursePointLocations.keys.count == fullCoursePointUINames.count {
-                            showSetupView.toggle()
-                        } else {
-                            showAlert.toggle()
-                        }
-                    }
-                    .alert(isPresented: $showAlert) {
-                        Alert(
-                            title: Text("Course data is not complete"),
-                            message: Text("Please set up all course points before saving course."),
-                            dismissButton: .cancel()
-                        )
-                    }
-                    
-                    createButton(text: "Close", width: 300, height: nil) {
-                        showSetupView.toggle()
-                    }
-                }
+                drawCourse()
             }
         }
+    }
+    
+    private func drawCourse() -> some View {
+        if let course = waterSkiingCourseViewModel.course {
+            initCourse(course: course)
+        }
+        
+        return VStack {
+            GeometryReader { geometry in
+                ZStack {
+                    drawCourseElements(elements: buoysUI, geometry: geometry)
+                    drawCourseElements(elements: wakeCrossesUI, geometry: geometry)
+                    drawCourseElement(element: entryGateUI, geometry: geometry)
+                    drawCourseElement(element: exitGateUI, geometry: geometry)
+                }
+                .background(.primary)
+            }
+            
+            createButton(text: "Save Course", width: 300, height: nil) {
+                if coursePointLocations.keys.count == fullCoursePointUINames.count {
+                    waterSkiingCourseViewModel.setCourse(saveCourse())
+                    showCourseSetupView.toggle()
+                } else {
+                    showAlert.toggle()
+                }
+            }
+            .alert(isPresented: $showAlert) {
+                Alert(
+                    title: Text("Course data is not complete"),
+                    message: Text("Please set up all course points before saving course."),
+                    dismissButton: .cancel()
+                )
+            }
+            
+            createButton(text: "Close", width: 300, height: nil) {
+                showCourseSetupView.toggle()
+            }
+        }
+    }
+    
+    private func initCourse(course: WaterSkiingCourse) {
+        DispatchQueue.main.async {
+            var i = 0
+            
+            course.buoys.forEach({ buoy in
+                coursePointLocations.updateValue(buoy, forKey: buoysUI[i].id)
+                i += 1
+            })
+            
+            i = 0
+            
+            course.wakeCrosses.forEach({ wakeCross in
+                coursePointLocations.updateValue(wakeCross, forKey: wakeCrossesUI[i].id)
+                i += 1
+            })
+            
+            coursePointLocations.updateValue(course.entryGate, forKey: entryGateUI.id)
+            coursePointLocations.updateValue(course.exitGate, forKey: exitGateUI.id)
+        }
+    }
+    
+    private func saveCourse() -> WaterSkiingCourse {
+        let defaultCoordinate = Coordinate(latitude: Measurement(value: 0, unit: .degrees), longitude: Measurement(value: 0, unit: .degrees))
+        
+        var buoys = Array<Coordinate>()
+        var wakeCrosses = Array<Coordinate>()
+        let entryGate = coursePointLocations[entryGateUI.id] ?? defaultCoordinate
+        let exitGate = coursePointLocations[exitGateUI.id] ?? defaultCoordinate
+        
+        buoysUI.forEach({ buoy in
+            buoys.append(coursePointLocations[buoy.id] ?? defaultCoordinate)
+        })
+        
+        wakeCrossesUI.forEach({ wakeCross in
+            wakeCrosses.append(coursePointLocations[wakeCross.id] ?? defaultCoordinate)
+        })
+        
+        return WaterSkiingCourse(
+            location: buoys.first ?? defaultCoordinate,
+            name: "",
+            buoys: buoys,
+            wakeCrosses: wakeCrosses,
+            entryGate: entryGate,
+            exitGate: exitGate
+        )
     }
     
     private func drawCourseElement(element: CoursePointUI, geometry: GeometryProxy) -> some View {
@@ -153,5 +211,5 @@ struct WaterSkiingCourseSetupView: View {
 }
 
 #Preview {
-    WaterSkiingCourseSetupView(showSetupView: .constant(true), course: nil)
+    WaterSkiingCourseSetupView(showCourseSetupView: .constant(true))
 }

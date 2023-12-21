@@ -37,8 +37,11 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        DispatchQueue.main.async {
-            self.isAuthorized = self.locationManager.authorizationStatus == .authorizedWhenInUse
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            
+            isAuthorized = locationManager.authorizationStatus == .authorizedWhenInUse
+            objectWillChange.send()
         }
     }
     
@@ -58,7 +61,9 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         if let location = locations.last {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
+                
                 self.location = location
+                objectWillChange.send()
             }
         }
     }

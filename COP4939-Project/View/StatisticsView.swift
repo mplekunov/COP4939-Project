@@ -170,7 +170,7 @@ struct StatisticsView: View {
         }
         .padding()
         .background(.black)
-        .foregroundColor(.orange)
+        .foregroundStyle(.orange)
         .scrollContentBackground(.hidden)
     }
 }
@@ -193,11 +193,11 @@ struct LineChartView<U>: View where U: Dimension {
         }
         .chartXAxisLabel(position: .bottom, alignment: .center) {
             Text("Time")
-                .foregroundColor(.orange)
+                .foregroundStyle(.orange)
         }
         .chartYAxisLabel(position: .top, alignment: .center) {
             Text(data.first?.data.unit.symbol.description ?? "N/A")
-                .foregroundColor(.orange)
+                .foregroundStyle(.orange)
         }
         .frame(height: 200)
     }
