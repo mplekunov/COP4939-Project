@@ -10,7 +10,6 @@ import Combine
 
 struct ContentView: View {
     @StateObject var dataReceiverViewModel: DataReceiverViewModel = DataReceiverViewModel()
-    @StateObject var locationSensorViewModel: DeviceLocationSensorViewModel = DeviceLocationSensorViewModel()
     @StateObject var waterSkiingCourseViewModel: WaterSkiingCourseViewModel = WaterSkiingCourseViewModel()
     @StateObject var dataSenderViewModel: DataSenderViewModel = DataSenderViewModel()
     @StateObject var cameraViewModel = CameraViewModel()
@@ -29,7 +28,6 @@ struct ContentView: View {
                     .environmentObject(dataSenderViewModel)
             } else if showCourseSetupView {
                 WaterSkiingCourseSetupView(showCourseSetupView: $showCourseSetupView)
-                    .environmentObject(locationSensorViewModel)
                     .environmentObject(waterSkiingCourseViewModel)
             } else if showSessionResultView {
                 SessionResultView(showSessionResultView: $showSessionResultView)

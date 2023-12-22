@@ -10,57 +10,60 @@ import SwiftUI
 import MapKit
 import Combine
 
+private var buoysUI: [CoursePointUI] = [
+    CoursePointUI(name: "B 1", position: CGPoint(x: 0.75, y: 0.75), setColor: .orange, unsetColor: .gray),
+    CoursePointUI(name: "B 2", position: CGPoint(x: 0.25, y: 0.65), setColor: .orange, unsetColor: .gray),
+    CoursePointUI(name: "B 3", position: CGPoint(x: 0.75, y: 0.55), setColor: .orange, unsetColor: .gray),
+    CoursePointUI(name: "B 4", position: CGPoint(x: 0.25, y: 0.45), setColor: .orange, unsetColor: .gray),
+    CoursePointUI(name: "B 5", position: CGPoint(x: 0.75, y: 0.35), setColor: .orange, unsetColor: .gray),
+    CoursePointUI(name: "B 6", position: CGPoint(x: 0.25, y: 0.25), setColor: .orange, unsetColor: .gray)
+]
+
+private var wakeCrossesUI: [CoursePointUI] = [
+    CoursePointUI(name: "W 1", position: CGPoint(x: 0.5, y: 0.8), setColor: .yellow, unsetColor: .gray),
+    CoursePointUI(name: "W 2", position: CGPoint(x: 0.5, y: 0.7), setColor: .yellow, unsetColor: .gray),
+    CoursePointUI(name: "W 3", position: CGPoint(x: 0.5, y: 0.6), setColor: .yellow, unsetColor: .gray),
+    CoursePointUI(name: "W 4", position: CGPoint(x: 0.5, y: 0.5), setColor: .yellow, unsetColor: .gray),
+    CoursePointUI(name: "W 5", position: CGPoint(x: 0.5, y: 0.4), setColor: .yellow, unsetColor: .gray),
+    CoursePointUI(name: "W 6", position: CGPoint(x: 0.5, y: 0.3), setColor: .yellow, unsetColor: .gray)
+]
+
+private var entryGateUI: CoursePointUI =
+    CoursePointUI(name: "S", position: CGPoint(x: 0.5, y: 0.9), setColor: .green, unsetColor: .gray)
+private var exitGateUI: CoursePointUI =
+    CoursePointUI(name: "F", position: CGPoint(x: 0.5, y: 0.2), setColor: .red, unsetColor: .gray)
+
+private let fullCoursePointUINames: Dictionary<String, String> = [
+    "B 1" : "Buoy 1",
+    "B 2" : "Buoy 2",
+    "B 3" : "Buoy 3",
+    "B 4" : "Buoy 4",
+    "B 5" : "Buoy 5",
+    "B 6" : "Buoy 6",
+    "W 1" : "Wake Cross 1",
+    "W 2" : "Wake Cross 2",
+    "W 3" : "Wake Cross 3",
+    "W 4" : "Wake Cross 4",
+    "W 5" : "Wake Cross 5",
+    "W 6" : "Wake Cross 6",
+    "S" : "Start/Entry Gate",
+    "F" : "Finish/Exit Gate"
+]
+
 struct WaterSkiingCourseSetupView: View {
     private let logger: LoggerService
+    
+    @State private var alert: AlertInfo?
     
     @EnvironmentObject var waterSkiingCourseViewModel: WaterSkiingCourseViewModel
     
     @Binding private var showCourseSetupView: Bool
     
     @State private var showPopOverView = false
-    @State private var activeElement: CoursePointUI? = nil
+    @State private var activeElement: CoursePointUI?
     @State private var coursePointLocations: Dictionary<UUID, Coordinate> = [:]
-    @State private var showAlert: Bool = false
-    
-    @State private var buoysUI: [CoursePointUI] = [
-        CoursePointUI(name: "B 1", position: CGPoint(x: 0.75, y: 0.75), setColor: .orange, unsetColor: .gray),
-        CoursePointUI(name: "B 2", position: CGPoint(x: 0.25, y: 0.65), setColor: .orange, unsetColor: .gray),
-        CoursePointUI(name: "B 3", position: CGPoint(x: 0.75, y: 0.55), setColor: .orange, unsetColor: .gray),
-        CoursePointUI(name: "B 4", position: CGPoint(x: 0.25, y: 0.45), setColor: .orange, unsetColor: .gray),
-        CoursePointUI(name: "B 5", position: CGPoint(x: 0.75, y: 0.35), setColor: .orange, unsetColor: .gray),
-        CoursePointUI(name: "B 6", position: CGPoint(x: 0.25, y: 0.25), setColor: .orange, unsetColor: .gray)
-    ]
-    
-    @State private var wakeCrossesUI: [CoursePointUI] = [
-        CoursePointUI(name: "W 1", position: CGPoint(x: 0.5, y: 0.8), setColor: .yellow, unsetColor: .gray),
-        CoursePointUI(name: "W 2", position: CGPoint(x: 0.5, y: 0.7), setColor: .yellow, unsetColor: .gray),
-        CoursePointUI(name: "W 3", position: CGPoint(x: 0.5, y: 0.6), setColor: .yellow, unsetColor: .gray),
-        CoursePointUI(name: "W 4", position: CGPoint(x: 0.5, y: 0.5), setColor: .yellow, unsetColor: .gray),
-        CoursePointUI(name: "W 5", position: CGPoint(x: 0.5, y: 0.4), setColor: .yellow, unsetColor: .gray),
-        CoursePointUI(name: "W 6", position: CGPoint(x: 0.5, y: 0.3), setColor: .yellow, unsetColor: .gray)
-    ]
-    
-    @State private var entryGateUI: CoursePointUI =
-        CoursePointUI(name: "S", position: CGPoint(x: 0.5, y: 0.9), setColor: .green, unsetColor: .gray)
-    @State private var exitGateUI: CoursePointUI =
-        CoursePointUI(name: "F", position: CGPoint(x: 0.5, y: 0.2), setColor: .red, unsetColor: .gray)
-    
-    private let fullCoursePointUINames: Dictionary<String, String> = [
-        "B 1" : "Buoy 1",
-        "B 2" : "Buoy 2",
-        "B 3" : "Buoy 3",
-        "B 4" : "Buoy 4",
-        "B 5" : "Buoy 5",
-        "B 6" : "Buoy 6",
-        "W 1" : "Wake Cross 1",
-        "W 2" : "Wake Cross 2",
-        "W 3" : "Wake Cross 3",
-        "W 4" : "Wake Cross 4",
-        "W 5" : "Wake Cross 5",
-        "W 6" : "Wake Cross 6",
-        "S" : "Start/Entry Gate",
-        "F" : "Finish/Exit Gate"
-    ]
+    @State private var coursePointLocation: Coordinate?
+    @State private var showAlert = false
     
     init(showCourseSetupView: Binding<Bool>) {
         _showCourseSetupView = showCourseSetupView
@@ -73,23 +76,38 @@ struct WaterSkiingCourseSetupView: View {
             Color.black.edgesIgnoringSafeArea(.all)
             
             if showPopOverView {
-                PopOverView(
-                    fullCoursePointUINames: fullCoursePointUINames,
+                WaterSkiingCoursePointSetupView(
                     activeElement: $activeElement,
-                    coursePointLocations: $coursePointLocations,
-                    showPopOverView: $showPopOverView
+                    coursePointLocation: $coursePointLocation,
+                    showPopOverView: $showPopOverView,
+                    alert: $alert
                 )
+                .onAppear(perform: {
+                    guard let activeElement = activeElement else { return }
+                
+                    coursePointLocation = coursePointLocations[activeElement.id]
+                })
+                .onDisappear(perform: {
+                    guard let activeElement = activeElement else { return }
+                    guard let coursePointLocation = coursePointLocation else { return }
+
+                    coursePointLocations[activeElement.id] = coursePointLocation
+                })
             } else {
                 drawCourse()
             }
         }
+        .alert(item: $alert, content: { alert in
+            Alert(title: Text(alert.title), message: Text(alert.message))
+        })
+        .onAppear(perform: {
+            guard let course = waterSkiingCourseViewModel.course else { return }
+            
+            initCourse(course: course)
+        })
     }
     
     private func drawCourse() -> some View {
-        if let course = waterSkiingCourseViewModel.course {
-            initCourse(course: course)
-        }
-        
         return VStack {
             GeometryReader { geometry in
                 ZStack {
@@ -104,17 +122,13 @@ struct WaterSkiingCourseSetupView: View {
             createButton(text: "Save Course", width: 300, height: nil) {
                 if coursePointLocations.keys.count == fullCoursePointUINames.count {
                     waterSkiingCourseViewModel.setCourse(saveCourse())
-                    showCourseSetupView.toggle()
+                    showCourseSetupView = false
                 } else {
-                    showAlert.toggle()
+                    alert = AlertInfo(
+                        id: .WaterSkiingCourse,
+                        title: "Course data",
+                        message: "Please set up all course points before saving course.")
                 }
-            }
-            .alert(isPresented: $showAlert) {
-                Alert(
-                    title: Text("Course data is not complete"),
-                    message: Text("Please set up all course points before saving course."),
-                    dismissButton: .cancel()
-                )
             }
             
             createButton(text: "Close", width: 300, height: nil) {
@@ -176,8 +190,15 @@ struct WaterSkiingCourseSetupView: View {
                 .fill(coursePointLocations.keys.contains(element.id) ? element.setColor : element.unsetColor)
                 .frame(width: 50, height: 50)
                 .onTapGesture {
-                    activeElement = element
-                    showPopOverView.toggle()
+                    activeElement = CoursePointUI(
+                        id: element.id,
+                        name: fullCoursePointUINames[element.name] ?? element.name,
+                        position: element.position,
+                        setColor: element.setColor,
+                        unsetColor: element.unsetColor
+                    )
+                    
+                    showPopOverView = true
                 }
             
             Text("\(element.name)").foregroundStyle(.primary)

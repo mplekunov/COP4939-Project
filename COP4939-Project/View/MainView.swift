@@ -9,17 +9,6 @@ import Foundation
 import SwiftUI
 import Combine
 
-struct AlertInfo : Identifiable {
-    enum AlertType {
-        case Camera
-        case DataSender
-    }
-    
-    let id: AlertType
-    let title: String
-    let message: String
-}
-
 struct MainView: View {
     
     @State private var alert: AlertInfo?
@@ -53,7 +42,7 @@ struct MainView: View {
                         .foregroundColor(.orange)
                         .cornerRadius(10)
                 } else {
-                    Text(waterSkiingCourseViewModel.course != nil  ? "Start WaterSkiing Recording" : "Recording Unavailable")
+                    Text(waterSkiingCourseViewModel.course != nil ? "Start WaterSkiing Recording" : "Recording Unavailable")
                 }
             })
             .onReceive(cameraViewModel.$isRecording, perform: { isRecording in

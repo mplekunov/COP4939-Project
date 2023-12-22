@@ -13,6 +13,7 @@ import CoreLocation
 class LocationManager: NSObject, ObservableObject {
     @Published var location: CLLocation?
     @Published var error: LocationManagerError?
+    @Published var isRecording: Bool?
     
     private let logger: LoggerService
     
@@ -68,11 +69,15 @@ class LocationManager: NSObject, ObservableObject {
     }
     
     func startLocationRecording() {
+        guard error == nil else { return }
+        
         locationManager.startUpdatingLocation()
+        isRecording = true
     }
     
     func stopLocationRecording() {
         locationManager.stopUpdatingLocation()
+        isRecording = false
     }
 }
 

@@ -13,54 +13,45 @@ class DeviceLocationSensorViewModel : ObservableObject {
     
     private let logger: LoggerService
     
-    private var locationSubscription: Cancellable?
-    private var isAuthorizedSubscription: Cancellable?
-    
     @Published var lastLocation: LocationRecord?
     @Published var error: LocationManagerError?
-    @Published var isRecording = false
+    @Published var isRecording: Bool?
     
     init() {
         logger = LoggerService(logSource: String(describing: type(of: self)))
         
-        isAuthorizedSubscription = locationManager.$error.sink { [weak self] _ in
-            guard let self = self else { return }
-            
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                
-                error = locationManager.error
-            }
-        }
+        locationManager.$error
+            .receive(on: DispatchQueue.main)
+            .assign(to: &$error)
         
-        locationSubscription = locationManager.$location.sink { [weak self] _ in
-            guard let self = self else { return }
-            
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
+        locationManager.$location
+            .receive(on: DispatchQueue.main)
+            .compactMap { location in
+                guard let location = location else { return nil }
                 
-                if let coordinate = locationManager.location?.coordinate,
-                   let speed = locationManager.location?.speed {
-                    
-                    self.lastLocation = LocationRecord(
-                        speed: Measurement(value: speed, unit: .metersPerSecond),
-                        coordinate: Coordinate(
-                            latitude: Measurement(value: coordinate.latitude, unit: .degrees),
-                            longitude: Measurement(value: coordinate.longitude, unit: .degrees)
-                        )
+                let coordinate = location.coordinate
+                let speed = location.speed
+                
+                return LocationRecord(
+                    speed: Measurement(value: speed, unit: .metersPerSecond),
+                    coordinate: Coordinate(
+                        latitude: Measurement(value: coordinate.latitude, unit: .degrees),
+                        longitude: Measurement(value: coordinate.longitude, unit: .degrees)
                     )
-                }
+                )
             }
-        }
+            .assign(to: &$lastLocation)
+        
+        locationManager.$isRecording
+            .receive(on: DispatchQueue.main)
+            .assign(to: &$isRecording)
     }
     
     func startRecording() {
         locationManager.startLocationRecording()
-        isRecording = true
     }
     
     func stopRecording() {
         locationManager.stopLocationRecording()
-        isRecording = false
     }
 }
