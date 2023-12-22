@@ -29,7 +29,7 @@ struct ContentView: View {
                 WaterSkiingCourseSetupView(showCourseSetupView: $showCourseSetupView)
                     .environmentObject(locationSensorViewModel)
                     .environmentObject(waterSkiingCourseViewModel)
-            } else if showSessionResultView && dataReceiverViewModel.isSessionInfoReceived {
+            } else if showSessionResultView {
                 SessionResultView(showSessionResultView: $showSessionResultView)
                     .environmentObject(dataReceiverViewModel)
             } else {

@@ -36,7 +36,6 @@ class DataReceiverViewModel : ObservableObject {
                 guard let self = self else { return }
                 
                 isDeviceConnected = self.watchConnectivityManager.isConnected
-                objectWillChange.send()
             }
         }
         
@@ -47,12 +46,11 @@ class DataReceiverViewModel : ObservableObject {
                 guard let self = self else { return }
                 
                 decodeReceivedMessage(message: watchConnectivityManager.message)
-                objectWillChange.send()
             }
         }
     }
     
-    private func decodeReceivedMessage(message: Data) {
+    private func decodeReceivedMessage(message: Data) {        
         if !message.isEmpty {
             do {
                 let dataPacket = try converter.decode(DataPacket.self, from: message)
@@ -62,28 +60,15 @@ class DataReceiverViewModel : ObservableObject {
                     logger.log(message: "Session info has been received")
                     session = try converter.decode(WatchTrackingSession.self, from: dataPacket.data)
                     isSessionInfoReceived = true
-                    isSessionCompleted = false
-                    isSessionInProgress = false
-                    isSessionDeliveryError = false
                 case .WatchSessionStart:
-                    isSessionInfoReceived = false
                     logger.log(message: "Session is in progress")
                     isSessionInProgress = true
-                    isSessionCompleted = false
-                    isSessionInfoReceived = false
-                    isSessionDeliveryError = false
                 case .WatchSessionEnd:
                     logger.log(message: "Session is completed")
-                    isSessionInProgress = false
                     isSessionCompleted = true
-                    isSessionInfoReceived = false
-                    isSessionDeliveryError = false
                 case .WatchConnectivityError:
                     logger.log(message: "Error in watch connectivity")
                     isSessionDeliveryError = true
-                    isSessionInProgress = false
-                    isSessionCompleted = false
-                    isSessionInfoReceived = false
                 default:
                     logger.error(message: "DataType is not recognized")
                 }
@@ -93,5 +78,13 @@ class DataReceiverViewModel : ObservableObject {
         } else {
             logger.log(message: "Empty message has been received")
         }
+    }
+    
+    func setToDefault() {
+        isSessionDeliveryError = false
+        isSessionInProgress = false
+        isSessionCompleted = false
+        isSessionInfoReceived = false
+        session = WatchTrackingSession()
     }
 }

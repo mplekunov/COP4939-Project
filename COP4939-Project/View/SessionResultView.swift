@@ -25,6 +25,7 @@ struct SessionResultView : View {
                     .padding()
                 
                 Button("Close") {
+                    dataReceiverViewModel.setToDefault()
                     showSessionResultView.toggle()
                 }
                 .frame(width: 300)
