@@ -12,24 +12,16 @@ class DataSenderViewModel : ObservableObject {
     private let logger: LoggerService
     
     private var converter: JSONConverter = JSONConverter()
-    
-    private var watchConnectivityManagerSubscription: Cancellable?
     private let watchConnectivityManager: WatchConnectivityManager = WatchConnectivityManager.instance
     
-    @Published var error: WatchConnectivityError?
+    @Published public private(set) var error: WatchConnectivityError?
     
     init() {
         logger = LoggerService(logSource: String(describing: type(of: self)))
-        
-        watchConnectivityManagerSubscription = watchConnectivityManager.$error.sink { [weak self] _ in
-            guard let self = self else { return }
-            
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                
-                error = watchConnectivityManager.error
-            }
-        }
+
+        watchConnectivityManager.$error
+            .receive(on: DispatchQueue.main)
+            .assign(to: &$error)
     }
     
     func send<T>(dataType: DataType, data: T) where T : Codable {

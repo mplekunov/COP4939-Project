@@ -11,9 +11,9 @@ import CoreGraphics
 import Combine
 
 class CameraViewModel: ObservableObject {
-    @Published var frame: CGImage?
-    @Published var error: CameraError?
-    @Published var isRecording: Bool?
+    @Published public private(set) var frame: CGImage?
+    @Published public private(set) var error: CameraError?
+    @Published public private(set) var isRecording: Bool?
     
     private let frameManager = FrameManager.instance
     

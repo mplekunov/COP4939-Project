@@ -18,28 +18,30 @@ struct StatisticsView: View {
             }.listRowBackground(Color.secondary)
             
             Section("Location latitude") {
-                
-                LineChartView(
-                    data: dataReceiverViewModel.session.data.map {
-                        ChartData(
-                            date: Date(timeIntervalSince1970: $0.timeStamp),
-                            data: $0.location.coordinate.latitude
-                        )
-                    }
-                ).padding()
+                VStack {
+                    LineChartView(
+                        data: dataReceiverViewModel.session.data.map {
+                            ChartData(
+                                date: Date(timeIntervalSince1970: $0.timeStamp),
+                                data: $0.location.coordinate.latitude
+                            )
+                        }
+                    ).padding()
+                }
             }
             .listRowBackground(Color.secondary)
             
             Section("Location longitude") {
-                
-                LineChartView(
-                    data: dataReceiverViewModel.session.data.map {
-                        ChartData(
-                            date: Date(timeIntervalSince1970: $0.timeStamp),
-                            data: $0.location.coordinate.longitude
-                        )
-                    }
-                ).padding()
+                VStack {
+                    LineChartView(
+                        data: dataReceiverViewModel.session.data.map {
+                            ChartData(
+                                date: Date(timeIntervalSince1970: $0.timeStamp),
+                                data: $0.location.coordinate.longitude
+                            )
+                        }
+                    ).padding()
+                }
             }
             .listRowBackground(Color.secondary)
             

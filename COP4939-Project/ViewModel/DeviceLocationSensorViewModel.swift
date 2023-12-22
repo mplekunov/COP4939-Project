@@ -13,9 +13,9 @@ class DeviceLocationSensorViewModel : ObservableObject {
     
     private let logger: LoggerService
     
-    @Published var lastLocation: LocationRecord?
-    @Published var error: LocationManagerError?
-    @Published var isRecording: Bool?
+    @Published public private(set) var lastLocation: LocationRecord?
+    @Published public private(set) var error: LocationManagerError?
+    @Published public private(set) var isRecording: Bool?
     
     init() {
         logger = LoggerService(logSource: String(describing: type(of: self)))

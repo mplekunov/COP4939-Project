@@ -13,6 +13,7 @@ struct AlertInfo : Identifiable {
         case DataSender
         case LocationManager
         case WaterSkiingCourse
+        case DataReceiver
     }
     
     let id: AlertType

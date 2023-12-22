@@ -8,10 +8,10 @@
 import Foundation
 
 class WaterSkiingCourseViewModel : ObservableObject {
+    @Published public private(set) var course: WaterSkiingCourse?
+    
     private let logger: LoggerService
     private let fileManager = FileManager.default
-    
-    @Published public private(set) var course: WaterSkiingCourse?
     
     private let fileName: String = "Course.txt"
     
