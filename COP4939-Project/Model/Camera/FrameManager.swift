@@ -15,8 +15,10 @@ class FrameManager: NSObject, ObservableObject {
     
     @Published var current: CVPixelBuffer?
     @Published var error: CameraError?
+    @Published var isRecording: Bool?
     
     private var cameraManagerErrorSubscriber: AnyCancellable?
+    private var cameraManagerIsRecordingSubscriber: AnyCancellable?
     
     let videoOutputQueue = DispatchQueue(
         label: "com.FrameManager",
@@ -36,6 +38,20 @@ class FrameManager: NSObject, ObservableObject {
                 self.error = error
             }
         }
+        
+        cameraManagerIsRecordingSubscriber = CameraManager.instance.$isRecording.sink { isRecording in
+            DispatchQueue.main.async {
+                self.isRecording = isRecording
+            }
+        }
+    }
+    
+    func startRecording() {
+        CameraManager.instance.startRecording()
+    }
+    
+    func stopRecording() {
+        CameraManager.instance.stopRecording()
     }
 }
 

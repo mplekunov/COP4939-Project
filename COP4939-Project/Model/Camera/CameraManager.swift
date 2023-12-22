@@ -12,8 +12,9 @@ class CameraManager: ObservableObject {
     private let logger: LoggerService
     
     @Published var error: CameraError?
+    @Published var isRecording = false
     
-    let session = AVCaptureSession()
+    private var session = AVCaptureSession()
     
     private let sessionQueue = DispatchQueue(label:"com.CameraManager")
     
@@ -32,18 +33,44 @@ class CameraManager: ObservableObject {
     
     private init() {
         logger = LoggerService(logSource: String(describing: type(of: self)))
-        
-        configure()
     }
     
-    private func configure() {
-        checkPermissions()
+    func startRecording() {
+        session = AVCaptureSession()
+        
+        configure()
         
         sessionQueue.async { [weak self] in
             guard let self = self else { return }
             configureCaptureSession()
             session.startRunning()
+            
+            if error == nil && status == .Configured {
+                DispatchQueue.main.async {
+                    self.isRecording = true
+                }
+            }
         }
+    }
+    
+    // Big question whether this should be async or sync
+    func stopRecording() {
+        sessionQueue.async { [weak self] in
+            guard let self = self else { return }
+            
+            session.stopRunning()
+            
+            DispatchQueue.main.async {
+                self.isRecording = false
+            }
+        }
+    }
+    
+    private func configure() {
+        error = nil
+        status = .Unconfigured
+        
+        checkPermissions()
     }
     
     private func set(error: CameraError?) {

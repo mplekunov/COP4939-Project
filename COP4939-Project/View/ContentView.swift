@@ -13,6 +13,7 @@ struct ContentView: View {
     @StateObject var locationSensorViewModel: DeviceLocationSensorViewModel = DeviceLocationSensorViewModel()
     @StateObject var waterSkiingCourseViewModel: WaterSkiingCourseViewModel = WaterSkiingCourseViewModel()
     @StateObject var dataSenderViewModel: DataSenderViewModel = DataSenderViewModel()
+    @StateObject var cameraViewModel = CameraViewModel()
     
     @State private var showCourseSetupView: Bool = false
     @State private var showSessionRecordingView: Bool = false
@@ -23,7 +24,8 @@ struct ContentView: View {
             Color.black.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
             
             if showSessionRecordingView {
-                SessionView(showSessionRecordingView: $showSessionRecordingView, showSessionResultView: $showSessionResultView)
+                SessionRecordingView(showSessionRecordingView: $showSessionRecordingView, showSessionResultView: $showSessionResultView)
+                    .environmentObject(cameraViewModel)
                     .environmentObject(dataSenderViewModel)
             } else if showCourseSetupView {
                 WaterSkiingCourseSetupView(showCourseSetupView: $showCourseSetupView)
@@ -34,6 +36,7 @@ struct ContentView: View {
                     .environmentObject(dataReceiverViewModel)
             } else {
                 MainView(showCourseSetupView: $showCourseSetupView, showSessionRecordingView: $showSessionRecordingView)
+                    .environmentObject(cameraViewModel)
                     .environmentObject(waterSkiingCourseViewModel)
                     .environmentObject(dataSenderViewModel)
             }

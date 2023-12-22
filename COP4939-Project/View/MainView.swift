@@ -7,15 +7,30 @@
 
 import Foundation
 import SwiftUI
+import Combine
+
+struct AlertInfo : Identifiable {
+    enum AlertType {
+        case Camera
+        case DataSender
+    }
+    
+    let id: AlertType
+    let title: String
+    let message: String
+}
 
 struct MainView: View {
+    
+    @State private var alert: AlertInfo?
+    
     @EnvironmentObject var waterSkiingCourseViewModel: WaterSkiingCourseViewModel
     @EnvironmentObject var dataSenderViewModel: DataSenderViewModel
+    @EnvironmentObject var cameraViewModel: CameraViewModel
     
     @Binding var showCourseSetupView: Bool
     @Binding var showSessionRecordingView: Bool
     
-    @State private var showAlert = false
     @State private var isSendingData = false
     
     var body: some View {
@@ -29,15 +44,49 @@ struct MainView: View {
             .clipShape(.rect(cornerRadius: 20))
             .foregroundStyle(.black)
             
-            Button(waterSkiingCourseViewModel.course != nil  ? "Start WaterSkiing Recording" : "Recording Unavailable") {
-                dataSenderViewModel.send(dataType: .WatchSessionStart, data: Data())
+            Button(action: {
+                cameraViewModel.startRecording()
                 isSendingData = true
-            }
+            }, label: {
+                if isSendingData {
+                    ActivityIndicatorView()
+                        .foregroundColor(.orange)
+                        .cornerRadius(10)
+                } else {
+                    Text(waterSkiingCourseViewModel.course != nil  ? "Start WaterSkiing Recording" : "Recording Unavailable")
+                }
+            })
+            .onReceive(cameraViewModel.$isRecording, perform: { isRecording in
+                guard let isRecording = isRecording else { return }
+                
+                if isSendingData && isRecording {
+                    dataSenderViewModel.send(dataType: .WatchSessionStart, data: Data())
+                }
+            })
+            .onReceive(cameraViewModel.$error, perform: { error in
+                guard isSendingData else { return }
+                
+                if error != nil {
+                    alert = AlertInfo(
+                        id: .Camera,
+                        title: "Camera Error",
+                        message: "\(error?.description ?? "Something went wrong when app tried to access camera.")"
+                    )
+                    
+                    isSendingData = false
+                }
+            })
             .onReceive(dataSenderViewModel.$error, perform: { error in
                 guard isSendingData else { return }
                 
                 if error != nil {
-                    showAlert = true
+                    alert = AlertInfo(
+                        id: .DataSender,
+                        title: "Watch Connectivity Error",
+                        message: "\(error?.description ?? "Something went wrong during sending request to the watch.")"
+                    )
+                    
+                    isSendingData = false
                 } else {
                     showSessionRecordingView.toggle()
                 }
@@ -48,11 +97,9 @@ struct MainView: View {
             .clipShape(.rect(cornerRadius: 20))
             .foregroundStyle(waterSkiingCourseViewModel.course != nil  ? .black : .gray)
             .disabled(waterSkiingCourseViewModel.course == nil)
-            .alert(isPresented: $showAlert) {
-                Alert(
-                    title: Text("\(dataSenderViewModel.error?.description ?? "Something went wrong during sending request to the watch.")")
-                )
-            }
+            .alert(item: $alert, content: { alert in
+                Alert(title: Text(alert.title), message: Text(alert.message))
+            })
         }
     }
 }

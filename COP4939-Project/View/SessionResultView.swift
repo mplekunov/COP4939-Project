@@ -48,14 +48,4 @@ struct SessionResultView : View {
             }
         }
     }
-    
-    struct ActivityIndicatorView: UIViewRepresentable {
-        func makeUIView(context: Context) -> UIActivityIndicatorView {
-            UIActivityIndicatorView(style: .large)
-        }
-        
-        func updateUIView(_ uiView: UIActivityIndicatorView, context: Context) {
-            uiView.startAnimating()
-        }
-    }
 }

@@ -8,15 +8,25 @@
 import Foundation
 import CoreImage
 import CoreGraphics
+import Combine
 
 class CameraViewModel: ObservableObject {
     @Published var frame: CGImage?
     @Published var error: CameraError?
+    @Published var isRecording: Bool?
     
     private let frameManager = FrameManager.instance
     
     init() {
         setupSubscriptions()
+    }
+    
+    func startRecording() {
+        frameManager.startRecording()
+    }
+    
+    func stopRecording() {
+        frameManager.stopRecording()
     }
     
     func setupSubscriptions() {
@@ -34,5 +44,9 @@ class CameraViewModel: ObservableObject {
         frameManager.$error
             .receive(on: RunLoop.main)
             .assign(to: &$error)
+        
+        frameManager.$isRecording
+            .receive(on: RunLoop.main)
+            .assign(to: &$isRecording)
     }
 }
