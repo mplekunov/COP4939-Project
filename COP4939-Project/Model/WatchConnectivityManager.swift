@@ -9,14 +9,13 @@ import Foundation
 import WatchConnectivity
 import Compression
 
-class WatchConnectivityManager : NSObject, WCSessionDelegate, ObservableObject {
-    private static let instance = WatchConnectivityManager()
+class WatchConnectivityManager : NSObject, ObservableObject {
+    static let instance = WatchConnectivityManager()
     
     @Published var message: Data = Data()
+    @Published var error: WatchConnectivityError?
     
-    @Published var isConnected: Bool = false
-    
-    private var logger: LoggerService
+    private let logger: LoggerService
     
     private var session: WCSession = WCSession.default
     
@@ -26,29 +25,55 @@ class WatchConnectivityManager : NSObject, WCSessionDelegate, ObservableObject {
         logger = LoggerService(logSource: String(describing: type(of: self)))
         
         super.init()
+        
+        configure()
+        checkConnectionStatus()
+    }
+    
+    private func configure() {
         session.delegate = self
-        
-        activateSession()
     }
     
-    static func getInstance() -> WatchConnectivityManager {
-        return WatchConnectivityManager.instance
-    }
-    
-    private func activateSession() {
-        isConnected = session.activationState != .notActivated
-        
-        if session.activationState != .activated {
-            session.activate()
+    private func set(error: WatchConnectivityError?) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.error = error
         }
     }
     
-    private func isReachable() -> Bool {
-        return session.isReachable
+    private func checkConnectionStatus() {
+        switch session.activationState {
+        case .notActivated:
+            set(error: .DeviceNotActivated)
+            session.activate()
+        case .inactive:
+            set(error: .DeviceNotActive)
+            session.activate()
+        case .activated:
+            set(error: nil)
+            break
+        @unknown default:
+            set(error: .UnknownStatus)
+        }
     }
     
-    private func isPaired() -> Bool {
-        return session.isPaired
+    private func checkDeviceStatus() -> Bool {
+        if !session.isReachable {
+            logger.log(message: "Session is not reachable")
+            set(error: .DeviceNotReachable)
+        }
+        
+        if !session.isPaired {
+            logger.log(message: "Session is not paired")
+            set(error: .DeviceNotPaired)
+        }
+        
+        if !session.isWatchAppInstalled {
+            logger.log(message: "Session's watch app is not installed")
+            set(error: .WatchAppNotInstalled)
+        }
+        
+        return session.isReachable && session.isPaired && session.isWatchAppInstalled
     }
     
     private func writeDataToFile(data: Data) throws -> URL {
@@ -63,8 +88,7 @@ class WatchConnectivityManager : NSObject, WCSessionDelegate, ObservableObject {
     }
     
     func sendAsFile(data: Data, errorHandler: @escaping (Error) -> Void) {
-        if !isReachable() {
-            logger.log(message: "Session is not reachable")
+        if !checkDeviceStatus() {
             return
         }
         
@@ -78,8 +102,7 @@ class WatchConnectivityManager : NSObject, WCSessionDelegate, ObservableObject {
     }
     
     func sendAsString(data: Data, replyHandler: ((Data) -> Void)?, errorHandler: @escaping (Error) -> Void) {
-        if !isReachable() {
-            logger.log(message: "Session is not reachable")
+        if !checkDeviceStatus() {
             return
         }
         
@@ -98,15 +121,15 @@ class WatchConnectivityManager : NSObject, WCSessionDelegate, ObservableObject {
             logger.error(message: "\(error)")
         }
     }
-    
+}
+
+extension WatchConnectivityManager : WCSessionDelegate {
     func sessionDidBecomeInactive(_ session: WCSession) {
-        logger.log(message: "Session is inactive")
+        checkConnectionStatus()
     }
     
     func sessionDidDeactivate(_ session: WCSession) {
-        logger.log(message: "Session is deactivated")
-        
-        activateSession()
+        checkConnectionStatus()
     }
     
     func session(_ session: WCSession, didReceive file: WCSessionFile) {
@@ -120,7 +143,6 @@ class WatchConnectivityManager : NSObject, WCSessionDelegate, ObservableObject {
                     guard let self = self else { return }
                     
                     message = jsonData
-                    objectWillChange.send()
                 }
             } else {
                 logger.error(message: "File is empty")
@@ -147,8 +169,6 @@ class WatchConnectivityManager : NSObject, WCSessionDelegate, ObservableObject {
             } catch {
                 logger.error(message: "\(error.localizedDescription)")
             }
-            
-            objectWillChange.send()
         }
     }
     
@@ -165,8 +185,6 @@ class WatchConnectivityManager : NSObject, WCSessionDelegate, ObservableObject {
             } catch {
                 logger.error(message: "\(error)")
             }
-            
-            objectWillChange.send()
         }
     }
     
@@ -187,8 +205,6 @@ class WatchConnectivityManager : NSObject, WCSessionDelegate, ObservableObject {
             } catch {
                 logger.error(message: "\(error.localizedDescription)")
             }
-            
-            objectWillChange.send()
         }
     }
     
@@ -209,30 +225,10 @@ class WatchConnectivityManager : NSObject, WCSessionDelegate, ObservableObject {
             } catch {
                 logger.error(message: "\(error.localizedDescription)")
             }
-            
-            objectWillChange.send()
         }
     }
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            
-            isConnected = false
-            objectWillChange.send()
-        }
-        
-        if activationState != .activated {
-            logger.log(message: "Device has not been activated")
-        } else if let error = error {
-            logger.error(message: "\(error)")
-        }
-        
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            
-            isConnected = true
-            objectWillChange.send()
-        }
+        checkConnectionStatus()
     }
 }

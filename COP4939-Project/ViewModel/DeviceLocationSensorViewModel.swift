@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 class DeviceLocationSensorViewModel : ObservableObject {
-    private let locationManager: LocationManager = LocationManager()
+    private let locationManager = LocationManager.instance
     
     private let logger: LoggerService
     
@@ -17,18 +17,19 @@ class DeviceLocationSensorViewModel : ObservableObject {
     private var isAuthorizedSubscription: Cancellable?
     
     @Published var lastLocation: LocationRecord?
-    @Published var isAuthorized: Bool = false
+    @Published var error: LocationManagerError?
+    @Published var isRecording = false
     
     init() {
         logger = LoggerService(logSource: String(describing: type(of: self)))
         
-        isAuthorizedSubscription = locationManager.$isAuthorized.sink { [weak self] _ in
+        isAuthorizedSubscription = locationManager.$error.sink { [weak self] _ in
             guard let self = self else { return }
             
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 
-                isAuthorized = locationManager.isAuthorized
+                error = locationManager.error
             }
         }
         
@@ -53,19 +54,13 @@ class DeviceLocationSensorViewModel : ObservableObject {
         }
     }
     
-    @discardableResult
-    func startRecording() -> Bool {
-        if !locationManager.isAuthorized {
-            locationManager.requestAuthorization()
-            return false
-        }
-
+    func startRecording() {
         locationManager.startLocationRecording()
-        
-        return true
+        isRecording = true
     }
     
     func stopRecording() {
         locationManager.stopLocationRecording()
+        isRecording = false
     }
 }

@@ -62,6 +62,11 @@ struct PopOverView: View {
                 }
             }
             .padding()
+            .onReceive(locationSensorViewModel.$isRecording) { isRecording in
+                if !isRecording {
+                    locationSensorViewModel.startRecording()
+                }
+            }
         }
     }
     

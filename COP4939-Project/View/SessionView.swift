@@ -9,19 +9,20 @@ import Foundation
 import SwiftUI
 
 struct SessionView : View {
+    @EnvironmentObject var locationSensorViewModel: DeviceLocationSensorViewModel
     @EnvironmentObject var dataSenderViewModel: DataSenderViewModel
-    @StateObject private var model = CameraViewModel()
+    @StateObject private var cameraViewModel = CameraViewModel()
     
     @Binding var showSessionRecordingView: Bool
     @Binding var showSessionResultView: Bool
     
     var body: some View {
         VStack {
-            if model.error != nil {
-                Text("\(model.error.debugDescription)")
+            if cameraViewModel.error != nil {
+                Text("\(cameraViewModel.error.debugDescription)")
                     .foregroundStyle(.orange)
             } else {
-                VideoRecordingView(image: model.frame)
+                VideoRecordingView(image: cameraViewModel.frame)
                     .edgesIgnoringSafeArea(.all)
                     .padding()
             }

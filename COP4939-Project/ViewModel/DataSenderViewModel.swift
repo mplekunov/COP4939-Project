@@ -9,27 +9,25 @@ import Foundation
 import Combine
 
 class DataSenderViewModel : ObservableObject {
-    private let MAX_RETRY_ATTEMPTS: Int = 3
-    
     private let logger: LoggerService
     
     private var converter: JSONConverter = JSONConverter()
     
     private var watchConnectivityManagerSubscription: Cancellable?
-    private var watchConnectivityManager: WatchConnectivityManager = WatchConnectivityManager.getInstance()
+    private let watchConnectivityManager: WatchConnectivityManager = WatchConnectivityManager.instance
     
-    @Published var isReceiverConnected: Bool = false
+    @Published var error: WatchConnectivityError?
     
     init() {
         logger = LoggerService(logSource: String(describing: type(of: self)))
         
-        watchConnectivityManagerSubscription = watchConnectivityManager.$isConnected.sink { [weak self] _ in
+        watchConnectivityManagerSubscription = watchConnectivityManager.$error.sink { [weak self] _ in
             guard let self = self else { return }
             
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 
-                isReceiverConnected = watchConnectivityManager.isConnected
+                error = watchConnectivityManager.error
             }
         }
     }

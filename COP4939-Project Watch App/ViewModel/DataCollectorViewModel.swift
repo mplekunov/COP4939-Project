@@ -40,7 +40,6 @@ class DataCollectorViewModel : ObservableObject {
                 guard let self = self else { return }
                 
                 isLocationAuthorized = deviceLocationSensorModel.isAuthorized
-                objectWillChange.send()
             }
         }
         
@@ -65,8 +64,6 @@ class DataCollectorViewModel : ObservableObject {
                         
                         trackingRecords.append(TrackingRecord(location: location, motion: motion, timeStamp: Date().timeIntervalSince1970))
                     }
-                    
-                    objectWillChange.send()
                 }
             }
     }

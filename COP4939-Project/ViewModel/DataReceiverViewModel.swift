@@ -9,33 +9,34 @@ import Foundation
 import Combine
 
 class DataReceiverViewModel : ObservableObject {
-    @Published var isDeviceConnected: Bool = false
-    @Published var isSessionCompleted: Bool = false
-    @Published var isSessionInProgress: Bool = false
-    @Published var isSessionInfoReceived: Bool = false
-    @Published var isSessionDeliveryError: Bool = false
+    @Published var error: WatchConnectivityError?
     
-    @Published var session: WatchTrackingSession = WatchTrackingSession()
+    @Published var isSessionCompleted = false
+    @Published var isSessionInProgress = false
+    @Published var isSessionInfoReceived = false
+    @Published var isSessionDeliveryError = false
+    
+    @Published var session = WatchTrackingSession()
     
     private let logger: LoggerService
     
-    private let converter: JSONConverter = JSONConverter()
+    private let converter = JSONConverter()
     
     private var isDeviceConnectedSubscription: AnyCancellable?
     private var messageSubscription: AnyCancellable?
     
-    private var watchConnectivityManager: WatchConnectivityManager = WatchConnectivityManager.getInstance()
+    private let watchConnectivityManager = WatchConnectivityManager.instance
     
     init() {
         logger = LoggerService(logSource: String(describing: type(of: self)))
         
-        isDeviceConnectedSubscription = watchConnectivityManager.$isConnected.sink { [weak self] _ in
+        isDeviceConnectedSubscription = watchConnectivityManager.$error.sink { [weak self] _ in
             guard let self = self else { return }
             
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 
-                isDeviceConnected = self.watchConnectivityManager.isConnected
+                error = self.watchConnectivityManager.error
             }
         }
         

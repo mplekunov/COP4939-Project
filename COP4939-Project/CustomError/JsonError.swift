@@ -11,3 +11,14 @@ enum JsonError : Error {
     case EncodingError
     case DecodingError
 }
+
+extension JsonError : CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case .DecodingError:
+            "Json couldn't be decoded."
+        case .EncodingError:
+            "Object couldn't be encoded to Json."
+        }
+    }
+}

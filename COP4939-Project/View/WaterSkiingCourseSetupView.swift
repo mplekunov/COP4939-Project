@@ -13,7 +13,6 @@ import Combine
 struct WaterSkiingCourseSetupView: View {
     private let logger: LoggerService
     
-    @EnvironmentObject var locationSensorViewModel: DeviceLocationSensorViewModel
     @EnvironmentObject var waterSkiingCourseViewModel: WaterSkiingCourseViewModel
     
     @Binding private var showCourseSetupView: Bool
@@ -73,7 +72,7 @@ struct WaterSkiingCourseSetupView: View {
         ZStack {
             Color.black.edgesIgnoringSafeArea(.all)
             
-            if showPopOverView && locationSensorViewModel.startRecording() {
+            if showPopOverView {
                 PopOverView(
                     fullCoursePointUINames: fullCoursePointUINames,
                     activeElement: $activeElement,

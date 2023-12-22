@@ -17,3 +17,27 @@ enum CameraError: Error {
     case CannotAddInput
     case CannotAddOutput
 }
+
+
+extension CameraError : CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case .CameraUnavailable:
+            "Camera is currently unavailable."
+        case .CannotAddInput:
+            "Cannot add input to the device."
+        case .CannotAddOutput:
+            "Cannot add output to the device."
+        case .CreateCaptureInput:
+            "Cannot create capture input."
+        case .DeniedAuthorization:
+            "App is has been denied authorization to use camera device."
+        case .RestrictedAuthorization:
+            "App usage of camera device has been restricted."
+        case .Unauthorized:
+            "App is not authorized to use camera device."
+        case .UnknownAuthorization:
+            "App couldn't determine authorization status of the camera device."
+        }
+    }
+}

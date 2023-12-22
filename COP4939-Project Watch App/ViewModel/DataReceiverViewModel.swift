@@ -34,7 +34,6 @@ class DataReceiverViewModel : ObservableObject {
                 guard let self = self else { return }
                 
                 isDeviceConnected = watchConnectivityManager.isConnected
-                objectWillChange.send()
             }
         }
         
@@ -45,7 +44,6 @@ class DataReceiverViewModel : ObservableObject {
                 guard let self = self else { return }
                 
                 decodeReceivedMessage(message: watchConnectivityManager.message)
-                objectWillChange.send()
             }
         }
     }
