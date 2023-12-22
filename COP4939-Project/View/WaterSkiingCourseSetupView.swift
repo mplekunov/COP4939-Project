@@ -229,7 +229,3 @@ struct WaterSkiingCourseSetupView: View {
         .clipShape(.rect(cornerRadius: 20))
     }
 }
-
-#Preview {
-    WaterSkiingCourseSetupView(showCourseSetupView: .constant(true))
-}

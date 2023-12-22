@@ -16,8 +16,9 @@ struct SessionRecordingView : View {
     @Binding var showSessionRecordingView: Bool
     @Binding var showSessionResultView: Bool
     
-    @State private var showAlert = false
     @State private var isSendingData = false
+    
+    @State private var alert: AlertInfo?
     
     var body: some View {
         VStack {
@@ -25,17 +26,32 @@ struct SessionRecordingView : View {
                 .edgesIgnoringSafeArea(.all)
                 .padding()
             
-            Button("Stop Water Skiing Recording") {
-                dataSenderViewModel.send(dataType: .WatchSessionEnd, data: Data())
-            }
+            Button(action: {
+                isSendingData = true
+            }, label: {
+                if isSendingData {
+                    ActivityIndicatorView()
+                        .foregroundColor(.orange)
+                        .cornerRadius(10)
+                } else {
+                    Text("Stop WaterSkiing Recording")
+                }
+            })
             .onReceive(dataSenderViewModel.$error, perform: { error in
                 guard isSendingData else { return }
                 
                 if error != nil {
-                    showAlert = true
+                    alert = AlertInfo(
+                        id: .DataSender,
+                        title: "Watch Connectivity Error",
+                        message: "\(error?.description ?? "Something went wrong during sending request to the watch.")"
+                    )
+                    
+                    isSendingData = false
                 } else {
-                    showSessionRecordingView.toggle()
-                    showSessionResultView.toggle()
+                    dataSenderViewModel.send(dataType: .WatchSessionEnd, data: Data())
+                    showSessionRecordingView = false
+                    showSessionResultView = true
                 }
             })
             .frame(width: 300)
@@ -43,11 +59,9 @@ struct SessionRecordingView : View {
             .background(.orange)
             .foregroundStyle(.black)
             .clipShape(.rect(cornerRadius: 20))
-            .alert(isPresented: $showAlert) {
-                Alert(
-                    title: Text("\(dataSenderViewModel.error?.description ?? "Something went wrong during sending request to the watch.")")
-                )
-            }
+            .alert(item: $alert, content: { alert in
+                Alert(title: Text(alert.title), message: Text(alert.message))
+            })
         }
     }
 }

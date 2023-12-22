@@ -25,7 +25,7 @@ struct MainView: View {
     var body: some View {
         VStack {
             Button(waterSkiingCourseViewModel.course != nil ? "Edit WaterSkiing Course Layout" : "Setup WaterSkiing Course Layout") {
-                showCourseSetupView.toggle()
+                showCourseSetupView = true
             }
             .frame(width: 300)
             .padding()
@@ -77,7 +77,7 @@ struct MainView: View {
                     
                     isSendingData = false
                 } else {
-                    showSessionRecordingView.toggle()
+                    showSessionRecordingView = true
                 }
             })
             .frame(width: 300)
