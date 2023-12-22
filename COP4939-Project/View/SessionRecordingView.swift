@@ -27,6 +27,7 @@ struct SessionRecordingView : View {
                 .padding()
             
             Button(action: {
+                dataSenderViewModel.send(dataType: .WatchSessionEnd, data: Data())
                 isSendingData = true
             }, label: {
                 if isSendingData {
@@ -49,7 +50,6 @@ struct SessionRecordingView : View {
                     
                     isSendingData = false
                 } else {
-                    dataSenderViewModel.send(dataType: .WatchSessionEnd, data: Data())
                     showSessionRecordingView = false
                     showSessionResultView = true
                 }
