@@ -9,8 +9,26 @@ import Foundation
 import SwiftUI
 
 struct VideoRecordingView : View {
+    var image: CGImage?
+    private let label = Text("Camera feed")
+    
     var body: some View {
-        Text("Yeah.... The video is being recorded here. I swear")
-            .foregroundStyle(.orange)
+        ZStack {
+            if let image = image {
+              GeometryReader { geometry in
+                Image(image, scale: 1.0, orientation: .upMirrored, label: label)
+                  .resizable()
+                  .scaledToFill()
+                  .frame(
+                    width: geometry.size.width,
+                    height: geometry.size.height,
+                    alignment: .center)
+                  .clipped()
+              }
+            } else {
+              Color.orange
+            }
+        }
     }
 }
+

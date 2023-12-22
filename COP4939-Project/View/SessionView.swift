@@ -10,14 +10,21 @@ import SwiftUI
 
 struct SessionView : View {
     @EnvironmentObject var dataSenderViewModel: DataSenderViewModel
+    @StateObject private var model = CameraViewModel()
     
     @Binding var showSessionRecordingView: Bool
     @Binding var showSessionResultView: Bool
     
     var body: some View {
         VStack {
-            VideoRecordingView()
-                .padding()
+            if model.error != nil {
+                Text("\(model.error.debugDescription)")
+                    .foregroundStyle(.orange)
+            } else {
+                VideoRecordingView(image: model.frame)
+                    .edgesIgnoringSafeArea(.all)
+                    .padding()
+            }
             
             Button("Stop Water Skiing Recording") {
                 dataSenderViewModel.send(dataType: .WatchSessionEnd, data: Data())

@@ -13,6 +13,7 @@ class DataReceiverViewModel : ObservableObject {
     @Published var isSessionCompleted: Bool = false
     @Published var isSessionInProgress: Bool = false
     @Published var isSessionInfoReceived: Bool = false
+    @Published var isSessionDeliveryError: Bool = false
     
     @Published var session: WatchTrackingSession = WatchTrackingSession()
     
@@ -63,16 +64,25 @@ class DataReceiverViewModel : ObservableObject {
                     isSessionInfoReceived = true
                     isSessionCompleted = false
                     isSessionInProgress = false
+                    isSessionDeliveryError = false
                 case .WatchSessionStart:
                     isSessionInfoReceived = false
                     logger.log(message: "Session is in progress")
                     isSessionInProgress = true
                     isSessionCompleted = false
                     isSessionInfoReceived = false
+                    isSessionDeliveryError = false
                 case .WatchSessionEnd:
                     logger.log(message: "Session is completed")
                     isSessionInProgress = false
                     isSessionCompleted = true
+                    isSessionInfoReceived = false
+                    isSessionDeliveryError = false
+                case .WatchConnectivityError:
+                    logger.log(message: "Error in watch connectivity")
+                    isSessionDeliveryError = true
+                    isSessionInProgress = false
+                    isSessionCompleted = false
                     isSessionInfoReceived = false
                 default:
                     logger.error(message: "DataType is not recognized")

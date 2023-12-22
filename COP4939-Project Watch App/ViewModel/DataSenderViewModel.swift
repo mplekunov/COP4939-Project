@@ -48,6 +48,8 @@ class DataSenderViewModel : ObservableObject {
                 errorHandler:  { [weak self] error in
                     guard let self = self else { return }
                     
+                    send(dataType: .WatchConnectivityError, data: Data())
+                    
                     logger.log(message: "\(error)")
                 }
             )

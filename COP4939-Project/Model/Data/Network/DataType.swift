@@ -12,4 +12,5 @@ enum DataType : Encodable, Decodable {
     case WatchSessionEnd
     case WatchSession
     case DataDeliveryInformation
+    case WatchConnectivityError
 }
