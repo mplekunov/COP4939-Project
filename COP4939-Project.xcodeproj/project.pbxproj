@@ -1388,6 +1388,7 @@
 				INFOPLIST_FILE = "COP4939-Project/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "COP4939-Project";
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSFileProviderDomainUsageDescription = "";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "";
 				INFOPLIST_KEY_NSLocationUsageDescription = "";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
@@ -1426,6 +1427,7 @@
 				INFOPLIST_FILE = "COP4939-Project/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "COP4939-Project";
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSFileProviderDomainUsageDescription = "";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "";
 				INFOPLIST_KEY_NSLocationUsageDescription = "";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
