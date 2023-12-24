@@ -15,7 +15,7 @@ class DeviceMotionSensorViewModel : ObservableObject {
     private let logger: LoggerService
     
     @Published public private(set) var motion: MotionRecord?
-    @Published public private(set) var error: MotionManagerError?
+    @Published public private(set) var error: String?
     @Published public private(set) var isRecording: Bool?
     
     init(updateFrequency: Double) {
@@ -34,7 +34,7 @@ class DeviceMotionSensorViewModel : ObservableObject {
     private func set(error: MotionManagerError?) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            self.error = error
+            self.error = error?.description
         }
     }
     

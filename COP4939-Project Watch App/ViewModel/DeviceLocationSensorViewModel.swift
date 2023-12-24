@@ -14,7 +14,7 @@ class DeviceLocationSensorViewModel : ObservableObject {
     private let logger: LoggerService
     
     @Published public private(set) var location: LocationRecord?
-    @Published public private(set) var error: LocationManagerError?
+    @Published public private(set) var error: String?
     @Published public private(set) var isRecording: Bool?
     
     init() {
@@ -22,6 +22,11 @@ class DeviceLocationSensorViewModel : ObservableObject {
         
         locationManager.$error
             .receive(on: DispatchQueue.main)
+            .compactMap { error in
+                guard let error = error else { return nil }
+                
+                return error.description
+            }
             .assign(to: &$error)
         
         locationManager.$location

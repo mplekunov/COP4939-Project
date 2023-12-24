@@ -41,7 +41,7 @@ struct SessionRecordingView : View {
                     alert = AlertInfo(
                         id: .DataSender,
                         title: "Watch Connectivity Error",
-                        message: "\(error?.description ?? "Something went wrong during sending request to the watch.")"
+                        message: "\(error ?? "Something went wrong during sending request to the watch.")"
                     )
                     
                     isSendingData = false

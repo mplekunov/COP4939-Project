@@ -19,7 +19,6 @@ class CameraManager: ObservableObject {
     private let sessionQueue = DispatchQueue(label:"com.CameraManager")
     
     private let videoOutput = AVCaptureVideoDataOutput()
-    
     private var status = Status.Unconfigured
     
     enum Status {
@@ -41,6 +40,7 @@ class CameraManager: ObservableObject {
         sessionQueue.async { [weak self] in
             guard let self = self else { return }
             configureCaptureSession()
+            configureCaptureMode()
             session.startRunning()
             
             if error == nil && status == .Configured {
@@ -110,33 +110,44 @@ class CameraManager: ObservableObject {
         
         session.beginConfiguration()
         
-        defer {
-            session.commitConfiguration()
-        }
-        
         do {
             try addDevice(AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back))
             try addDevice(AVCaptureDevice.default(for: .audio))
         } catch {
             set(error: .CreateCaptureInput(error))
             status = .Failed
+            session.commitConfiguration()
             return
         }
         
+        session.commitConfiguration()
+    }
+    
+    private func configureCaptureMode() {
         if session.canAddOutput(videoOutput) {
+            session.beginConfiguration()
+            
             session.addOutput(videoOutput)
+            session.sessionPreset = .high
             
             videoOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA]
             
-            let videoConnection = videoOutput.connection(with: .video)
-            videoConnection?.videoOrientation = .portrait
+            if let connection = videoOutput.connection(with: .video) {
+                if connection.isVideoStabilizationSupported {
+                    connection.preferredVideoStabilizationMode = .auto
+                }
+                
+                connection.videoOrientation = .portrait
+            }
         } else {
             set(error: .CannotAddOutput)
             status = .Failed
+            session.commitConfiguration()
             return
         }
         
         status = .Configured
+        session.commitConfiguration()
     }
     
     private func addDevice(_ device: AVCaptureDevice?) throws {

@@ -14,7 +14,7 @@ class SessionViewModel : ObservableObject {
     private var converter: JSONConverter = JSONConverter()
     private let watchConnectivityManager: WatchConnectivityManager = WatchConnectivityManager.instance
     
-    @Published public private(set) var error: WatchConnectivityError?
+    @Published public private(set) var error: String?
     @Published public private(set) var session: WatchTrackingSession?
     
     @Published public private(set) var isEnded = false
@@ -26,6 +26,11 @@ class SessionViewModel : ObservableObject {
 
         watchConnectivityManager.$error
             .receive(on: DispatchQueue.main)
+            .compactMap { error in
+                guard let error = error else { return nil }
+                
+                return error.description
+            }
             .assign(to: &$error)
         
         watchConnectivityManager.$message

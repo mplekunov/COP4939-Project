@@ -14,8 +14,15 @@ class FrameManager: NSObject, ObservableObject {
     static let instance = FrameManager()
     
     @Published public private(set) var current: CVPixelBuffer?
-    @Published public private(set) var error: CameraError?
+    @Published public private(set) var error: String?
     @Published public private(set) var isRecording: Bool?
+    @Published public private(set) var recordedFile: URL?
+    
+    private var outputFileURL: URL?
+    
+    private var assetWriter: AVAssetWriter?
+    private var assetWriterInput: AVAssetWriterInput?
+    private var pixelBufferAdaptor: AVAssetWriterInputPixelBufferAdaptor?
     
     private var cameraManagerErrorSubscriber: AnyCancellable?
     private var cameraManagerIsRecordingSubscriber: AnyCancellable?
@@ -35,7 +42,7 @@ class FrameManager: NSObject, ObservableObject {
         
         cameraManagerErrorSubscriber = CameraManager.instance.$error.sink { error in
             DispatchQueue.main.async {
-                self.error = error
+                self.error = error?.description
             }
         }
         
@@ -47,11 +54,62 @@ class FrameManager: NSObject, ObservableObject {
     }
     
     func startRecording() {
+        setupAssetWriter()
+        recordedFile = nil
+        
         CameraManager.instance.startRecording()
     }
     
     func stopRecording() {
         CameraManager.instance.stopRecording()
+        
+        recordedFile = outputFileURL
+    }
+    
+    private func setupAssetWriter() {
+        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+        
+        guard let documentsDirectory = documentsDirectory else {
+            error = AssetWriterError.DirectoryIsUndefined.description
+            return
+        }
+        
+        let filename = "\(UUID().uuidString).mov"
+        outputFileURL = documentsDirectory.appendingPathComponent(filename)
+        
+        do {
+            assetWriter = try AVAssetWriter(outputURL: outputFileURL!, fileType: .mov)
+            
+            guard let assetWriter = assetWriter else {
+                error = AssetWriterError.AssetWriterIsUndefined.description
+                return
+            }
+            
+            let videoSettings = [ AVVideoCodecKey: AVVideoCodecType.h264 ]
+            
+            assetWriterInput = AVAssetWriterInput(mediaType: .video, outputSettings: videoSettings)
+            
+            guard let assetWriterInput = assetWriterInput else { 
+                error = AssetWriterError.AssetWriterInputIsUndefined.description
+                return
+            }
+            
+            assetWriterInput.expectsMediaDataInRealTime = true
+            
+            if assetWriter.canAdd(assetWriterInput) {
+                assetWriter.add(assetWriterInput)
+            } else {
+                error = AssetWriterError.CannotAddInput.description
+                return
+            }
+            
+            pixelBufferAdaptor = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: assetWriterInput, sourcePixelBufferAttributes: nil)
+            
+            assetWriter.startWriting()
+            assetWriter.startSession(atSourceTime: CMTime.zero)
+        } catch {
+            self.error = AssetWriterError.CreateAssetWriter(error).description
+        }
     }
 }
 
@@ -61,9 +119,32 @@ extension FrameManager: AVCaptureVideoDataOutputSampleBufferDelegate {
         didOutput sampleBuffer: CMSampleBuffer,
         from connection: AVCaptureConnection
     ) {
-        if let buffer = sampleBuffer.imageBuffer {
+        guard let assetWriterInput = assetWriterInput else { 
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
+                
+                error = AssetWriterError.AssetWriterInputIsUndefined.description
+            }
+            
+            return
+        }
+        guard let pixelBufferAdaptor = pixelBufferAdaptor else {
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                
+                error = AssetWriterError.PixelBufferAdaptorIsUndefined.description
+            }
+            
+            return
+        }
+        
+        if let buffer = sampleBuffer.imageBuffer,
+           assetWriterInput.isReadyForMoreMediaData,
+           pixelBufferAdaptor.assetWriterInput.isReadyForMoreMediaData {
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                
+                pixelBufferAdaptor.append(buffer, withPresentationTime: CMSampleBufferGetPresentationTimeStamp(sampleBuffer))
                 current = buffer
             }
         }

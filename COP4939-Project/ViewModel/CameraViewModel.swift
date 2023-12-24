@@ -12,7 +12,7 @@ import Combine
 
 class CameraViewModel: ObservableObject {
     @Published public private(set) var frame: CGImage?
-    @Published public private(set) var error: CameraError?
+    @Published public private(set) var error: String?
     @Published public private(set) var isRecording: Bool?
     
     private let frameManager = FrameManager.instance

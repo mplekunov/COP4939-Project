@@ -55,7 +55,7 @@ struct SessionResultView : View {
                 alert = AlertInfo(
                     id: .DataReceiver,
                     title: "",
-                    message: "\(error?.description ?? "Something went wrong during receiving request from the watch.")"
+                    message: "\(error ?? "Something went wrong during receiving request from the watch.")"
                 )
             }
         })

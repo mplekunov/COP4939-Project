@@ -13,7 +13,8 @@ struct StatisticsView: View {
     @State private var elapsedTime: TimeInterval = 0
     
     private var formattedElapsedTime: String {
-        guard let startTime = startTime else { return "00:00:00" }
+        guard let _ = startTime else { return "00:00:00" }
+        
         let elapsedTimeInSeconds = Int(elapsedTime)
         let seconds = elapsedTimeInSeconds % 60
         let minutes = (elapsedTimeInSeconds / 60) % 60

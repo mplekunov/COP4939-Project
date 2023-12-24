@@ -14,7 +14,7 @@ class SessionViewModel : ObservableObject {
     private var converter: JSONConverter = JSONConverter()
     private let watchConnectivityManager: WatchConnectivityManager = WatchConnectivityManager.instance
     
-    @Published public private(set) var error: WatchConnectivityError?
+    @Published public private(set) var error: String?
     
     private var messageSubscriber: AnyCancellable?
     
@@ -27,6 +27,11 @@ class SessionViewModel : ObservableObject {
         
         watchConnectivityManager.$error
             .receive(on: DispatchQueue.main)
+            .compactMap { error in
+                guard let error = error else { return nil }
+                
+                return error.description
+            }
             .assign(to: &$error)
         
         messageSubscriber = watchConnectivityManager.$message.sink { message in
@@ -35,21 +40,17 @@ class SessionViewModel : ObservableObject {
             do {
                 let dataPacket = try self.converter.decode(DataPacket.self, from: message)
                 
+                self.clear()
+                
                 switch dataPacket.dataType {
                 case .WatchSession:
                     self.isReceived = true
-                    self.isStarted = false
-                    self.isEnded = false
                 case .WatchSessionStart:
                     self.send(dataPacket: DataPacket(dataType: .WatchSessionStart, id: UUID(), data: Data()))
                     self.isStarted = true
-                    self.isReceived = false
-                    self.isEnded = false
                 case .WatchSessionEnd:
                     self.send(dataPacket: DataPacket(dataType: .WatchSessionEnd, id: UUID(), data: Data()))
                     self.isEnded = true
-                    self.isStarted = false
-                    self.isReceived = false
                 default:
                     self.logger.error(message: "DataType is not recognized")
                 }
@@ -81,5 +82,12 @@ class SessionViewModel : ObservableObject {
         } catch {
             logger.error(message: "\(error)")
         }
+    }
+    
+    private func clear() {
+        error = nil
+        self.isEnded = false
+        self.isStarted = false
+        self.isReceived = false
     }
 }

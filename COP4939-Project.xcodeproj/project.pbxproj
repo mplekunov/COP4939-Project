@@ -13,6 +13,7 @@
 		6D4C4FFA2B28C3AF00B5874F /* Heap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4C4FF92B28C3AF00B5874F /* Heap.swift */; };
 		6D4C4FFE2B2A1B4600B5874F /* WaterSkiingCourse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4C4FFD2B2A1B4600B5874F /* WaterSkiingCourse.swift */; };
 		6D5283012B387927007F71EE /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D5283002B387927007F71EE /* CoreLocation.framework */; };
+		6D5283032B388A1F007F71EE /* AssetWriterError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5283022B388A1F007F71EE /* AssetWriterError.swift */; };
 		6D52DF672B2C9CBE00E96713 /* Buoy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF662B2C9CBE00E96713 /* Buoy.swift */; };
 		6D52DF692B2CA79B00E96713 /* WakeCross.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF682B2CA79B00E96713 /* WakeCross.swift */; };
 		6D52DF6B2B2CA7DF00E96713 /* Gate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF6A2B2CA7DF00E96713 /* Gate.swift */; };
@@ -163,6 +164,7 @@
 		6D4C4FF92B28C3AF00B5874F /* Heap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Heap.swift; sourceTree = "<group>"; };
 		6D4C4FFD2B2A1B4600B5874F /* WaterSkiingCourse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterSkiingCourse.swift; sourceTree = "<group>"; };
 		6D5283002B387927007F71EE /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.0.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
+		6D5283022B388A1F007F71EE /* AssetWriterError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetWriterError.swift; sourceTree = "<group>"; };
 		6D52DF662B2C9CBE00E96713 /* Buoy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buoy.swift; sourceTree = "<group>"; };
 		6D52DF682B2CA79B00E96713 /* WakeCross.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WakeCross.swift; sourceTree = "<group>"; };
 		6D52DF6A2B2CA7DF00E96713 /* Gate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gate.swift; sourceTree = "<group>"; };
@@ -664,6 +666,7 @@
 				6DEC854C2B159566006746F5 /* WatchConnectivityError.swift */,
 				6DE846F72B3528A100CF5E03 /* CameraError.swift */,
 				6DE846F92B3539B100CF5E03 /* LocationManagerError.swift */,
+				6D5283022B388A1F007F71EE /* AssetWriterError.swift */,
 			);
 			path = CustomError;
 			sourceTree = "<group>";
@@ -1031,6 +1034,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6D4C4FFA2B28C3AF00B5874F /* Heap.swift in Sources */,
+				6D5283032B388A1F007F71EE /* AssetWriterError.swift in Sources */,
 				6DEC85722B159566006746F5 /* DataType.swift in Sources */,
 				6D52DF922B3512F600E96713 /* CameraManager.swift in Sources */,
 				6D52DF862B33570000E96713 /* VideoRecordingView.swift in Sources */,
