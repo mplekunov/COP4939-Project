@@ -13,9 +13,9 @@ class FrameManager: NSObject, ObservableObject {
     private let logger: LoggerService
     static let instance = FrameManager()
     
-    @Published var current: CVPixelBuffer?
-    @Published var error: CameraError?
-    @Published var isRecording: Bool?
+    @Published public private(set) var current: CVPixelBuffer?
+    @Published public private(set) var error: CameraError?
+    @Published public private(set) var isRecording: Bool?
     
     private var cameraManagerErrorSubscriber: AnyCancellable?
     private var cameraManagerIsRecordingSubscriber: AnyCancellable?

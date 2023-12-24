@@ -11,8 +11,8 @@ import AVFoundation
 class CameraManager: ObservableObject {
     private let logger: LoggerService
     
-    @Published var error: CameraError?
-    @Published var isRecording = false
+    @Published public private(set) var error: CameraError?
+    @Published public private(set) var isRecording = false
     
     private var session = AVCaptureSession()
     
