@@ -25,6 +25,12 @@ struct ContentView: View {
                 SessionRecordingView()
                     .environmentObject(cameraViewModel)
                     .environmentObject(sessionViewModel)
+                    .onAppear(perform: {
+                        cameraViewModel.startRecording()
+                    })
+                    .onDisappear(perform: {
+                        cameraViewModel.stopRecording()
+                    })
             } else if showCourseSetupView {
                 WaterSkiingCourseSetupView(showCourseSetupView: $showCourseSetupView)
                     .environmentObject(waterSkiingCourseViewModel)

@@ -714,12 +714,12 @@
 		6DEC85612B159566006746F5 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				6DEC85622B159566006746F5 /* StatisticsView.swift */,
 				6DEC85632B159566006746F5 /* ContentView.swift */,
+				6D52DF832B33543500E96713 /* MainView.swift */,
+				6DEC85622B159566006746F5 /* StatisticsView.swift */,
 				6D52DF6C2B2CAD5B00E96713 /* WaterSkiingCourseSetupView.swift */,
 				6D52DF722B30D81200E96713 /* WaterSkiingCoursePointSetupView.swift */,
 				6D52DF812B3352DC00E96713 /* SessionRecordingView.swift */,
-				6D52DF832B33543500E96713 /* MainView.swift */,
 				6D52DF852B33570000E96713 /* VideoRecordingView.swift */,
 				6D52DF872B3358D300E96713 /* SessionResultView.swift */,
 				6DE846FB2B35E59E00CF5E03 /* ActivityIndicatorView.swift */,
