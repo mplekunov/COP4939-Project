@@ -12,6 +12,7 @@
 		6D4C4FF82B28B73B00B5874F /* WaterSkier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4C4FF72B28B73B00B5874F /* WaterSkier.swift */; };
 		6D4C4FFA2B28C3AF00B5874F /* Heap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4C4FF92B28C3AF00B5874F /* Heap.swift */; };
 		6D4C4FFE2B2A1B4600B5874F /* WaterSkiingCourse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4C4FFD2B2A1B4600B5874F /* WaterSkiingCourse.swift */; };
+		6D5283012B387927007F71EE /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D5283002B387927007F71EE /* CoreLocation.framework */; };
 		6D52DF672B2C9CBE00E96713 /* Buoy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF662B2C9CBE00E96713 /* Buoy.swift */; };
 		6D52DF692B2CA79B00E96713 /* WakeCross.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF682B2CA79B00E96713 /* WakeCross.swift */; };
 		6D52DF6B2B2CA7DF00E96713 /* Gate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF6A2B2CA7DF00E96713 /* Gate.swift */; };
@@ -161,6 +162,7 @@
 		6D4C4FF72B28B73B00B5874F /* WaterSkier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterSkier.swift; sourceTree = "<group>"; };
 		6D4C4FF92B28C3AF00B5874F /* Heap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Heap.swift; sourceTree = "<group>"; };
 		6D4C4FFD2B2A1B4600B5874F /* WaterSkiingCourse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterSkiingCourse.swift; sourceTree = "<group>"; };
+		6D5283002B387927007F71EE /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.0.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
 		6D52DF662B2C9CBE00E96713 /* Buoy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buoy.swift; sourceTree = "<group>"; };
 		6D52DF682B2CA79B00E96713 /* WakeCross.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WakeCross.swift; sourceTree = "<group>"; };
 		6D52DF6A2B2CA7DF00E96713 /* Gate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gate.swift; sourceTree = "<group>"; };
@@ -262,6 +264,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D5283012B387927007F71EE /* CoreLocation.framework in Frameworks */,
 				6DEC857C2B1616B8006746F5 /* WatchConnectivity.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -646,6 +649,7 @@
 		6DEC85442B159492006746F5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6D5283002B387927007F71EE /* CoreLocation.framework */,
 				6DEC85492B15949E006746F5 /* WatchConnectivity.framework */,
 				6DEC857B2B1616B8006746F5 /* WatchConnectivity.framework */,
 				6DEC85472B159499006746F5 /* CoreLocation.framework */,

@@ -14,7 +14,7 @@ class CameraManager: ObservableObject {
     @Published public private(set) var error: CameraError?
     @Published public private(set) var isRecording = false
     
-    private var session = AVCaptureSession()
+    private let session = AVCaptureSession()
     
     private let sessionQueue = DispatchQueue(label:"com.CameraManager")
     
@@ -36,8 +36,6 @@ class CameraManager: ObservableObject {
     }
     
     func startRecording() {
-        session = AVCaptureSession()
-        
         configure()
         
         sessionQueue.async { [weak self] in
@@ -53,7 +51,6 @@ class CameraManager: ObservableObject {
         }
     }
     
-    // Big question whether this should be async or sync
     func stopRecording() {
         sessionQueue.async { [weak self] in
             guard let self = self else { return }
@@ -117,24 +114,9 @@ class CameraManager: ObservableObject {
             session.commitConfiguration()
         }
         
-        let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
-        
-        guard let camera = device else {
-            set(error: .CameraUnavailable)
-            status = .Failed
-            return
-        }
-        
         do {
-            let cameraInput = try AVCaptureDeviceInput(device: camera)
-            
-            if session.canAddInput(cameraInput) {
-                session.addInput(cameraInput)
-            } else {
-                set(error: .CannotAddInput)
-                status = .Failed
-                return
-            }
+            try addDevice(AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back))
+            try addDevice(AVCaptureDevice.default(for: .audio))
         } catch {
             set(error: .CreateCaptureInput(error))
             status = .Failed
@@ -155,6 +137,24 @@ class CameraManager: ObservableObject {
         }
         
         status = .Configured
+    }
+    
+    private func addDevice(_ device: AVCaptureDevice?) throws {
+        guard let device = device else {
+            set(error: .CameraUnavailable)
+            status = .Failed
+            return
+        }
+        
+        let input = try AVCaptureDeviceInput(device: device)
+        
+        if session.canAddInput(input) {
+            session.addInput(input)
+        } else {
+            set(error: .CannotAddInput)
+            status = .Failed
+            return
+        }
     }
     
     func set(
