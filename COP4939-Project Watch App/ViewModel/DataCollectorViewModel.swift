@@ -11,18 +11,19 @@ import Combine
 class DataCollectorViewModel : ObservableObject {
     private var deviceMotionSensorModel: DeviceMotionSensorViewModel
     private var deviceLocationSensorModel: DeviceLocationSensorViewModel
-
-    private var collectedDataSubscription: AnyCancellable?
-    private var isLocationAuthorizedSubscription: AnyCancellable?
     
     private let logger: LoggerService
     
-    @Published var locationRecords: Array<LocationRecord> = Array()
-    @Published var motionRecords: Array<MotionRecord> = Array()
-    @Published var trackingRecords: Array<TrackingRecord> = Array()
+    @Published public private(set) var trackingRecords: Array<TrackingRecord> = Array()
     
-    @Published var isLocationAuthorized: Bool = false
-    @Published var isRecording: Bool = false
+    private var combinedDataSubscription: AnyCancellable?
+    
+    @Published var locationRecord: LocationRecord?
+    @Published var motionRecord: MotionRecord?
+    
+    @Published var error: String?
+    
+    @Published var isRecording = false
     
     init(
         deviceMotionSensorModel: DeviceMotionSensorViewModel,
@@ -32,59 +33,82 @@ class DataCollectorViewModel : ObservableObject {
         
         self.deviceMotionSensorModel = deviceMotionSensorModel
         self.deviceLocationSensorModel = deviceLocationSensorModel
-        
-        isLocationAuthorizedSubscription = deviceLocationSensorModel.$isAuthorized.sink { [weak self] _ in
-            guard let self = self else { return }
-            
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
+    
+        deviceMotionSensorModel.$isRecording.combineLatest(deviceLocationSensorModel.$isRecording)
+            .receive(on: DispatchQueue.main)
+            .compactMap { recordingTuple in
+                guard let motionIsRecording = recordingTuple.0 else { return nil }
+                guard let locationIsRecording = recordingTuple.1 else { return nil }
                 
-                isLocationAuthorized = deviceLocationSensorModel.isAuthorized
+                return motionIsRecording && locationIsRecording
             }
-        }
+            .assign(to: &$isRecording)
         
-        collectedDataSubscription = Timer.publish(every: 0.1, on: .main, in: .common)
-            .autoconnect()
-            .map { _ in Date() }.sink { [weak self] _ in
-                guard let self = self else { return }
+        deviceLocationSensorModel.$error
+            .receive(on: DispatchQueue.main)
+            .compactMap { error in
+                guard let error = error else { return nil }
                 
-                DispatchQueue.main.async { [weak self] in
-                    guard let self = self else { return }
-                    
-                    if let last = deviceLocationSensorModel.data.last {
-                        locationRecords.append(last)
-                    }
-                    
-                    if let last = deviceMotionSensorModel.data.last {
-                        motionRecords.append(last)
-                    }
-                    
-                    if let location = deviceLocationSensorModel.data.last,
-                       let motion = deviceMotionSensorModel.data.last {
-                        
-                        trackingRecords.append(TrackingRecord(location: location, motion: motion, timeStamp: Date().timeIntervalSince1970))
-                    }
-                }
+                return error.description
+            }
+            .assign(to: &$error)
+        
+        deviceMotionSensorModel.$error
+            .receive(on: DispatchQueue.main)
+            .compactMap { error in
+                guard let error = error else { return nil }
+                
+                return error.description
+            }
+            .assign(to: &$error)
+        
+        Timer.publish(every: 0.1, on: .main, in: .common)
+            .autoconnect()
+            .map { _ in Date() }
+            .compactMap { [weak self] _ in
+                guard let self = self else { return nil }
+                guard let location = deviceLocationSensorModel.location else { return nil }
+                
+                return location
+            }
+            .assign(to: &$locationRecord)
+        
+        Timer.publish(every: 0.1, on: .main, in: .common)
+            .autoconnect()
+            .map { _ in Date() }
+            .compactMap { [weak self] _ in
+                guard let self = self else { return nil }
+                guard let motion = deviceMotionSensorModel.motion else { return nil }
+                
+                return motion
+            }
+            .assign(to: &$motionRecord)
+        
+        combinedDataSubscription = Timer.publish(every: 0.1, on: .main, in: .common)
+            .autoconnect()
+            .map { _ in Date() }
+            .sink { [weak self] _ in
+                guard let self = self else { return }
+                guard let location = deviceLocationSensorModel.location else { return }
+                guard let motion = deviceMotionSensorModel.motion else { return }
+                
+                trackingRecords.append(TrackingRecord(location: location, motion: motion, timeStamp: Date().timeIntervalSince1970))
             }
     }
     
     func startDataCollection() {
         deviceLocationSensorModel.startRecording()
         deviceMotionSensorModel.startRecording()
-        
-        isRecording = true
     }
     
     func stopDataCollection() {
         deviceMotionSensorModel.stopRecording()
         deviceLocationSensorModel.stopRecording()
-        
-        isRecording = false
     }
     
-    func clearData() {
-        locationRecords.removeAll()
-        motionRecords.removeAll()
+    func clear() {
         trackingRecords.removeAll()
+        locationRecord = nil
+        motionRecord = nil
     }
 }

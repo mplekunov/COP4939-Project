@@ -10,17 +10,15 @@ import CoreMotion
 import Combine
 
 struct ContentView: View {
-    @StateObject var dataSenderViewModel: DataSenderViewModel = DataSenderViewModel()
-    @StateObject var dataReceiverViewModel: DataReceiverViewModel = DataReceiverViewModel()
+    @StateObject var sessionViewModel = SessionViewModel()
     
     var body: some View {
         ZStack {
             Color.black.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
             
-            if dataReceiverViewModel.isSessionInProgress {
+            if sessionViewModel.isStarted {
                 SessionRecordingView()
-                    .environmentObject(dataReceiverViewModel)
-                    .environmentObject(dataSenderViewModel)
+                    .environmentObject(sessionViewModel)
             } else {
                 Text("Waiting for session to start recording")
                     .foregroundStyle(.orange)

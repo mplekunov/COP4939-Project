@@ -10,23 +10,11 @@ import SwiftUI
 import Combine
 
 struct SessionRecordingView: View {
-    @EnvironmentObject var dataReceiverViewModel: DataReceiverViewModel
-    @EnvironmentObject var dataSenderViewModel: DataSenderViewModel
-
+    @EnvironmentObject var sessionViewModel: SessionViewModel
+    
     @StateObject private var dataCollectorViewModel: DataCollectorViewModel = DataCollectorViewModel(
         deviceMotionSensorModel: DeviceMotionSensorViewModel(updateFrequency: 0.05),
         deviceLocationSensorModel: DeviceLocationSensorViewModel())
-    
-    private var isSessionEnded: AnyPublisher<Bool, Never> {
-        Publishers.CombineLatest(
-            dataReceiverViewModel.$isDeviceConnected,
-            dataReceiverViewModel.$isSessionCompleted
-        )
-        .map { $0.0 && $0.1}
-        .eraseToAnyPublisher()
-    }
-    
-    @State private var isSessionInfoSend: Bool = false
     
     var body: some View {
         VStack {
@@ -37,21 +25,13 @@ struct SessionRecordingView: View {
                         dataCollectorViewModel.startDataCollection()
                     }
                 })
-                .onReceive(isSessionEnded, perform: { isEnded in
-                    if isEnded && !isSessionInfoSend {
-                        sendSessionToReceiver()
-                        isSessionInfoSend.toggle()
+                .onReceive(sessionViewModel.$isEnded, perform: { isEnded in
+                    if isEnded {
+                        dataCollectorViewModel.stopDataCollection()
+                        sessionViewModel.sendSession(session: WatchTrackingSession(uuid: UUID(), data: dataCollectorViewModel.trackingRecords))
+                        dataCollectorViewModel.clear()
                     }
                 })
         }
-    }
-    
-    private func sendSessionToReceiver() {
-        dataCollectorViewModel.stopDataCollection()
-        
-        let session = WatchTrackingSession(uuid: UUID(), data: dataCollectorViewModel.trackingRecords)
-        dataSenderViewModel.send(dataType: .WatchSession, data: session)
-        
-        dataCollectorViewModel.clearData()
     }
 }

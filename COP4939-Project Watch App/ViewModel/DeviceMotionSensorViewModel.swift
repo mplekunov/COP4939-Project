@@ -14,7 +14,9 @@ class DeviceMotionSensorViewModel : ObservableObject {
     private let updateFrequency: Double
     private let logger: LoggerService
     
-    @Published var data: Array<MotionRecord> = Array()
+    @Published public private(set) var motion: MotionRecord?
+    @Published public private(set) var error: MotionManagerError?
+    @Published public private(set) var isRecording: Bool?
     
     init(updateFrequency: Double) {
         logger = LoggerService(logSource: String(describing: type(of: self)))
@@ -25,6 +27,21 @@ class DeviceMotionSensorViewModel : ObservableObject {
         
         operationQueue.maxConcurrentOperationCount = 1
         operationQueue.qualityOfService = .userInteractive
+        
+        checkRequirements()
+    }
+    
+    private func set(error: MotionManagerError?) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.error = error
+        }
+    }
+    
+    private func checkRequirements() {
+        if motionManager.isDeviceMotionAvailable {
+            set(error: .DeviceMotionNotAvailable)
+        }
     }
     
     func startRecording() {
@@ -35,7 +52,7 @@ class DeviceMotionSensorViewModel : ObservableObject {
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }
                     
-                    data.append(MotionRecord(
+                    motion = MotionRecord(
                         attitude: Attitude(
                             roll: Measurement(value: Double.random(in: -1...1), unit: .radians),
                             yaw: Measurement(value: Double.random(in: -1...1), unit: .radians),
@@ -51,7 +68,6 @@ class DeviceMotionSensorViewModel : ObservableObject {
                             y: Measurement(value: Double.random(in: -1...1), unit: .gravity),
                             z: Measurement(value: Double.random(in: -1...1), unit: .gravity)
                         ))
-                    )
                 }
                 
                 Thread.sleep(forTimeInterval: self.updateFrequency)
@@ -70,7 +86,7 @@ class DeviceMotionSensorViewModel : ObservableObject {
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }
                     
-                    data.append(MotionRecord(
+                     motion = MotionRecord(
                         attitude: Attitude(
                             roll: Measurement(value: attitude.roll, unit: .radians),
                             yaw: Measurement(value: attitude.yaw, unit: .radians),
@@ -86,7 +102,6 @@ class DeviceMotionSensorViewModel : ObservableObject {
                             y: Measurement(value: gForce.y, unit: .gravity),
                             z: Measurement(value: gForce.z, unit: .gravity)
                         ))
-                    )
                 }
             }
             
@@ -94,10 +109,13 @@ class DeviceMotionSensorViewModel : ObservableObject {
                 logger.error(message: "\(error)")
             }
         }
+        
+        isRecording = true
     }
     
     func stopRecording() {
         operationQueue.cancelAllOperations()
         motionManager.stopDeviceMotionUpdates()
+        isRecording = false
     }
 }

@@ -9,10 +9,10 @@ import SwiftUI
 import Charts
 
 struct StatisticsView: View {
-    @EnvironmentObject var dataReceiverViewModel: DataReceiverViewModel
+    @EnvironmentObject var sessionViewModel: SessionViewModel
     
     var body: some View {
-        if let session = dataReceiverViewModel.session {
+        if let session = sessionViewModel.session {
         List {
                 Section("Data Points Received") {
                     Text("\(session.data.count)")

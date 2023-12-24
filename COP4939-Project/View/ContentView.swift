@@ -9,9 +9,8 @@ import SwiftUI
 import Combine
 
 struct ContentView: View {
-    @StateObject var dataReceiverViewModel: DataReceiverViewModel = DataReceiverViewModel()
-    @StateObject var waterSkiingCourseViewModel: WaterSkiingCourseViewModel = WaterSkiingCourseViewModel()
-    @StateObject var dataSenderViewModel: DataSenderViewModel = DataSenderViewModel()
+    @StateObject var waterSkiingCourseViewModel = WaterSkiingCourseViewModel()
+    @StateObject var sessionViewModel = SessionViewModel()
     @StateObject var cameraViewModel = CameraViewModel()
     
     @State private var showCourseSetupView: Bool = false
@@ -22,21 +21,21 @@ struct ContentView: View {
         ZStack {
             Color.black.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
             
-            if showSessionRecordingView {
-                SessionRecordingView(showSessionRecordingView: $showSessionRecordingView, showSessionResultView: $showSessionResultView)
+            if sessionViewModel.isStarted {
+                SessionRecordingView()
                     .environmentObject(cameraViewModel)
-                    .environmentObject(dataSenderViewModel)
+                    .environmentObject(sessionViewModel)
             } else if showCourseSetupView {
                 WaterSkiingCourseSetupView(showCourseSetupView: $showCourseSetupView)
                     .environmentObject(waterSkiingCourseViewModel)
-            } else if showSessionResultView {
-                SessionResultView(showSessionResultView: $showSessionResultView)
-                    .environmentObject(dataReceiverViewModel)
+            } else if sessionViewModel.isReceived {
+                SessionResultView()
+                    .environmentObject(sessionViewModel)
             } else {
-                MainView(showCourseSetupView: $showCourseSetupView, showSessionRecordingView: $showSessionRecordingView)
+                MainView(showCourseSetupView: $showCourseSetupView)
                     .environmentObject(cameraViewModel)
                     .environmentObject(waterSkiingCourseViewModel)
-                    .environmentObject(dataSenderViewModel)
+                    .environmentObject(sessionViewModel)
             }
         }
     }

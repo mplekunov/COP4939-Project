@@ -9,12 +9,8 @@ import Foundation
 import SwiftUI
 
 struct SessionRecordingView : View {
-    @EnvironmentObject var locationSensorViewModel: DeviceLocationSensorViewModel
-    @EnvironmentObject var dataSenderViewModel: DataSenderViewModel
     @EnvironmentObject var cameraViewModel: CameraViewModel
-    
-    @Binding var showSessionRecordingView: Bool
-    @Binding var showSessionResultView: Bool
+    @EnvironmentObject var sessionViewModel: SessionViewModel
     
     @State private var isSendingData = false
     
@@ -27,7 +23,7 @@ struct SessionRecordingView : View {
                 .padding()
             
             Button(action: {
-                dataSenderViewModel.send(dataType: .WatchSessionEnd, data: Data())
+                sessionViewModel.endSession()
                 isSendingData = true
             }, label: {
                 if isSendingData {
@@ -38,7 +34,7 @@ struct SessionRecordingView : View {
                     Text("Stop WaterSkiing Recording")
                 }
             })
-            .onReceive(dataSenderViewModel.$error, perform: { error in
+            .onReceive(sessionViewModel.$error, perform: { error in
                 guard isSendingData else { return }
                 
                 if error != nil {
@@ -49,9 +45,6 @@ struct SessionRecordingView : View {
                     )
                     
                     isSendingData = false
-                } else {
-                    showSessionRecordingView = false
-                    showSessionResultView = true
                 }
             })
             .frame(width: 300)

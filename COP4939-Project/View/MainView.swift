@@ -14,11 +14,10 @@ struct MainView: View {
     @State private var alert: AlertInfo?
     
     @EnvironmentObject var waterSkiingCourseViewModel: WaterSkiingCourseViewModel
-    @EnvironmentObject var dataSenderViewModel: DataSenderViewModel
+    @EnvironmentObject var sessionViewModel: SessionViewModel
     @EnvironmentObject var cameraViewModel: CameraViewModel
     
     @Binding var showCourseSetupView: Bool
-    @Binding var showSessionRecordingView: Bool
     
     @State private var isSendingData = false
     
@@ -49,7 +48,7 @@ struct MainView: View {
                 guard let isRecording = isRecording else { return }
                 
                 if isSendingData && isRecording {
-                    dataSenderViewModel.send(dataType: .WatchSessionStart, data: Data())
+                    sessionViewModel.startSession()
                 }
             })
             .onReceive(cameraViewModel.$error, perform: { error in
@@ -65,7 +64,7 @@ struct MainView: View {
                     isSendingData = false
                 }
             })
-            .onReceive(dataSenderViewModel.$error, perform: { error in
+            .onReceive(sessionViewModel.$error, perform: { error in
                 guard isSendingData else { return }
                 
                 if error != nil {
@@ -76,8 +75,6 @@ struct MainView: View {
                     )
                     
                     isSendingData = false
-                } else {
-                    showSessionRecordingView = true
                 }
             })
             .frame(width: 300)

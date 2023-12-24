@@ -9,27 +9,24 @@ import Foundation
 import SwiftUI
 
 struct SessionResultView : View {
-    @EnvironmentObject var dataReceiverViewModel: DataReceiverViewModel
-    
-    @Binding var showSessionResultView: Bool
+    @EnvironmentObject var sessionViewModel: SessionViewModel
     
     @State var alert: AlertInfo?
     
     var body: some View {
         ZStack {
-            if dataReceiverViewModel.isSessionInfoReceived {
+            if sessionViewModel.isReceived {
                 VStack {
                     Text("Session Stats")
                         .foregroundStyle(.orange)
                         .padding()
                     
                     StatisticsView()
-                        .environmentObject(dataReceiverViewModel)
+                        .environmentObject(sessionViewModel)
                         .padding()
                     
                     Button("Close") {
-                        dataReceiverViewModel.setToDefault()
-                        showSessionResultView = false
+                        sessionViewModel.clear()
                     }
                     .frame(width: 300)
                     .padding()
@@ -51,7 +48,7 @@ struct SessionResultView : View {
                 }
             }
         }
-        .onReceive(dataReceiverViewModel.$error, perform: { error in
+        .onReceive(sessionViewModel.$error, perform: { error in
             guard error == nil else { return }
             
             if error != nil {
@@ -60,8 +57,6 @@ struct SessionResultView : View {
                     title: "",
                     message: "\(error?.description ?? "Something went wrong during receiving request from the watch.")"
                 )
-                
-                showSessionResultView = false
             }
         })
     }

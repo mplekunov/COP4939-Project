@@ -22,12 +22,10 @@
 		6D52DF772B30E79700E96713 /* CoursePointUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF762B30E79700E96713 /* CoursePointUI.swift */; };
 		6D52DF792B30E7D200E96713 /* LabelSideUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF782B30E7D200E96713 /* LabelSideUI.swift */; };
 		6D52DF7E2B31F84A00E96713 /* WaterSkiingCourseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF7D2B31F84A00E96713 /* WaterSkiingCourseViewModel.swift */; };
-		6D52DF802B3220A500E96713 /* DataSenderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF7F2B3220A500E96713 /* DataSenderViewModel.swift */; };
 		6D52DF822B3352DC00E96713 /* SessionRecordingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF812B3352DC00E96713 /* SessionRecordingView.swift */; };
 		6D52DF842B33543500E96713 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF832B33543500E96713 /* MainView.swift */; };
 		6D52DF862B33570000E96713 /* VideoRecordingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF852B33570000E96713 /* VideoRecordingView.swift */; };
 		6D52DF882B3358D300E96713 /* SessionResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF872B3358D300E96713 /* SessionResultView.swift */; };
-		6D52DF8A2B33625400E96713 /* DataReceiverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF892B33625400E96713 /* DataReceiverViewModel.swift */; };
 		6D52DF8C2B337C0000E96713 /* SessionRecordingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF8B2B337C0000E96713 /* SessionRecordingView.swift */; };
 		6D52DF8E2B33BBA400E96713 /* DeliveryInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF8D2B33BBA400E96713 /* DeliveryInformation.swift */; };
 		6D52DF922B3512F600E96713 /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52DF912B3512F600E96713 /* CameraManager.swift */; };
@@ -45,6 +43,11 @@
 		6DE846FA2B3539B100CF5E03 /* LocationManagerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE846F92B3539B100CF5E03 /* LocationManagerError.swift */; };
 		6DE846FC2B35E59E00CF5E03 /* ActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE846FB2B35E59E00CF5E03 /* ActivityIndicatorView.swift */; };
 		6DE846FE2B35EAEA00CF5E03 /* AlertInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE846FD2B35EAEA00CF5E03 /* AlertInfo.swift */; };
+		6DE847002B37507500CF5E03 /* SessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE846FF2B37507500CF5E03 /* SessionViewModel.swift */; };
+		6DE847022B37646700CF5E03 /* SessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE847012B37646700CF5E03 /* SessionViewModel.swift */; };
+		6DE847042B37652500CF5E03 /* WatchConnectivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE847032B37652500CF5E03 /* WatchConnectivityManager.swift */; };
+		6DE847062B37659F00CF5E03 /* LocationManagerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE847052B37659F00CF5E03 /* LocationManagerError.swift */; };
+		6DE847082B3783C300CF5E03 /* MotionManagerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE847072B3783C300CF5E03 /* MotionManagerError.swift */; };
 		6DEC84A02B1592DB006746F5 /* COP4939_ProjectApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC849F2B1592DB006746F5 /* COP4939_ProjectApp.swift */; };
 		6DEC84A42B1592DC006746F5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6DEC84A32B1592DC006746F5 /* Assets.xcassets */; };
 		6DEC84A72B1592DC006746F5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6DEC84A62B1592DC006746F5 /* Preview Assets.xcassets */; };
@@ -61,17 +64,12 @@
 		6DEC85292B159353006746F5 /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85032B159353006746F5 /* StatisticsView.swift */; };
 		6DEC852A2B159353006746F5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85042B159353006746F5 /* ContentView.swift */; };
 		6DEC852C2B159353006746F5 /* WatchConnectivityError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85082B159353006746F5 /* WatchConnectivityError.swift */; };
-		6DEC852D2B159353006746F5 /* SensorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85092B159353006746F5 /* SensorError.swift */; };
 		6DEC852E2B159353006746F5 /* JsonError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC850A2B159353006746F5 /* JsonError.swift */; };
 		6DEC852F2B159353006746F5 /* DeviceLocationSensorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC850D2B159353006746F5 /* DeviceLocationSensorViewModel.swift */; };
 		6DEC85302B159353006746F5 /* DeviceMotionSensorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC850F2B159353006746F5 /* DeviceMotionSensorViewModel.swift */; };
-		6DEC85312B159353006746F5 /* DataSenderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85112B159353006746F5 /* DataSenderViewModel.swift */; };
 		6DEC85322B159353006746F5 /* DataCollectorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85122B159353006746F5 /* DataCollectorViewModel.swift */; };
-		6DEC85342B159353006746F5 /* WatchConnectivityErrorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85162B159353006746F5 /* WatchConnectivityErrorExtension.swift */; };
-		6DEC85352B159353006746F5 /* SensorErrorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85172B159353006746F5 /* SensorErrorExtension.swift */; };
 		6DEC85362B159353006746F5 /* JsonErrorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85182B159353006746F5 /* JsonErrorExtension.swift */; };
 		6DEC85372B159353006746F5 /* DoubleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85192B159353006746F5 /* DoubleExtension.swift */; };
-		6DEC85382B159353006746F5 /* WatchConnectivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC851A2B159353006746F5 /* WatchConnectivityManager.swift */; };
 		6DEC85392B159353006746F5 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC851B2B159353006746F5 /* LocationManager.swift */; };
 		6DEC853A2B159353006746F5 /* LocationRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC851E2B159353006746F5 /* LocationRecord.swift */; };
 		6DEC853B2B159353006746F5 /* TrackingRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC851F2B159353006746F5 /* TrackingRecord.swift */; };
@@ -97,7 +95,6 @@
 		6DEC85752B159566006746F5 /* WatchTrackingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85602B159566006746F5 /* WatchTrackingSession.swift */; };
 		6DEC85762B159566006746F5 /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85622B159566006746F5 /* StatisticsView.swift */; };
 		6DEC85772B159566006746F5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85632B159566006746F5 /* ContentView.swift */; };
-		6DEC85792B159566006746F5 /* DataReceiverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85662B159566006746F5 /* DataReceiverViewModel.swift */; };
 		6DEC857C2B1616B8006746F5 /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DEC857B2B1616B8006746F5 /* WatchConnectivity.framework */; };
 		6DEC857F2B1661BC006746F5 /* LoggerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC857E2B1661BC006746F5 /* LoggerService.swift */; };
 		6DEC85852B167114006746F5 /* LoggerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85842B167114006746F5 /* LoggerService.swift */; };
@@ -177,12 +174,10 @@
 		6D52DF762B30E79700E96713 /* CoursePointUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoursePointUI.swift; sourceTree = "<group>"; };
 		6D52DF782B30E7D200E96713 /* LabelSideUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelSideUI.swift; sourceTree = "<group>"; };
 		6D52DF7D2B31F84A00E96713 /* WaterSkiingCourseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterSkiingCourseViewModel.swift; sourceTree = "<group>"; };
-		6D52DF7F2B3220A500E96713 /* DataSenderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSenderViewModel.swift; sourceTree = "<group>"; };
 		6D52DF812B3352DC00E96713 /* SessionRecordingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionRecordingView.swift; sourceTree = "<group>"; };
 		6D52DF832B33543500E96713 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		6D52DF852B33570000E96713 /* VideoRecordingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRecordingView.swift; sourceTree = "<group>"; };
 		6D52DF872B3358D300E96713 /* SessionResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionResultView.swift; sourceTree = "<group>"; };
-		6D52DF892B33625400E96713 /* DataReceiverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataReceiverViewModel.swift; sourceTree = "<group>"; };
 		6D52DF8B2B337C0000E96713 /* SessionRecordingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionRecordingView.swift; sourceTree = "<group>"; };
 		6D52DF8D2B33BBA400E96713 /* DeliveryInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliveryInformation.swift; sourceTree = "<group>"; };
 		6D52DF912B3512F600E96713 /* CameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
@@ -200,6 +195,11 @@
 		6DE846F92B3539B100CF5E03 /* LocationManagerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManagerError.swift; sourceTree = "<group>"; };
 		6DE846FB2B35E59E00CF5E03 /* ActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorView.swift; sourceTree = "<group>"; };
 		6DE846FD2B35EAEA00CF5E03 /* AlertInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertInfo.swift; sourceTree = "<group>"; };
+		6DE846FF2B37507500CF5E03 /* SessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewModel.swift; sourceTree = "<group>"; };
+		6DE847012B37646700CF5E03 /* SessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewModel.swift; sourceTree = "<group>"; };
+		6DE847032B37652500CF5E03 /* WatchConnectivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnectivityManager.swift; sourceTree = "<group>"; };
+		6DE847052B37659F00CF5E03 /* LocationManagerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManagerError.swift; sourceTree = "<group>"; };
+		6DE847072B3783C300CF5E03 /* MotionManagerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionManagerError.swift; sourceTree = "<group>"; };
 		6DEC849C2B1592DB006746F5 /* COP4939-Project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "COP4939-Project.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DEC849F2B1592DB006746F5 /* COP4939_ProjectApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = COP4939_ProjectApp.swift; sourceTree = "<group>"; };
 		6DEC84A32B1592DC006746F5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -221,17 +221,12 @@
 		6DEC85032B159353006746F5 /* StatisticsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
 		6DEC85042B159353006746F5 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		6DEC85082B159353006746F5 /* WatchConnectivityError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchConnectivityError.swift; sourceTree = "<group>"; };
-		6DEC85092B159353006746F5 /* SensorError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorError.swift; sourceTree = "<group>"; };
 		6DEC850A2B159353006746F5 /* JsonError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonError.swift; sourceTree = "<group>"; };
 		6DEC850D2B159353006746F5 /* DeviceLocationSensorViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceLocationSensorViewModel.swift; sourceTree = "<group>"; };
 		6DEC850F2B159353006746F5 /* DeviceMotionSensorViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceMotionSensorViewModel.swift; sourceTree = "<group>"; };
-		6DEC85112B159353006746F5 /* DataSenderViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSenderViewModel.swift; sourceTree = "<group>"; };
 		6DEC85122B159353006746F5 /* DataCollectorViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCollectorViewModel.swift; sourceTree = "<group>"; };
-		6DEC85162B159353006746F5 /* WatchConnectivityErrorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchConnectivityErrorExtension.swift; sourceTree = "<group>"; };
-		6DEC85172B159353006746F5 /* SensorErrorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorErrorExtension.swift; sourceTree = "<group>"; };
 		6DEC85182B159353006746F5 /* JsonErrorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonErrorExtension.swift; sourceTree = "<group>"; };
 		6DEC85192B159353006746F5 /* DoubleExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoubleExtension.swift; sourceTree = "<group>"; };
-		6DEC851A2B159353006746F5 /* WatchConnectivityManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchConnectivityManager.swift; sourceTree = "<group>"; };
 		6DEC851B2B159353006746F5 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		6DEC851E2B159353006746F5 /* LocationRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationRecord.swift; sourceTree = "<group>"; };
 		6DEC851F2B159353006746F5 /* TrackingRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackingRecord.swift; sourceTree = "<group>"; };
@@ -257,7 +252,6 @@
 		6DEC85602B159566006746F5 /* WatchTrackingSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchTrackingSession.swift; sourceTree = "<group>"; };
 		6DEC85622B159566006746F5 /* StatisticsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
 		6DEC85632B159566006746F5 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		6DEC85662B159566006746F5 /* DataReceiverViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataReceiverViewModel.swift; sourceTree = "<group>"; };
 		6DEC857B2B1616B8006746F5 /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.0.sdk/System/Library/Frameworks/WatchConnectivity.framework; sourceTree = DEVELOPER_DIR; };
 		6DEC857E2B1661BC006746F5 /* LoggerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerService.swift; sourceTree = "<group>"; };
 		6DEC85842B167114006746F5 /* LoggerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerService.swift; sourceTree = "<group>"; };
@@ -589,8 +583,9 @@
 			isa = PBXGroup;
 			children = (
 				6DEC85082B159353006746F5 /* WatchConnectivityError.swift */,
-				6DEC85092B159353006746F5 /* SensorError.swift */,
 				6DEC850A2B159353006746F5 /* JsonError.swift */,
+				6DE847052B37659F00CF5E03 /* LocationManagerError.swift */,
+				6DE847072B3783C300CF5E03 /* MotionManagerError.swift */,
 			);
 			path = CustomError;
 			sourceTree = "<group>";
@@ -601,8 +596,7 @@
 				6DEC85122B159353006746F5 /* DataCollectorViewModel.swift */,
 				6DEC850F2B159353006746F5 /* DeviceMotionSensorViewModel.swift */,
 				6DEC850D2B159353006746F5 /* DeviceLocationSensorViewModel.swift */,
-				6DEC85112B159353006746F5 /* DataSenderViewModel.swift */,
-				6D52DF892B33625400E96713 /* DataReceiverViewModel.swift */,
+				6DE847012B37646700CF5E03 /* SessionViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -610,8 +604,8 @@
 		6DEC85142B159353006746F5 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				6DE847032B37652500CF5E03 /* WatchConnectivityManager.swift */,
 				6DEC851B2B159353006746F5 /* LocationManager.swift */,
-				6DEC851A2B159353006746F5 /* WatchConnectivityManager.swift */,
 				6DEC85152B159353006746F5 /* Extension */,
 				6DEC851C2B159353006746F5 /* Data */,
 			);
@@ -621,8 +615,6 @@
 		6DEC85152B159353006746F5 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				6DEC85162B159353006746F5 /* WatchConnectivityErrorExtension.swift */,
-				6DEC85172B159353006746F5 /* SensorErrorExtension.swift */,
 				6DEC85182B159353006746F5 /* JsonErrorExtension.swift */,
 				6DEC85192B159353006746F5 /* DoubleExtension.swift */,
 			);
@@ -747,11 +739,10 @@
 		6DEC85652B159566006746F5 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				6DEC85662B159566006746F5 /* DataReceiverViewModel.swift */,
 				6D52DF702B30C11700E96713 /* DeviceLocationSensorViewModel.swift */,
 				6D52DF7D2B31F84A00E96713 /* WaterSkiingCourseViewModel.swift */,
-				6D52DF7F2B3220A500E96713 /* DataSenderViewModel.swift */,
 				6D52DF972B351EDA00E96713 /* CameraViewModel.swift */,
+				6DE846FF2B37507500CF5E03 /* SessionViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1055,6 +1046,7 @@
 				6DE846FE2B35EAEA00CF5E03 /* AlertInfo.swift in Sources */,
 				6D4C4FFE2B2A1B4600B5874F /* WaterSkiingCourse.swift in Sources */,
 				6DEC85682B159566006746F5 /* JsonError.swift in Sources */,
+				6DE847002B37507500CF5E03 /* SessionViewModel.swift in Sources */,
 				6D7088F82B27AEB000FA4F54 /* Ski.swift in Sources */,
 				6D52DF792B30E7D200E96713 /* LabelSideUI.swift in Sources */,
 				6DE846FC2B35E59E00CF5E03 /* ActivityIndicatorView.swift in Sources */,
@@ -1072,7 +1064,6 @@
 				6D52DF822B3352DC00E96713 /* SessionRecordingView.swift in Sources */,
 				6D7088FA2B27AEFC00FA4F54 /* Fin.swift in Sources */,
 				6D52DF982B351EDA00E96713 /* CameraViewModel.swift in Sources */,
-				6D52DF802B3220A500E96713 /* DataSenderViewModel.swift in Sources */,
 				6DEC85A12B1E3071006746F5 /* JSONConverter.swift in Sources */,
 				6DEC856E2B159566006746F5 /* Coordinate.swift in Sources */,
 				6D52DF952B351D6C00E96713 /* FrameManager.swift in Sources */,
@@ -1080,7 +1071,6 @@
 				6DEC856C2B159566006746F5 /* LocationRecord.swift in Sources */,
 				6DE846F82B3528A100CF5E03 /* CameraError.swift in Sources */,
 				6D7088F32B27ACD700FA4F54 /* BoatDriver.swift in Sources */,
-				6DEC85792B159566006746F5 /* DataReceiverViewModel.swift in Sources */,
 				6D52DF7E2B31F84A00E96713 /* WaterSkiingCourseViewModel.swift in Sources */,
 				6D52DF772B30E79700E96713 /* CoursePointUI.swift in Sources */,
 				6DEC85752B159566006746F5 /* WatchTrackingSession.swift in Sources */,
@@ -1122,24 +1112,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6DE847082B3783C300CF5E03 /* MotionManagerError.swift in Sources */,
 				6DEC85882B16D2F8006746F5 /* WatchTrackingSession.swift in Sources */,
-				6DEC852D2B159353006746F5 /* SensorError.swift in Sources */,
+				6DE847022B37646700CF5E03 /* SessionViewModel.swift in Sources */,
 				6D52DF8C2B337C0000E96713 /* SessionRecordingView.swift in Sources */,
 				6DEC853E2B159353006746F5 /* Attitude.swift in Sources */,
-				6D52DF8A2B33625400E96713 /* DataReceiverViewModel.swift in Sources */,
-				6DEC85312B159353006746F5 /* DataSenderViewModel.swift in Sources */,
 				6DEC85412B159353006746F5 /* DataPacket.swift in Sources */,
-				6DEC85352B159353006746F5 /* SensorErrorExtension.swift in Sources */,
 				6DEC853B2B159353006746F5 /* TrackingRecord.swift in Sources */,
 				6DEC852E2B159353006746F5 /* JsonError.swift in Sources */,
+				6DE847062B37659F00CF5E03 /* LocationManagerError.swift in Sources */,
 				6DEC85292B159353006746F5 /* StatisticsView.swift in Sources */,
 				6DEC852A2B159353006746F5 /* ContentView.swift in Sources */,
 				6DEC853F2B159353006746F5 /* Unit3D.swift in Sources */,
-				6DEC85342B159353006746F5 /* WatchConnectivityErrorExtension.swift in Sources */,
 				6DEC859B2B1E2B53006746F5 /* DataCache.swift in Sources */,
 				6DEC85392B159353006746F5 /* LocationManager.swift in Sources */,
 				6DEC85372B159353006746F5 /* DoubleExtension.swift in Sources */,
-				6DEC85382B159353006746F5 /* WatchConnectivityManager.swift in Sources */,
 				6DEC852F2B159353006746F5 /* DeviceLocationSensorViewModel.swift in Sources */,
 				6DEC85362B159353006746F5 /* JsonErrorExtension.swift in Sources */,
 				6DEC85402B159353006746F5 /* DataType.swift in Sources */,
@@ -1153,6 +1140,7 @@
 				6DEC852C2B159353006746F5 /* WatchConnectivityError.swift in Sources */,
 				6D52DF8E2B33BBA400E96713 /* DeliveryInformation.swift in Sources */,
 				6DEC853D2B159353006746F5 /* MotionRecord.swift in Sources */,
+				6DE847042B37652500CF5E03 /* WatchConnectivityManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -6,60 +6,48 @@
 //
 
 import Foundation
-import CoreLocation
 import Combine
 
 class DeviceLocationSensorViewModel : ObservableObject {
-    private let locationManager: LocationManager = LocationManager()
+    private let locationManager = LocationManager.instance
     
-    private var logger: LoggerService
+    private let logger: LoggerService
     
-    private var locationSubscription: Cancellable?
-    private var isAuthorizedSubscription: Cancellable?
-    
-    @Published var data: Array<LocationRecord> = Array()
-    @Published var isAuthorized: Bool = false
+    @Published public private(set) var location: LocationRecord?
+    @Published public private(set) var error: LocationManagerError?
+    @Published public private(set) var isRecording: Bool?
     
     init() {
         logger = LoggerService(logSource: String(describing: type(of: self)))
         
-        isAuthorizedSubscription = locationManager.$isAuthorized.sink { [weak self] _ in
-            guard let self = self else { return }
-            
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                
-                isAuthorized = locationManager.isAuthorized
-            }
-        }
+        locationManager.$error
+            .receive(on: DispatchQueue.main)
+            .assign(to: &$error)
         
-        
-        locationSubscription = locationManager.$location.sink { [weak self] _ in
-            guard let self = self else { return }
-            
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
+        locationManager.$location
+            .receive(on: DispatchQueue.main)
+            .compactMap { location in
+                guard let location = location else { return nil }
                 
-                if let coordinate = locationManager.location?.coordinate,
-                   let speed = locationManager.location?.speed {
-                    
-                    self.data.append(LocationRecord(
-                        speed: Measurement(value: speed, unit: .metersPerSecond),
-                        coordinate: Coordinate(
-                            latitude: Measurement(value: coordinate.latitude, unit: .degrees),
-                            longitude: Measurement(value: coordinate.longitude, unit: .degrees)
-                        )
-                    ))
-                }
+                let coordinate = location.coordinate
+                let speed = location.speed
+                
+                return LocationRecord(
+                    speed: Measurement(value: speed, unit: .metersPerSecond),
+                    coordinate: Coordinate(
+                        latitude: Measurement(value: coordinate.latitude, unit: .degrees),
+                        longitude: Measurement(value: coordinate.longitude, unit: .degrees)
+                    )
+                )
             }
-        }
+            .assign(to: &$location)
+        
+        locationManager.$isRecording
+            .receive(on: DispatchQueue.main)
+            .assign(to: &$isRecording)
     }
     
     func startRecording() {
-        if !locationManager.isAuthorized {
-            locationManager.requestAuthorization()
-        }
-        
         locationManager.startLocationRecording()
     }
     

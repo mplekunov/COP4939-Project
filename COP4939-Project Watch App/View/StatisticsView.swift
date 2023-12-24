@@ -40,32 +40,32 @@ struct StatisticsView: View {
             
             Section("Location Coordinates") {
                 VStack(alignment: .leading, spacing: 10) {
-                    Text("Latitude: \(dataCollectorViewModel.locationRecords.last?.coordinate.latitude.formatted() ?? "N/A")")
-                    Text("Longitude: \(dataCollectorViewModel.locationRecords.last?.coordinate.longitude.formatted() ?? "N/A")")
+                    Text("Latitude: \(dataCollectorViewModel.locationRecord?.coordinate.latitude.formatted() ?? "N/A")")
+                    Text("Longitude: \(dataCollectorViewModel.locationRecord?.coordinate.longitude.formatted() ?? "N/A")")
                 }
             }
             
             Section("Attitude") {
                 VStack(alignment: .leading, spacing: 10) {
-                    Text("Pitch: \(dataCollectorViewModel.motionRecords.last?.attitude.pitch.formatted() ?? "N/A")")
-                    Text("Yaw: \(dataCollectorViewModel.motionRecords.last?.attitude.yaw.formatted() ?? "N/A")")
-                    Text("Roll: \(dataCollectorViewModel.motionRecords.last?.attitude.roll.formatted() ?? "N/A")")
+                    Text("Pitch: \(dataCollectorViewModel.motionRecord?.attitude.pitch.formatted() ?? "N/A")")
+                    Text("Yaw: \(dataCollectorViewModel.motionRecord?.attitude.yaw.formatted() ?? "N/A")")
+                    Text("Roll: \(dataCollectorViewModel.motionRecord?.attitude.roll.formatted() ?? "N/A")")
                 }
             }
             
             Section("G Force") {
                 VStack(alignment: .leading, spacing: 10) {
-                    Text("X: \(dataCollectorViewModel.motionRecords.last?.gForce.x.formatted() ?? "N/A")")
-                    Text("Y: \(dataCollectorViewModel.motionRecords.last?.gForce.y.formatted() ?? "N/A")")
-                    Text("Z: \(dataCollectorViewModel.motionRecords.last?.gForce.z.formatted() ?? "N/A")")
+                    Text("X: \(dataCollectorViewModel.motionRecord?.gForce.x.formatted() ?? "N/A")")
+                    Text("Y: \(dataCollectorViewModel.motionRecord?.gForce.y.formatted() ?? "N/A")")
+                    Text("Z: \(dataCollectorViewModel.motionRecord?.gForce.z.formatted() ?? "N/A")")
                 }
             }
             
             Section("Acceleration") {
                 VStack(alignment: .leading, spacing: 10) {
-                    Text("X: \(dataCollectorViewModel.motionRecords.last?.acceleration.x.formatted() ?? "N/A")")
-                    Text("Y: \(dataCollectorViewModel.motionRecords.last?.acceleration.y.formatted() ?? "N/A")")
-                    Text("Z: \(dataCollectorViewModel.motionRecords.last?.acceleration.z.formatted() ?? "N/A")")
+                    Text("X: \(dataCollectorViewModel.motionRecord?.acceleration.x.formatted() ?? "N/A")")
+                    Text("Y: \(dataCollectorViewModel.motionRecord?.acceleration.y.formatted() ?? "N/A")")
+                    Text("Z: \(dataCollectorViewModel.motionRecord?.acceleration.z.formatted() ?? "N/A")")
                 }
             }
         }
