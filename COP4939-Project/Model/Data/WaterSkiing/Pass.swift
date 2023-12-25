@@ -13,13 +13,15 @@ class PassBuilder {
         location: Coordinate(latitude: Measurement(value: 0, unit: .degrees), longitude: Measurement(value: 0, unit: .degrees)),
         maxSpeed: Measurement(value: 0, unit: .metersPerSecond),
         maxRoll: Measurement(value: 0, unit: .degrees),
-        maxPitch: Measurement(value: 0, unit: .degrees)
+        maxPitch: Measurement(value: 0, unit: .degrees),
+        timeWhenPassed: 0
     )
     public private(set) var exitGate: Gate = Gate(
         location: Coordinate(latitude: Measurement(value: 0, unit: .degrees), longitude: Measurement(value: 0, unit: .degrees)),
         maxSpeed: Measurement(value: 0, unit: .metersPerSecond),
         maxRoll: Measurement(value: 0, unit: .degrees),
-        maxPitch: Measurement(value: 0, unit: .degrees)
+        maxPitch: Measurement(value: 0, unit: .degrees),
+        timeWhenPassed: 0
     )
     public private(set) var wakeCrosses: Array<WakeCross> = Array()
     public private(set) var buoys: Array<Buoy> = Array()

@@ -14,22 +14,11 @@ class CameraViewModel: ObservableObject {
     @Published public private(set) var frame: CGImage?
     @Published public private(set) var error: String?
     @Published public private(set) var isRecording: Bool?
+    @Published public private(set) var recordedFile: URL?
     
     private let frameManager = FrameManager.instance
     
     init() {
-        setupSubscriptions()
-    }
-    
-    func startRecording() {
-        frameManager.startRecording()
-    }
-    
-    func stopRecording() {
-        frameManager.stopRecording()
-    }
-    
-    func setupSubscriptions() {
         frameManager.$current
             .receive(on: RunLoop.main)
             .compactMap { buffer in
@@ -42,11 +31,23 @@ class CameraViewModel: ObservableObject {
             .assign(to: &$frame)
         
         frameManager.$error
-            .receive(on: RunLoop.main)
+            .receive(on: DispatchQueue.main)
             .assign(to: &$error)
         
         frameManager.$isRecording
-            .receive(on: RunLoop.main)
+            .receive(on: DispatchQueue.main)
             .assign(to: &$isRecording)
+        
+        frameManager.$recordedFile
+            .receive(on: DispatchQueue.main)
+            .assign(to: &$recordedFile)
+    }
+    
+    func startRecording() {
+        frameManager.startRecording()
+    }
+    
+    func stopRecording() {
+        frameManager.stopRecording()
     }
 }

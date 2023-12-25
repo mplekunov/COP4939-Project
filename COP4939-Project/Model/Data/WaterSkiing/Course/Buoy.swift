@@ -12,4 +12,5 @@ struct Buoy {
     public let maxSpeed: Measurement<UnitSpeed>
     public let maxRoll: Measurement<UnitAngle>
     public let maxPitch: Measurement<UnitAngle>
+    public let timeWhenPassed: Double
 }

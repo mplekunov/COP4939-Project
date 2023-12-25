@@ -67,12 +67,13 @@ class WaterSkiingProcessor {
             }
             
             if inRange(point: record.location.coordinate, within: course.entryGate, withRange: RANGE) {
-               passBuilder.setEntryGate(Gate(
-                        location: course.entryGate,
-                        maxSpeed: record.location.speed,
-                        maxRoll: record.motion.attitude.roll,
-                        maxPitch: record.motion.attitude.pitch)
-                    ).setTimeStamp(record.timeStamp)
+                passBuilder.setEntryGate(Gate(
+                    location: course.entryGate,
+                    maxSpeed: record.location.speed,
+                    maxRoll: record.motion.attitude.roll,
+                    maxPitch: record.motion.attitude.pitch,
+                    timeWhenPassed: record.timeStamp)
+                ).setTimeStamp(record.timeStamp)
                 
                 crossedEntryGate = true
             }
@@ -82,7 +83,9 @@ class WaterSkiingProcessor {
                     location: course.exitGate,
                     maxSpeed: maxSpeed,
                     maxRoll: maxRoll,
-                    maxPitch: maxPitch))
+                    maxPitch: maxPitch,
+                    timeWhenPassed: record.timeStamp)
+                )
             }
             
             if i < course.wakeCrosses.count && inRange(point: record.location.coordinate, within: course.wakeCrosses[i], withRange: RANGE) {
@@ -93,8 +96,9 @@ class WaterSkiingProcessor {
                     maxPitch: maxPitch,
                     maxAngle: maxAngle,
                     maxGForce: maxGForce,
-                    maxAcceleration: maxAcceleration
-                ))
+                    maxAcceleration: maxAcceleration,
+                    timeWhenPassed: record.timeStamp)
+                )
             }
             
             if i < course.buoys.count && inRange(point: record.location.coordinate, within: course.buoys[i], withRange: RANGE) {
@@ -102,8 +106,9 @@ class WaterSkiingProcessor {
                     location: course.buoys[i],
                     maxSpeed: maxSpeed,
                     maxRoll: maxRoll,
-                    maxPitch: maxPitch
-                ))
+                    maxPitch: maxPitch,
+                    timeWhenPassed: record.timeStamp)
+                )
                 
                 i += 1
             }
