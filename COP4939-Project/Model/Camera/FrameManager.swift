@@ -83,7 +83,8 @@ class FrameManager: NSObject, ObservableObject {
             return
         }
         
-        let filename = "\(UUID().uuidString).mov"
+        let id = UUID()
+        let filename = "\(id.uuidString).mov"
         outputFileURL = documentsDirectory.appendingPathComponent(filename)
         
         do {
@@ -122,6 +123,7 @@ class FrameManager: NSObject, ObservableObject {
             assetWriter.startSession(atSourceTime: CMTime.zero)
         } catch {
             self.error = AssetWriterError.CreateAssetWriter(error).description
+            return
         }
         
         assetWriter?.finishWriting {
@@ -139,7 +141,7 @@ class FrameManager: NSObject, ObservableObject {
                         return
                     }
                     
-                    self.videoFile = VideoFile(id: UUID(), creationDate: creationDate.timeIntervalSince1970, url: outputFileURL)
+                    self.videoFile = VideoFile(id: id, creationDate: creationDate.timeIntervalSince1970, url: outputFileURL)
                     
                 }
             }
