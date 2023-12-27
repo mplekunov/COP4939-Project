@@ -105,7 +105,7 @@ struct AdvancedSessionResultView : View {
                                     objectName: record.objectName,
                                     objectIndex: record.objectIndex,
                                     objectType: record.objectType,
-                                    videoTimeStamp: record.videoTimeStampInSeconds
+                                    videoTimeStampInSeconds: record.videoTimeStampInSeconds
                                 )
                                 
                                 togglePopup(type: record.objectType)

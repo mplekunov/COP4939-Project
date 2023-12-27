@@ -92,7 +92,7 @@ class DataCollectorViewModel : ObservableObject {
                 guard let location = deviceLocationSensorModel.location else { return }
                 guard let motion = deviceMotionSensorModel.motion else { return }
                 
-                trackingRecords.append(TrackingRecord(location: location, motion: motion, timeStamp: Date().timeIntervalSince1970))
+                trackingRecords.append(TrackingRecord(location: location, motion: motion, timeOfRecordingInSeconds: Date().timeIntervalSince1970))
             }
     }
     

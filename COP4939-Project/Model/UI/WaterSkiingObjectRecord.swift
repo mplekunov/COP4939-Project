@@ -14,19 +14,19 @@ struct WaterSkiingObjectRecord : Identifiable, Equatable {
     let objectType: WaterSkiingObjectType
     let videoTimeStampInSeconds: Double
     
-    init(id: UUID, objectName: String, objectIndex: Int, objectType: WaterSkiingObjectType, videoTimeStamp: Double) {
+    init(id: UUID, objectName: String, objectIndex: Int, objectType: WaterSkiingObjectType, videoTimeStampInSeconds: Double) {
         self.id = id
         self.objectName = objectName
         self.objectIndex = objectIndex
         self.objectType = objectType
-        self.videoTimeStampInSeconds = videoTimeStamp
+        self.videoTimeStampInSeconds = videoTimeStampInSeconds
     }
     
-    init(objectName: String, objectIndex: Int, objectType: WaterSkiingObjectType, videoTimeStamp: Double) {
+    init(objectName: String, objectIndex: Int, objectType: WaterSkiingObjectType, videoTimeStampInSeconds: Double) {
         self.id = UUID()
         self.objectName = objectName
         self.objectIndex = objectIndex
         self.objectType = objectType
-        self.videoTimeStampInSeconds = videoTimeStamp
+        self.videoTimeStampInSeconds = videoTimeStampInSeconds
     }
 }

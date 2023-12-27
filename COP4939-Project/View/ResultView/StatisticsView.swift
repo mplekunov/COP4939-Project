@@ -23,7 +23,7 @@ struct StatisticsView: View {
                         LineChartView(
                             data: session.data.map {
                                 ChartData(
-                                    date: Date(timeIntervalSince1970: $0.timeStamp),
+                                    date: Date(timeIntervalSince1970: $0.timeOfRecordingInSeconds),
                                     data: $0.location.coordinate.latitude
                                 )
                             }
@@ -37,7 +37,7 @@ struct StatisticsView: View {
                         LineChartView(
                             data: session.data.map {
                                 ChartData(
-                                    date: Date(timeIntervalSince1970: $0.timeStamp),
+                                    date: Date(timeIntervalSince1970: $0.timeOfRecordingInSeconds),
                                     data: $0.location.coordinate.longitude
                                 )
                             }
@@ -51,7 +51,7 @@ struct StatisticsView: View {
                         LineChartView(
                             data: session.data.map {
                                 ChartData(
-                                    date: Date(timeIntervalSince1970: $0.timeStamp),
+                                    date: Date(timeIntervalSince1970: $0.timeOfRecordingInSeconds),
                                     data: $0.motion.attitude.pitch
                                 )
                             }
@@ -64,7 +64,7 @@ struct StatisticsView: View {
                         LineChartView(
                             data: session.data.map {
                                 ChartData(
-                                    date: Date(timeIntervalSince1970: $0.timeStamp),
+                                    date: Date(timeIntervalSince1970: $0.timeOfRecordingInSeconds),
                                     data: $0.motion.attitude.yaw
                                 )
                             }
@@ -77,7 +77,7 @@ struct StatisticsView: View {
                         LineChartView(
                             data: session.data.map {
                                 ChartData(
-                                    date: Date(timeIntervalSince1970: $0.timeStamp),
+                                    date: Date(timeIntervalSince1970: $0.timeOfRecordingInSeconds),
                                     data: $0.motion.attitude.roll
                                 )
                             }
@@ -91,7 +91,7 @@ struct StatisticsView: View {
                         LineChartView(
                             data: session.data.map {
                                 ChartData(
-                                    date: Date(timeIntervalSince1970: $0.timeStamp),
+                                    date: Date(timeIntervalSince1970: $0.timeOfRecordingInSeconds),
                                     data: $0.motion.gForce.x
                                 )
                             }
@@ -104,7 +104,7 @@ struct StatisticsView: View {
                         LineChartView(
                             data: session.data.map {
                                 ChartData(
-                                    date: Date(timeIntervalSince1970: $0.timeStamp),
+                                    date: Date(timeIntervalSince1970: $0.timeOfRecordingInSeconds),
                                     data: $0.motion.gForce.y
                                 )
                             }
@@ -117,7 +117,7 @@ struct StatisticsView: View {
                         LineChartView(
                             data: session.data.map {
                                 ChartData(
-                                    date: Date(timeIntervalSince1970: $0.timeStamp),
+                                    date: Date(timeIntervalSince1970: $0.timeOfRecordingInSeconds),
                                     data: $0.motion.gForce.z
                                 )
                             }
@@ -131,7 +131,7 @@ struct StatisticsView: View {
                         LineChartView(
                             data: session.data.map {
                                 ChartData(
-                                    date: Date(timeIntervalSince1970: $0.timeStamp),
+                                    date: Date(timeIntervalSince1970: $0.timeOfRecordingInSeconds),
                                     data: $0.motion.acceleration.x
                                 )
                             }
@@ -146,7 +146,7 @@ struct StatisticsView: View {
                         LineChartView(
                             data: session.data.map {
                                 ChartData(
-                                    date: Date(timeIntervalSince1970: $0.timeStamp),
+                                    date: Date(timeIntervalSince1970: $0.timeOfRecordingInSeconds),
                                     data: $0.motion.acceleration.y
                                 )
                             }
@@ -161,7 +161,7 @@ struct StatisticsView: View {
                         LineChartView(
                             data: session.data.map {
                                 ChartData(
-                                    date: Date(timeIntervalSince1970: $0.timeStamp),
+                                    date: Date(timeIntervalSince1970: $0.timeOfRecordingInSeconds),
                                     data: $0.motion.acceleration.z
                                 )
                             }

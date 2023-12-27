@@ -72,7 +72,7 @@ class WaterSkiingPassVideoViewModel : ObservableObject {
             objectName: "Entry Gate",
             objectIndex: 0,
             objectType: .EntryGate,
-            videoTimeStamp: pass.entryGate.timeOfRecordingInSeconds)
+            videoTimeStampInSeconds: pass.entryGate.timeOfRecordingInSeconds)
         )
         
         var i = 0, j = 0
@@ -88,7 +88,7 @@ class WaterSkiingPassVideoViewModel : ObservableObject {
                     objectName: "Wake Cross \(i + 1)",
                     objectIndex: i,
                     objectType: .WakeCross,
-                    videoTimeStamp: pass.wakeCrosses[i].timeOfRecordingInSeconds)
+                    videoTimeStampInSeconds: pass.wakeCrosses[i].timeOfRecordingInSeconds)
                 )
                 
                 i += 1
@@ -100,7 +100,7 @@ class WaterSkiingPassVideoViewModel : ObservableObject {
                     objectName: "Buoy \(j + 1)",
                     objectIndex: j,
                     objectType: .Buoy,
-                    videoTimeStamp: pass.buoys[j].timeOfRecordingInSeconds)
+                    videoTimeStampInSeconds: pass.buoys[j].timeOfRecordingInSeconds)
                 )
                 
                 j += 1
@@ -114,7 +114,7 @@ class WaterSkiingPassVideoViewModel : ObservableObject {
             objectName: "Exit Gate",
             objectIndex: objectRecords.count,
             objectType: .ExitGate,
-            videoTimeStamp: pass.exitGate.timeOfRecordingInSeconds)
+            videoTimeStampInSeconds: pass.exitGate.timeOfRecordingInSeconds)
         )
     }
     

@@ -71,8 +71,8 @@ class WaterSkiingPassProcessor {
                     maxSpeed: record.location.speed,
                     maxRoll: record.motion.attitude.roll,
                     maxPitch: record.motion.attitude.pitch,
-                    timeOfRecordingInSeconds: abs(record.timeStamp - videoCreationDate))
-                ).setTimeOfRecording(record.timeStamp)
+                    timeOfRecordingInSeconds: abs(record.timeOfRecordingInSeconds - videoCreationDate))
+                ).setTimeOfRecording(record.timeOfRecordingInSeconds)
                 
                 crossedEntryGate = true
             }
@@ -83,7 +83,7 @@ class WaterSkiingPassProcessor {
                     maxSpeed: maxSpeed,
                     maxRoll: maxRoll,
                     maxPitch: maxPitch,
-                    timeOfRecordingInSeconds: abs(record.timeStamp - videoCreationDate))
+                    timeOfRecordingInSeconds: abs(record.timeOfRecordingInSeconds - videoCreationDate))
                 )
             }
             
@@ -96,7 +96,7 @@ class WaterSkiingPassProcessor {
                     maxAngle: maxAngle,
                     maxGForce: maxGForce,
                     maxAcceleration: maxAcceleration,
-                    timeOfRecordingInSeconds: abs(record.timeStamp - videoCreationDate))
+                    timeOfRecordingInSeconds: abs(record.timeOfRecordingInSeconds - videoCreationDate))
                 )
             }
             
@@ -106,7 +106,7 @@ class WaterSkiingPassProcessor {
                     maxSpeed: maxSpeed,
                     maxRoll: maxRoll,
                     maxPitch: maxPitch,
-                    timeOfRecordingInSeconds: abs(record.timeStamp - videoCreationDate))
+                    timeOfRecordingInSeconds: abs(record.timeOfRecordingInSeconds - videoCreationDate))
                 )
                 
                 i += 1
