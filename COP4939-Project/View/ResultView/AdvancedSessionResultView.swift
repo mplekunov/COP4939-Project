@@ -70,46 +70,16 @@ struct AdvancedSessionResultView : View {
                         ForEach(0..<passVideoViewModel.objectRecords.count, id: \.self) { index in
                             let record = passVideoViewModel.objectRecords[index]
                             
-                            HStack(spacing: 0) {
-                                Text(formatTime(seconds: record.videoTimeStampInSeconds))
-                                    .frame(maxWidth: .infinity)
-                                Text(record.objectName)
-                                    .frame(maxWidth: .infinity)
-                            }
-                            .id(index)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
-                                return 0
-                            }
-                            .alignmentGuide(.listRowSeparatorTrailing) { viewDimensions in
-                                return viewDimensions.width
-                            }
-                            .background(Color.black)
-                            .foregroundStyle(Color.orange)
-                            .clipShape(record == passVideoViewModel.curentPlayingRecord ? RoundedRectangle(cornerRadius: 10) : RoundedRectangle(cornerRadius: 0))
-                            .overlay(
-                                record == passVideoViewModel.curentPlayingRecord ?
-                                RoundedRectangle(cornerRadius: 10).stroke(.orange, lineWidth: 4) : RoundedRectangle(cornerRadius: 0).stroke(.orange, lineWidth: 0.4)
-                            )
-                            .listRowBackground(Color.clear)
-                            .listRowSeparator(.automatic)
-                            .listRowSeparatorTint(.orange)
-                            .onTapGesture(perform: {
-                                passVideoViewModel.seekTo(record: record)
-                                highlightedRow = index
-                            })
-                            .onLongPressGesture(perform: {
-                                chosenObjectRecord = WaterSkiingObjectRecord(
-                                    id: record.id,
-                                    objectName: record.objectName,
-                                    objectIndex: record.objectIndex,
-                                    objectType: record.objectType,
-                                    videoTimeStampInSeconds: record.videoTimeStampInSeconds
-                                )
-                                
-                                togglePopup(type: record.objectType)
-                            })
+                            createRow(record: record, index: index)
+                                .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
+                                    return 0
+                                }
+                                .alignmentGuide(.listRowSeparatorTrailing) { viewDimensions in
+                                    return viewDimensions.width
+                                }
+                                .listRowBackground(Color.clear)
+                                .listRowSeparator(.automatic)
+                                .listRowSeparatorTint(.orange)
                         }
                         
                         HStack(spacing: 0) {
@@ -119,6 +89,12 @@ struct AdvancedSessionResultView : View {
                                 .frame(maxWidth: .infinity)
                         }
                         .padding()
+                        .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
+                            return 0
+                        }
+                        .alignmentGuide(.listRowSeparatorTrailing) { viewDimensions in
+                            return viewDimensions.width
+                        }
                         .listRowBackground(Color.clear)
                         .background(Color.black)
                         .foregroundStyle(Color.orange)
@@ -169,6 +145,40 @@ struct AdvancedSessionResultView : View {
                 }
             }
         }
+    }
+    
+    private func createRow(record: WaterSkiingObjectRecord, index: Int) -> some View {
+        return HStack(spacing: 0) {
+            Text(formatTime(seconds: record.videoTimeStampInSeconds))
+                .frame(maxWidth: .infinity)
+            Text(record.objectName)
+                .frame(maxWidth: .infinity)
+        }
+        .id(index)
+        .padding()
+        .frame(maxWidth: .infinity)
+        .background(Color.black)
+        .foregroundStyle(Color.orange)
+        .clipShape(record == passVideoViewModel.curentPlayingRecord ? RoundedRectangle(cornerRadius: 10) : RoundedRectangle(cornerRadius: 0))
+        .overlay(
+            record == passVideoViewModel.curentPlayingRecord ?
+            RoundedRectangle(cornerRadius: 10).stroke(.orange, lineWidth: 4) : RoundedRectangle(cornerRadius: 0).stroke(.orange, lineWidth: 0.4)
+        )
+        .onTapGesture(perform: {
+            passVideoViewModel.seekTo(record: record)
+            highlightedRow = index
+        })
+        .onLongPressGesture(perform: {
+            chosenObjectRecord = WaterSkiingObjectRecord(
+                id: record.id,
+                objectName: record.objectName,
+                objectIndex: record.objectIndex,
+                objectType: record.objectType,
+                videoTimeStampInSeconds: record.videoTimeStampInSeconds
+            )
+            
+            togglePopup(type: record.objectType)
+        })
     }
     
     private func isPopupToggled() -> Bool {
