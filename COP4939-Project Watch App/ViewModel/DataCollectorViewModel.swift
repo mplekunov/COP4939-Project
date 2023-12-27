@@ -65,8 +65,7 @@ class DataCollectorViewModel : ObservableObject {
         Timer.publish(every: 0.1, on: .main, in: .common)
             .autoconnect()
             .map { _ in Date() }
-            .compactMap { [weak self] _ in
-                guard let self = self else { return nil }
+            .compactMap { _ in
                 guard let location = deviceLocationSensorModel.location else { return nil }
                 
                 return location
@@ -76,8 +75,7 @@ class DataCollectorViewModel : ObservableObject {
         Timer.publish(every: 0.1, on: .main, in: .common)
             .autoconnect()
             .map { _ in Date() }
-            .compactMap { [weak self] _ in
-                guard let self = self else { return nil }
+            .compactMap { _ in
                 guard let motion = deviceMotionSensorModel.motion else { return nil }
                 
                 return motion
