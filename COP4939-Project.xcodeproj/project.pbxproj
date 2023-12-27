@@ -425,6 +425,7 @@
 		6D52DF962B351DD600E96713 /* Camera */ = {
 			isa = PBXGroup;
 			children = (
+				6D5283192B39FFDA007F71EE /* VideoManager.swift */,
 				6D52DF912B3512F600E96713 /* CameraManager.swift */,
 				6D52DF942B351D6C00E96713 /* FrameManager.swift */,
 				6D5283232B3B4286007F71EE /* VideoFile.swift */,
@@ -738,7 +739,6 @@
 		6DEC854E2B159566006746F5 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				6D5283192B39FFDA007F71EE /* VideoManager.swift */,
 				6DEC85522B159566006746F5 /* WatchConnectivityManager.swift */,
 				6D52DF6E2B30C0ED00E96713 /* LocationManager.swift */,
 				6D6DDA602B277A9E00E33CCE /* WaterSkiingPassProcessor.swift */,

@@ -9,10 +9,12 @@ import Foundation
 
 struct VideoFile {
     let id: UUID
+    let creationDate: Double
     let url: URL
     
-    init(id: UUID, url: URL) {
+    init(id: UUID, creationDate: Double, url: URL) {
         self.id = id
         self.url = url
+        self.creationDate = creationDate
     }
 }

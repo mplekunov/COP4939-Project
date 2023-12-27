@@ -26,7 +26,7 @@ class PassBuilder {
     public private(set) var wakeCrosses: Array<WakeCross> = Array()
     public private(set) var buoys: Array<Buoy> = Array()
     public private(set) var timeStamp = Date().timeIntervalSince1970
-    public private(set) var videoFile: VideoFile = VideoFile(id: UUID(), url: URL(string: "")!)
+    public private(set) var videoFile: VideoFile = VideoFile(id: UUID(), creationDate: Date().timeIntervalSince1970, url: URL(string: "")!)
     
     @discardableResult
     public func setScore(_ score: Int) -> PassBuilder{

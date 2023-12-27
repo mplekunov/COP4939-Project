@@ -129,18 +129,18 @@ class FrameManager: NSObject, ObservableObject {
                 if let error = self.assetWriter?.error {
                     self.error = error.localizedDescription
                 } else {
-                    guard let outputFileURL = self.outputFileURL else { return }
-                    
-                    do {
-                        let fileManager = FileManager.default
-                        var attributes = try fileManager.attributesOfItem(atPath: outputFileURL.path())
-                        attributes[.creationDate] = self.creationDate
-                        try fileManager.setAttributes(attributes, ofItemAtPath: outputFileURL.path())
-                            
-                        self.videoFile = VideoFile(id: UUID(), url: outputFileURL)
-                    } catch {
-                        self.error = error.localizedDescription
+                    guard let outputFileURL = self.outputFileURL else {
+                        self.error = "Output file url is not set for video file."
+                        return
                     }
+                    
+                    guard let creationDate = self.creationDate else {
+                        self.error = "Creation date is not set for video file."
+                        return
+                    }
+                    
+                    self.videoFile = VideoFile(id: UUID(), creationDate: creationDate.timeIntervalSince1970, url: outputFileURL)
+                    
                 }
             }
         }
