@@ -15,7 +15,6 @@
 		6D5283012B387927007F71EE /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D5283002B387927007F71EE /* CoreLocation.framework */; };
 		6D5283032B388A1F007F71EE /* AssetWriterError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5283022B388A1F007F71EE /* AssetWriterError.swift */; };
 		6D5283052B389852007F71EE /* AdvancedSessionResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5283042B389852007F71EE /* AdvancedSessionResultView.swift */; };
-		6D5283072B389D33007F71EE /* video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 6D5283062B389D33007F71EE /* video.mp4 */; };
 		6D5283092B38A5AF007F71EE /* WaterSkiingPassVideoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5283082B38A5AF007F71EE /* WaterSkiingPassVideoViewModel.swift */; };
 		6D52830B2B390D91007F71EE /* GatePopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52830A2B390D91007F71EE /* GatePopup.swift */; };
 		6D52830D2B391AE5007F71EE /* WakeCrossPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D52830C2B391AE5007F71EE /* WakeCrossPopup.swift */; };
@@ -178,7 +177,6 @@
 		6D5283002B387927007F71EE /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.0.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
 		6D5283022B388A1F007F71EE /* AssetWriterError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetWriterError.swift; sourceTree = "<group>"; };
 		6D5283042B389852007F71EE /* AdvancedSessionResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSessionResultView.swift; sourceTree = "<group>"; };
-		6D5283062B389D33007F71EE /* video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; name = video.mp4; path = ../../../../../Downloads/video.mp4; sourceTree = "<group>"; };
 		6D5283082B38A5AF007F71EE /* WaterSkiingPassVideoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterSkiingPassVideoViewModel.swift; sourceTree = "<group>"; };
 		6D52830A2B390D91007F71EE /* GatePopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatePopup.swift; sourceTree = "<group>"; };
 		6D52830C2B391AE5007F71EE /* WakeCrossPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WakeCrossPopup.swift; sourceTree = "<group>"; };
@@ -580,7 +578,6 @@
 		6DEC84A52B1592DC006746F5 /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
-				6D5283062B389D33007F71EE /* video.mp4 */,
 				6DEC84A62B1592DC006746F5 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
@@ -1053,7 +1050,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6DEC84A72B1592DC006746F5 /* Preview Assets.xcassets in Resources */,
-				6D5283072B389D33007F71EE /* video.mp4 in Resources */,
 				6DEC84A42B1592DC006746F5 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
