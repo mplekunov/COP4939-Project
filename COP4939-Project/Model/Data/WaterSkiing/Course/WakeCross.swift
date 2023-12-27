@@ -15,5 +15,5 @@ struct WakeCross {
     public let maxAngle: Measurement<UnitAngle>
     public let maxGForce: Measurement<UnitAcceleration>
     public let maxAcceleration: Measurement<UnitAcceleration>
-    public let timeWhenPassed: Double
+    public let timeOfRecordingInSeconds: Double
 }

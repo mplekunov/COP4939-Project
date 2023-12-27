@@ -79,7 +79,7 @@ struct BuoyPopupPreview: PreviewProvider {
             maxSpeed: Measurement(value: 20, unit: .metersPerSecond),
             maxRoll: Measurement(value: 3, unit: .degrees),
             maxPitch: Measurement(value: 2, unit: .degrees),
-            timeWhenPassed: 0
+            timeOfRecordingInSeconds: 0
         ))
     }
 }

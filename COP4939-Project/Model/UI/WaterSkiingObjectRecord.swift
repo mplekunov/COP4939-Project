@@ -12,14 +12,14 @@ struct WaterSkiingObjectRecord : Identifiable, Equatable {
     let objectName: String
     let objectIndex: Int
     let objectType: WaterSkiingObjectType
-    let videoTimeStamp: Double
+    let videoTimeStampInSeconds: Double
     
     init(id: UUID, objectName: String, objectIndex: Int, objectType: WaterSkiingObjectType, videoTimeStamp: Double) {
         self.id = id
         self.objectName = objectName
         self.objectIndex = objectIndex
         self.objectType = objectType
-        self.videoTimeStamp = videoTimeStamp
+        self.videoTimeStampInSeconds = videoTimeStamp
     }
     
     init(objectName: String, objectIndex: Int, objectType: WaterSkiingObjectType, videoTimeStamp: Double) {
@@ -27,6 +27,6 @@ struct WaterSkiingObjectRecord : Identifiable, Equatable {
         self.objectName = objectName
         self.objectIndex = objectIndex
         self.objectType = objectType
-        self.videoTimeStamp = videoTimeStamp
+        self.videoTimeStampInSeconds = videoTimeStamp
     }
 }

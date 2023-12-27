@@ -94,7 +94,7 @@ struct WakeCrossPopupPreview: PreviewProvider {
             maxAngle: Measurement(value: 1, unit: .degrees),
             maxGForce: Measurement(value: 4, unit: .gravity),
             maxAcceleration: Measurement(value: 10, unit: .metersPerSecondSquared),
-            timeWhenPassed: 0)
+            timeOfRecordingInSeconds: 0)
         )
     }
 }

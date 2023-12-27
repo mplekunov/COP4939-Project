@@ -71,8 +71,8 @@ class WaterSkiingPassProcessor {
                     maxSpeed: record.location.speed,
                     maxRoll: record.motion.attitude.roll,
                     maxPitch: record.motion.attitude.pitch,
-                    timeWhenPassed: abs(record.timeStamp - videoCreationDate))
-                ).setTimeStamp(record.timeStamp)
+                    timeOfRecordingInSeconds: abs(record.timeStamp - videoCreationDate))
+                ).setTimeOfRecording(record.timeStamp)
                 
                 crossedEntryGate = true
             }
@@ -83,7 +83,7 @@ class WaterSkiingPassProcessor {
                     maxSpeed: maxSpeed,
                     maxRoll: maxRoll,
                     maxPitch: maxPitch,
-                    timeWhenPassed: abs(record.timeStamp - videoCreationDate))
+                    timeOfRecordingInSeconds: abs(record.timeStamp - videoCreationDate))
                 )
             }
             
@@ -96,7 +96,7 @@ class WaterSkiingPassProcessor {
                     maxAngle: maxAngle,
                     maxGForce: maxGForce,
                     maxAcceleration: maxAcceleration,
-                    timeWhenPassed: abs(record.timeStamp - videoCreationDate))
+                    timeOfRecordingInSeconds: abs(record.timeStamp - videoCreationDate))
                 )
             }
             
@@ -106,7 +106,7 @@ class WaterSkiingPassProcessor {
                     maxSpeed: maxSpeed,
                     maxRoll: maxRoll,
                     maxPitch: maxPitch,
-                    timeWhenPassed: abs(record.timeStamp - videoCreationDate))
+                    timeOfRecordingInSeconds: abs(record.timeStamp - videoCreationDate))
                 )
                 
                 i += 1
@@ -115,8 +115,8 @@ class WaterSkiingPassProcessor {
         
         Task {
             let videoFile = await processVideo(
-                startTime: passBuilder.entryGate.timeWhenPassed,
-                endTime: passBuilder.exitGate.timeWhenPassed,
+                startTime: passBuilder.entryGate.timeOfRecordingInSeconds,
+                endTime: passBuilder.exitGate.timeOfRecordingInSeconds,
                 videoFile: videoFile
             )
             

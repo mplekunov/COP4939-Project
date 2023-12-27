@@ -14,18 +14,18 @@ class PassBuilder {
         maxSpeed: Measurement(value: 0, unit: .metersPerSecond),
         maxRoll: Measurement(value: 0, unit: .degrees),
         maxPitch: Measurement(value: 0, unit: .degrees),
-        timeWhenPassed: 0
+        timeOfRecordingInSeconds: 0
     )
     public private(set) var exitGate = Gate(
         location: Coordinate(latitude: Measurement(value: 0, unit: .degrees), longitude: Measurement(value: 0, unit: .degrees)),
         maxSpeed: Measurement(value: 0, unit: .metersPerSecond),
         maxRoll: Measurement(value: 0, unit: .degrees),
         maxPitch: Measurement(value: 0, unit: .degrees),
-        timeWhenPassed: 0
+        timeOfRecordingInSeconds: 0
     )
     public private(set) var wakeCrosses: Array<WakeCross> = Array()
     public private(set) var buoys: Array<Buoy> = Array()
-    public private(set) var timeStamp = Date().timeIntervalSince1970
+    public private(set) var timeOfRecordingInSeconds = Date().timeIntervalSince1970
     public private(set) var videoFile: VideoFile = VideoFile(id: UUID(), creationDate: Date().timeIntervalSince1970, url: URL(string: "")!)
     
     @discardableResult
@@ -71,8 +71,8 @@ class PassBuilder {
     }
     
     @discardableResult
-    public func setTimeStamp(_ time: Double) -> PassBuilder {
-        self.timeStamp = time
+    public func setTimeOfRecording(_ timeInSeconds: Double) -> PassBuilder {
+        self.timeOfRecordingInSeconds = timeInSeconds
         return self
     }
     
@@ -89,7 +89,7 @@ class PassBuilder {
             exitGate: exitGate,
             wakeCrosses: wakeCrosses,
             buoys: buoys,
-            timeStamp: timeStamp,
+            timeOfRecordingInSeconds: timeOfRecordingInSeconds,
             videoFile: videoFile
         )
     }
@@ -101,6 +101,6 @@ struct Pass {
     public let exitGate: Gate
     public let wakeCrosses: Array<WakeCross>
     public let buoys: Array<Buoy>
-    public let timeStamp: Double
+    public let timeOfRecordingInSeconds: Double
     public let videoFile: VideoFile
 }

@@ -71,7 +71,7 @@ struct AdvancedSessionResultView : View {
                             let record = passVideoViewModel.objectRecords[index]
                             
                             HStack(spacing: 0) {
-                                Text(formatTime(seconds: record.videoTimeStamp))
+                                Text(formatTime(seconds: record.videoTimeStampInSeconds))
                                     .frame(maxWidth: .infinity)
                                 Text(record.objectName)
                                     .frame(maxWidth: .infinity)
@@ -105,7 +105,7 @@ struct AdvancedSessionResultView : View {
                                     objectName: record.objectName,
                                     objectIndex: record.objectIndex,
                                     objectType: record.objectType,
-                                    videoTimeStamp: record.videoTimeStamp
+                                    videoTimeStamp: record.videoTimeStampInSeconds
                                 )
                                 
                                 togglePopup(type: record.objectType)

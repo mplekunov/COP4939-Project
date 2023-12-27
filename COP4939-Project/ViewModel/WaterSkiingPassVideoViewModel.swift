@@ -37,7 +37,7 @@ class WaterSkiingPassVideoViewModel : ObservableObject {
             let timeInSeconds = CMTimeGetSeconds(time)
             
             if currentObjectRecordIndex + 1 < objectRecords.count &&
-                objectRecords[currentObjectRecordIndex + 1].videoTimeStamp < timeInSeconds {
+                objectRecords[currentObjectRecordIndex + 1].videoTimeStampInSeconds < timeInSeconds {
                 currentObjectRecordIndex += 1
             }
         }
@@ -48,12 +48,12 @@ class WaterSkiingPassVideoViewModel : ObservableObject {
     func seekTo(record: WaterSkiingObjectRecord) {
         guard let player = player else { return }
         
-        let seekTime = CMTime(seconds: record.videoTimeStamp, preferredTimescale: 1)
+        let seekTime = CMTime(seconds: record.videoTimeStampInSeconds, preferredTimescale: 1)
         let tolerance = CMTime(seconds: 1, preferredTimescale: 2)
         
         player.seek(to: seekTime, toleranceBefore: tolerance, toleranceAfter: tolerance)
         
-        guard let index = videoTimeStampToObjectRecordIndex[record.videoTimeStamp] else {
+        guard let index = videoTimeStampToObjectRecordIndex[record.videoTimeStampInSeconds] else {
             curentPlayingRecord = nil
             currentObjectRecordIndex = -1
             return
@@ -66,13 +66,13 @@ class WaterSkiingPassVideoViewModel : ObservableObject {
     private func configure(pass: Pass) {
         objectIndexToGates[0] = pass.entryGate
         
-        videoTimeStampToObjectRecordIndex[pass.entryGate.timeWhenPassed] = 0
+        videoTimeStampToObjectRecordIndex[pass.entryGate.timeOfRecordingInSeconds] = 0
         
         objectRecords.append(WaterSkiingObjectRecord(
             objectName: "Entry Gate",
             objectIndex: 0,
             objectType: .EntryGate,
-            videoTimeStamp: pass.entryGate.timeWhenPassed)
+            videoTimeStamp: pass.entryGate.timeOfRecordingInSeconds)
         )
         
         var i = 0, j = 0
@@ -82,25 +82,25 @@ class WaterSkiingPassVideoViewModel : ObservableObject {
         for index in 0..<totalCount {
             if index % 2 == 0 {
                 objectIndexToWakeCrosses[i] = pass.wakeCrosses[i]
-                videoTimeStampToObjectRecordIndex[pass.wakeCrosses[i].timeWhenPassed] = objectRecords.count
+                videoTimeStampToObjectRecordIndex[pass.wakeCrosses[i].timeOfRecordingInSeconds] = objectRecords.count
                 
                 objectRecords.append(WaterSkiingObjectRecord(
                     objectName: "Wake Cross \(i + 1)",
                     objectIndex: i,
                     objectType: .WakeCross,
-                    videoTimeStamp: pass.wakeCrosses[i].timeWhenPassed)
+                    videoTimeStamp: pass.wakeCrosses[i].timeOfRecordingInSeconds)
                 )
                 
                 i += 1
             } else {
                 objectIndexToBuoys[j] = pass.buoys[j]
-                videoTimeStampToObjectRecordIndex[pass.buoys[j].timeWhenPassed] = objectRecords.count
+                videoTimeStampToObjectRecordIndex[pass.buoys[j].timeOfRecordingInSeconds] = objectRecords.count
                 
                 objectRecords.append(WaterSkiingObjectRecord(
                     objectName: "Buoy \(j + 1)",
                     objectIndex: j,
                     objectType: .Buoy,
-                    videoTimeStamp: pass.buoys[j].timeWhenPassed)
+                    videoTimeStamp: pass.buoys[j].timeOfRecordingInSeconds)
                 )
                 
                 j += 1
@@ -108,13 +108,13 @@ class WaterSkiingPassVideoViewModel : ObservableObject {
         }
         
         objectIndexToGates[objectRecords.count] = pass.exitGate
-        videoTimeStampToObjectRecordIndex[pass.exitGate.timeWhenPassed] = objectRecords.count
+        videoTimeStampToObjectRecordIndex[pass.exitGate.timeOfRecordingInSeconds] = objectRecords.count
         
         objectRecords.append(WaterSkiingObjectRecord(
             objectName: "Exit Gate",
             objectIndex: objectRecords.count,
             objectType: .ExitGate,
-            videoTimeStamp: pass.exitGate.timeWhenPassed)
+            videoTimeStamp: pass.exitGate.timeOfRecordingInSeconds)
         )
     }
     
