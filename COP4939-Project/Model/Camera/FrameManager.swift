@@ -16,7 +16,9 @@ class FrameManager: NSObject, ObservableObject {
     @Published public private(set) var current: CVPixelBuffer?
     @Published public private(set) var error: String?
     @Published public private(set) var isRecording: Bool?
-    @Published public private(set) var recordedFile: URL?
+    @Published public private(set) var videoFile: VideoFile?
+    
+    private var creationDate: Date?
     
     private var outputFileURL: URL?
     
@@ -55,7 +57,9 @@ class FrameManager: NSObject, ObservableObject {
     
     func startRecording() {
         setupAssetWriter()
-        recordedFile = nil
+        videoFile = nil
+        
+        creationDate = Date()
         
         CameraManager.instance.startRecording()
     }
@@ -63,7 +67,12 @@ class FrameManager: NSObject, ObservableObject {
     func stopRecording() {
         CameraManager.instance.stopRecording()
         
-        recordedFile = outputFileURL
+        guard let assetWriterInput = assetWriterInput else {
+            error = AssetWriterError.AssetWriterInputIsUndefined.description
+            return
+        }
+        
+        assetWriterInput.markAsFinished()
     }
     
     private func setupAssetWriter() {
@@ -85,7 +94,7 @@ class FrameManager: NSObject, ObservableObject {
                 return
             }
             
-            let videoSettings: [String: Any] = [ 
+            let videoSettings: [String: Any] = [
                 AVVideoCodecKey: AVVideoCodecType.h264,
                 AVVideoWidthKey: 1920,
                 AVVideoHeightKey: 1080
@@ -113,6 +122,27 @@ class FrameManager: NSObject, ObservableObject {
             assetWriter.startSession(atSourceTime: CMTime.zero)
         } catch {
             self.error = AssetWriterError.CreateAssetWriter(error).description
+        }
+        
+        assetWriter?.finishWriting {
+            DispatchQueue.main.async {
+                if let error = self.assetWriter?.error {
+                    self.error = error.localizedDescription
+                } else {
+                    guard let outputFileURL = self.outputFileURL else { return }
+                    
+                    do {
+                        let fileManager = FileManager.default
+                        var attributes = try fileManager.attributesOfItem(atPath: outputFileURL.path())
+                        attributes[.creationDate] = self.creationDate
+                        try fileManager.setAttributes(attributes, ofItemAtPath: outputFileURL.path())
+                            
+                        self.videoFile = VideoFile(id: UUID(), url: outputFileURL)
+                    } catch {
+                        self.error = error.localizedDescription
+                    }
+                }
+            }
         }
     }
 }

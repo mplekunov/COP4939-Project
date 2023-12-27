@@ -58,7 +58,7 @@ final class COP4939_ProjectTests: XCTestCase {
         let length: Measurement<UnitLength> = Measurement(value: 1, unit: .meters)
         let angle: Measurement<UnitAngle> = Measurement(value: 1, unit: .degrees)
         
-        let processor = WaterSkiingProcessor(
+        let processor = WaterSkiingPassProcessor(
             user: WaterSkier(
                 user: User(
                     name: "Michael",

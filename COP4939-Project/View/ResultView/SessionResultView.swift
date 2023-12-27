@@ -11,19 +11,29 @@ import SwiftUI
 struct SessionResultView : View {
     @EnvironmentObject var sessionViewModel: SessionViewModel
     
-    var recordedFile: URL?
+    @StateObject var waterSkiingPassVideoManager = WaterSkiingPassVideoViewModel()
+    @StateObject var waterSkiingPassViewModel: WaterSkiingPassViewModel
     
     @State var alert: AlertInfo?
+    
+    init(
+        waterSkiingCourseViewModel: WaterSkiingCourseViewModel,
+        cameraViewModel: CameraViewModel,
+        sessionViewModel: SessionViewModel
+    ) {
+       _waterSkiingPassViewModel = StateObject(wrappedValue: WaterSkiingPassViewModel(
+            waterSkiingCourseViewModel: waterSkiingCourseViewModel,
+            cameraViewModel: cameraViewModel,
+            sessionViewModel: sessionViewModel
+        ))
+    }
     
     var body: some View {
         ZStack {
             VStack {
-                Text("Session Stats")
-                    .foregroundStyle(.orange)
-                    .padding()
-                
-                StatisticsView()
-                    .environmentObject(sessionViewModel)
+                AdvancedSessionResultView()
+                    .environmentObject(waterSkiingPassViewModel)
+                    .environmentObject(waterSkiingPassVideoManager)
                     .padding()
                 
                 Button("Close") {
@@ -36,6 +46,11 @@ struct SessionResultView : View {
                 .clipShape(.rect(cornerRadius: 20))
             }
         }
+        .onReceive(waterSkiingPassViewModel.$pass, perform: { pass in
+            guard let pass = pass else { return }
+            
+            waterSkiingPassVideoManager.startPlayback(pass: pass)
+        })
         .onReceive(sessionViewModel.$error, perform: { error in
             guard error == nil else { return }
             

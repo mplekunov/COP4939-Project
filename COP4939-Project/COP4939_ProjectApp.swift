@@ -8,11 +8,10 @@
 import SwiftUI
 
 @main
-struct COP4939_ProjectApp: App {    
+struct COP4939_ProjectApp: App {
     var body: some Scene {
         WindowGroup {
-            AdvancedSessionResultView()
-                .environmentObject(PassViewModel(pass: generateTestPass()))
+            ContentView()
         }
     }
 }
@@ -22,22 +21,26 @@ private func getCoordinate(lat: Double, lon: Double) -> Coordinate {
 }
 
 func generateTestPass() -> Pass {
-    let length: Measurement<UnitLength> = Measurement(value: 1, unit: .meters)
-    let angle: Measurement<UnitAngle> = Measurement(value: 1, unit: .degrees)
+    let processor = WaterSkiingPassProcessor()
     
-    let processor = WaterSkiingProcessor(
-        user: WaterSkier(
-            user: User(
-                name: "Michael",
-                dateOfBirth: Date(),
-                username: "Test",
-                password: "Test"
-            ),
-            ageGroup: .Group_1,
-            ski: Ski(brand: "a", style: "b", length: length, bindingType: "c"),
-            fin: Fin(length: length, depth: length, dft: length, wingAngle: angle, bladeThickness: length)
-        ),
-        boat: Boat(name: "A", driver: BoatDriver(name: "A")),
+    let trackingRecords = Array([
+        generateTrackingRecord(coordinate: getCoordinate(lat: 1.5, lon: 0), timeStamp: 0),
+        generateTrackingRecord(coordinate: getCoordinate(lat: 1.5, lon: 0.5), timeStamp: 2),
+        generateTrackingRecord(coordinate: getCoordinate(lat: 2.000005, lon: 1), timeStamp: 12),
+        generateTrackingRecord(coordinate: getCoordinate(lat: 1.5, lon: 1.5), timeStamp: 15),
+        generateTrackingRecord(coordinate: getCoordinate(lat: 0.999995, lon: 2), timeStamp: 19),
+        generateTrackingRecord(coordinate: getCoordinate(lat: 1.5, lon: 2.5), timeStamp: 23),
+        generateTrackingRecord(coordinate: getCoordinate(lat: 2.000005, lon: 3), timeStamp: 29),
+        generateTrackingRecord(coordinate: getCoordinate(lat: 1.5, lon: 3.5), timeStamp: 35),
+        generateTrackingRecord(coordinate: getCoordinate(lat: 0.999995, lon: 4), timeStamp: 42),
+        generateTrackingRecord(coordinate: getCoordinate(lat: 1.5, lon: 4.5), timeStamp: 45),
+        generateTrackingRecord(coordinate: getCoordinate(lat: 2.000005, lon: 5), timeStamp: 80),
+        generateTrackingRecord(coordinate: getCoordinate(lat: 1.5, lon: 5.5), timeStamp: 91),
+        generateTrackingRecord(coordinate: getCoordinate(lat: 0.999995, lon: 6), timeStamp: 95),
+        generateTrackingRecord(coordinate: getCoordinate(lat: 1.5, lon: 6.5), timeStamp: 100)
+    ])
+    
+    return processor.processPass(
         course: WaterSkiingCourse(
             location: Coordinate(latitude: Measurement(value: 0, unit: .degrees), longitude: Measurement(value: 0, unit: .degrees)),
             name: "Test",
@@ -59,27 +62,10 @@ func generateTestPass() -> Pass {
             ]),
             entryGate: getCoordinate(lat: 1.5, lon: 0),
             exitGate: getCoordinate(lat: 1.5, lon: 6.5)
-        )
+        ),
+        records: trackingRecords,
+        videoFile: VideoFile(id: UUID(), url: Bundle.main.url(forResource: "video", withExtension: "mp4")!)
     )
-    
-    let trackingRecords = Array([
-        generateTrackingRecord(coordinate: getCoordinate(lat: 1.5, lon: 0), timeStamp: 0),
-        generateTrackingRecord(coordinate: getCoordinate(lat: 1.5, lon: 0.5), timeStamp: 2),
-        generateTrackingRecord(coordinate: getCoordinate(lat: 2.000005, lon: 1), timeStamp: 12),
-        generateTrackingRecord(coordinate: getCoordinate(lat: 1.5, lon: 1.5), timeStamp: 15),
-        generateTrackingRecord(coordinate: getCoordinate(lat: 0.999995, lon: 2), timeStamp: 19),
-        generateTrackingRecord(coordinate: getCoordinate(lat: 1.5, lon: 2.5), timeStamp: 23),
-        generateTrackingRecord(coordinate: getCoordinate(lat: 2.000005, lon: 3), timeStamp: 29),
-        generateTrackingRecord(coordinate: getCoordinate(lat: 1.5, lon: 3.5), timeStamp: 35),
-        generateTrackingRecord(coordinate: getCoordinate(lat: 0.999995, lon: 4), timeStamp: 42),
-        generateTrackingRecord(coordinate: getCoordinate(lat: 1.5, lon: 4.5), timeStamp: 45),
-        generateTrackingRecord(coordinate: getCoordinate(lat: 2.000005, lon: 5), timeStamp: 80),
-        generateTrackingRecord(coordinate: getCoordinate(lat: 1.5, lon: 5.5), timeStamp: 91),
-        generateTrackingRecord(coordinate: getCoordinate(lat: 0.999995, lon: 6), timeStamp: 95),
-        generateTrackingRecord(coordinate: getCoordinate(lat: 1.5, lon: 6.5), timeStamp: 100)
-    ])
-    
-    return processor.processPass(records: trackingRecords, videoId: UUID())
 }
 
 private func generateTrackingRecord(coordinate: Coordinate, timeStamp: Double) -> TrackingRecord {

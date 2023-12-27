@@ -10,7 +10,8 @@ import SwiftUI
 import AVKit
 
 struct AdvancedSessionResultView : View {
-    @EnvironmentObject var passViewModel: PassViewModel
+    @EnvironmentObject var passVideoViewModel: WaterSkiingPassVideoViewModel
+    @EnvironmentObject var passViewModel: WaterSkiingPassViewModel
     
     @State private var isPlaying = false
     @State private var showPlayButton = false
@@ -20,21 +21,12 @@ struct AdvancedSessionResultView : View {
     @State private var showBuoyPopup = false
     @State private var showWakeCrossPopup = false
     
-    @State private var activeElement: PassElement?
+    @State private var chosenObjectRecord: WaterSkiingObjectRecord?
     
-    private var currentRow: Binding<Int> {
-        Binding(
-            get: {
-                guard let index = passViewModel.currentElement?.index else { return 0 }
-                return index
-            },
-            set: { _ in }
-        )
-    }
     var body: some View {
         ZStack(alignment: .center) {
             VStack(alignment: .center) {
-                VideoPlayer(player: passViewModel.player)
+                VideoPlayer(player: passVideoViewModel.player)
                     .onAppear {
                         togglePlayback()
                     }
@@ -51,7 +43,8 @@ struct AdvancedSessionResultView : View {
                         }
                     })
                     .onDisappear {
-                        passViewModel.player.pause()
+                        guard let player = passVideoViewModel.player else { return }
+                        player.pause()
                     }
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                     .overlay(
@@ -69,18 +62,18 @@ struct AdvancedSessionResultView : View {
                             .alignmentGuide(.listRowSeparatorTrailing) { viewDimensions in
                                 return viewDimensions.width
                             }
-                            .listRowBackground(Color.black)
+                            .listRowBackground(Color.clear)
                             .foregroundStyle(Color.orange)
                             .listRowSeparator(.automatic)
                             .listRowSeparatorTint(.orange)
                         
-                        ForEach(0..<passViewModel.timeStamps.count, id: \.self) { index in
-                            let element = passViewModel.timeStamps[index]
+                        ForEach(0..<passVideoViewModel.objectRecords.count, id: \.self) { index in
+                            let record = passVideoViewModel.objectRecords[index]
                             
                             HStack(spacing: 0) {
-                                Text(formatTime(seconds: element.timeStamp))
+                                Text(formatTime(seconds: record.videoTimeStamp))
                                     .frame(maxWidth: .infinity)
-                                Text(element.name)
+                                Text(record.objectName)
                                     .frame(maxWidth: .infinity)
                             }
                             .id(index)
@@ -94,75 +87,86 @@ struct AdvancedSessionResultView : View {
                             }
                             .background(Color.black)
                             .foregroundStyle(Color.orange)
-                            .clipShape(element == passViewModel.currentElement ? RoundedRectangle(cornerRadius: 10) : RoundedRectangle(cornerRadius: 0))
+                            .clipShape(record == passVideoViewModel.curentPlayingRecord ? RoundedRectangle(cornerRadius: 10) : RoundedRectangle(cornerRadius: 0))
                             .overlay(
-                                (element == passViewModel.currentElement ? RoundedRectangle(cornerRadius: 10) : RoundedRectangle(cornerRadius: 0))
-                                    .stroke(.orange, lineWidth: 2)
+                                record == passVideoViewModel.curentPlayingRecord ?
+                                RoundedRectangle(cornerRadius: 10).stroke(.orange, lineWidth: 4) : RoundedRectangle(cornerRadius: 0).stroke(.orange, lineWidth: 0.4)
                             )
-                            .listRowBackground(Color.black)
+                            .listRowBackground(Color.clear)
                             .listRowSeparator(.automatic)
                             .listRowSeparatorTint(.orange)
                             .onTapGesture(perform: {
-                                passViewModel.seekTo(element: element)
+                                passVideoViewModel.seekTo(record: record)
                                 highlightedRow = index
                             })
                             .onLongPressGesture(perform: {
-                                activeElement = PassElement(
-                                    id: element.id,
-                                    index: element.index,
-                                    name: element.name,
-                                    type: element.type,
-                                    timeStamp: element.timeStamp
+                                chosenObjectRecord = WaterSkiingObjectRecord(
+                                    id: record.id,
+                                    objectName: record.objectName,
+                                    objectIndex: record.objectIndex,
+                                    objectType: record.objectType,
+                                    videoTimeStamp: record.videoTimeStamp
                                 )
                                 
-                                togglePopup(type: element.type)
+                                togglePopup(type: record.objectType)
                             })
                         }
-                        .onChange(of: passViewModel.currentElement) {
-                            guard passViewModel.currentElement != nil else { return }
-                            
-                            highlightedRow += 1
+                        
+                        HStack(spacing: 0) {
+                            Text("Score: ")
+                                .frame(maxWidth: .infinity)
+                            Text("\(passViewModel.pass?.score ?? -1)")
+                                .frame(maxWidth: .infinity)
                         }
-                        .onChange(of: highlightedRow) {
-                            withAnimation {
-                                scrollProxy.scrollTo(highlightedRow, anchor: .center)
-                            }
+                        .padding()
+                        .listRowBackground(Color.clear)
+                        .background(Color.black)
+                        .foregroundStyle(Color.orange)
+                    }
+                    .onChange(of: passVideoViewModel.curentPlayingRecord) {
+                        guard passVideoViewModel.curentPlayingRecord != nil else { return }
+                        
+                        highlightedRow += 1
+                    }
+                    .onChange(of: highlightedRow) {
+                        withAnimation {
+                            scrollProxy.scrollTo(highlightedRow, anchor: .center)
+                        }
+                    }.scrollContentBackground(.hidden)
+                    
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color.black)
+                .allowsHitTesting(!isPopupToggled())
+                
+                if isPopupToggled(), let chosenObjectRecord = chosenObjectRecord {
+                    ZStack {
+                        if showGatePopup, let gate = passVideoViewModel.getGateByIndex(chosenObjectRecord.objectIndex) {
+                            GatePopup(
+                                showPopup: $showGatePopup,
+                                title: chosenObjectRecord.objectName,
+                                gate: gate
+                            )
+                        } else if showBuoyPopup, let buoy = passVideoViewModel.getBuoyByIndex(chosenObjectRecord.objectIndex) {
+                            BuoyPopup(
+                                showPopup: $showBuoyPopup,
+                                title: chosenObjectRecord.objectName,
+                                buoy: buoy
+                            )
+                        } else if showWakeCrossPopup, let wakeCross = passVideoViewModel.getWakeCrossByIndex(chosenObjectRecord.objectIndex) {
+                            WakeCrossPopup(
+                                showPopup: $showWakeCrossPopup,
+                                title: chosenObjectRecord.objectName,
+                                wakeCross: wakeCross
+                            )
                         }
                     }
-                    .scrollContentBackground(.hidden)
+                    .onAppear(perform: {
+                        if isPlaying {
+                            togglePlayback()
+                        }
+                    })
                 }
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.black)
-            .allowsHitTesting(!isPopupToggled())
-            
-            if isPopupToggled(), let activeElement = activeElement {
-                ZStack {
-                    if showGatePopup, let gate = passViewModel.getGateByIndex(activeElement.index) {
-                        GatePopup(
-                            showPopup: $showGatePopup,
-                            title: activeElement.name,
-                            gate: gate
-                        )
-                    } else if showBuoyPopup, let buoy = passViewModel.getBuoyByIndex(activeElement.index) {
-                        BuoyPopup(
-                            showPopup: $showBuoyPopup,
-                            title: activeElement.name,
-                            buoy: buoy
-                        )
-                    } else if showWakeCrossPopup, let wakeCross = passViewModel.getWakeCrossByIndex(activeElement.index) {
-                        WakeCrossPopup(
-                            showPopup: $showWakeCrossPopup,
-                            title: activeElement.name,
-                            wakeCross: wakeCross
-                        )
-                    }
-                }
-                .onAppear(perform: {
-                    if isPlaying {
-                        togglePlayback()
-                    }
-                })
             }
         }
     }
@@ -171,7 +175,7 @@ struct AdvancedSessionResultView : View {
         return showBuoyPopup || showGatePopup || showWakeCrossPopup
     }
     
-    private func togglePopup(type: CoursePoint) {
+    private func togglePopup(type: WaterSkiingObjectType) {
         switch type {
         case .Buoy:
             showBuoyPopup.toggle()
@@ -203,16 +207,18 @@ struct AdvancedSessionResultView : View {
     }
     
     private func togglePlayback() {
+        guard let player = passVideoViewModel.player else { return }
+        
         showPlayButton = true
         
         if !isPlaying {
-            passViewModel.player.play()
+            player.play()
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 showPlayButton = false
             }
         } else {
-            passViewModel.player.pause()
+            player.pause()
         }
         
         isPlaying.toggle()
@@ -225,12 +231,3 @@ extension AVPlayerViewController {
         self.showsPlaybackControls = false
     }
 }
-
-struct Preview: PreviewProvider {
-    static var previews: some View {
-        AdvancedSessionResultView()
-            .environmentObject(PassViewModel(pass: generateTestPass()))
-    }
-}
-
-

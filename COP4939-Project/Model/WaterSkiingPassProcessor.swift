@@ -6,25 +6,22 @@
 //
 
 import Foundation
+import AVFoundation
 
-class WaterSkiingProcessor {
+class WaterSkiingPassProcessor {
     private var logger: LoggerService
     
-    private let boat: Boat
-    private let user: WaterSkier
+    private let videoManager = VideoManager()
+    
     private let NUM_OF_BUOYS = 6
-    private let course: WaterSkiingCourse
+    
     private let RANGE = Measurement<UnitLength>(value: 1.0, unit: .meters)
     
-    init(user: WaterSkier, boat: Boat, course: WaterSkiingCourse) {
+    init() {
         logger = LoggerService(logSource: String(describing: type(of: self)))
-        
-        self.boat = boat
-        self.user = user
-        self.course = course
     }
     
-    func processPass(records: Array<TrackingRecord>, videoId: UUID) -> Pass {
+    func processPass(course: WaterSkiingCourse, records: Array<TrackingRecord>, videoFile: VideoFile) -> Pass {
         let passBuilder = PassBuilder()
         
         if records.isEmpty {
@@ -46,7 +43,7 @@ class WaterSkiingProcessor {
         
         var i = 0
         
-        passBuilder.setScore(calculateTotalScore(records: records))
+        passBuilder.setScore(calculateTotalScore(course: course, records: records))
         
         var crossedEntryGate: Bool = false
         
@@ -114,10 +111,46 @@ class WaterSkiingProcessor {
             }
         }
         
+        Task {
+            await passBuilder.setVideoFile(processVideo(
+                startTime: passBuilder.entryGate.timeWhenPassed,
+                endTime: passBuilder.exitGate.timeWhenPassed,
+                videoFile: videoFile)
+            )
+        }
+        
         return passBuilder.build()
     }
     
-    private func calculateTotalScore(records: Array<TrackingRecord>) -> Int {
+    private func processVideo(startTime: Double, endTime: Double, videoFile: VideoFile) async -> VideoFile {
+        let asset = AVAsset(url: videoFile.url)
+        let composition = AVVideoComposition()
+        
+        do {
+            let fileManager = FileManager.default
+            let attributes = try fileManager.attributesOfItem(atPath: videoFile.url.path())
+            
+            if let creationDate = attributes[.creationDate] as? Date {
+                logger.log(message: "Video creation date: \(creationDate)")
+                
+                let startTime = abs(creationDate.timeIntervalSince1970 - startTime)
+                let endTime = abs(creationDate.timeIntervalSince1970 - endTime)
+                
+                let startCMTime = CMTime(seconds: startTime, preferredTimescale: 100)
+                let endCMTime = CMTime(seconds: endTime, preferredTimescale: 100)
+                
+                await videoManager.export(asset, to: videoFile.url, startTime: startCMTime, endTime: endCMTime, composition: composition)
+            } else {
+                logger.log(message: "Creation date not available in file attributes.")
+            }
+        } catch {
+            logger.error(message: "\(error)")
+        }
+        
+        return videoFile
+    }
+    
+    private func calculateTotalScore(course: WaterSkiingCourse, records: Array<TrackingRecord>) -> Int {
         var i = 0
         
         var score = 0

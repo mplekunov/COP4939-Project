@@ -14,7 +14,7 @@ class CameraViewModel: ObservableObject {
     @Published public private(set) var frame: CGImage?
     @Published public private(set) var error: String?
     @Published public private(set) var isRecording: Bool?
-    @Published public private(set) var recordedFile: URL?
+    @Published public private(set) var videoFile: VideoFile?
     
     private let frameManager = FrameManager.instance
     
@@ -38,9 +38,9 @@ class CameraViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .assign(to: &$isRecording)
         
-        frameManager.$recordedFile
+        frameManager.$videoFile
             .receive(on: DispatchQueue.main)
-            .assign(to: &$recordedFile)
+            .assign(to: &$videoFile)
     }
     
     func startRecording() {

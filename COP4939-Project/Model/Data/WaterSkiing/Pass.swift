@@ -9,14 +9,14 @@ import Foundation
 
 class PassBuilder {
     public private(set) var score: Int = 0
-    public private(set) var entryGate: Gate = Gate(
+    public private(set) var entryGate = Gate(
         location: Coordinate(latitude: Measurement(value: 0, unit: .degrees), longitude: Measurement(value: 0, unit: .degrees)),
         maxSpeed: Measurement(value: 0, unit: .metersPerSecond),
         maxRoll: Measurement(value: 0, unit: .degrees),
         maxPitch: Measurement(value: 0, unit: .degrees),
         timeWhenPassed: 0
     )
-    public private(set) var exitGate: Gate = Gate(
+    public private(set) var exitGate = Gate(
         location: Coordinate(latitude: Measurement(value: 0, unit: .degrees), longitude: Measurement(value: 0, unit: .degrees)),
         maxSpeed: Measurement(value: 0, unit: .metersPerSecond),
         maxRoll: Measurement(value: 0, unit: .degrees),
@@ -25,8 +25,8 @@ class PassBuilder {
     )
     public private(set) var wakeCrosses: Array<WakeCross> = Array()
     public private(set) var buoys: Array<Buoy> = Array()
-    public private(set) var timeStamp: Double = Date().timeIntervalSince1970
-    public private(set) var videoId: UUID = UUID()
+    public private(set) var timeStamp = Date().timeIntervalSince1970
+    public private(set) var videoFile: VideoFile = VideoFile(id: UUID(), url: URL(string: "")!)
     
     @discardableResult
     public func setScore(_ score: Int) -> PassBuilder{
@@ -77,8 +77,8 @@ class PassBuilder {
     }
     
     @discardableResult 
-    public func setVideoId(_ id: UUID) -> PassBuilder {
-        self.videoId = id
+    public func setVideoFile(_ videoFile: VideoFile) -> PassBuilder {
+        self.videoFile = videoFile
         return self
     }
     
@@ -90,7 +90,7 @@ class PassBuilder {
             wakeCrosses: wakeCrosses,
             buoys: buoys,
             timeStamp: timeStamp,
-            videoId: videoId
+            videoFile: videoFile
         )
     }
 }
@@ -102,5 +102,5 @@ struct Pass {
     public let wakeCrosses: Array<WakeCross>
     public let buoys: Array<Buoy>
     public let timeStamp: Double
-    public let videoId: UUID
+    public let videoFile: VideoFile
 }
