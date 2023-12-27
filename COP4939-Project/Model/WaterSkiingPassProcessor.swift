@@ -24,6 +24,8 @@ class WaterSkiingPassProcessor {
     func processPass(course: WaterSkiingCourse, records: Array<TrackingRecord>, videoFile: VideoFile) -> Pass? {
         let passBuilder = PassBuilder()
         
+        let videoCreationDate = videoFile.creationDate
+        
         if records.isEmpty {
             logger.error(message: "Data array cannot be empty")
             return nil
@@ -69,7 +71,7 @@ class WaterSkiingPassProcessor {
                     maxSpeed: record.location.speed,
                     maxRoll: record.motion.attitude.roll,
                     maxPitch: record.motion.attitude.pitch,
-                    timeWhenPassed: record.timeStamp)
+                    timeWhenPassed: abs(record.timeStamp - videoCreationDate))
                 ).setTimeStamp(record.timeStamp)
                 
                 crossedEntryGate = true
@@ -81,7 +83,7 @@ class WaterSkiingPassProcessor {
                     maxSpeed: maxSpeed,
                     maxRoll: maxRoll,
                     maxPitch: maxPitch,
-                    timeWhenPassed: record.timeStamp)
+                    timeWhenPassed: abs(record.timeStamp - videoCreationDate))
                 )
             }
             
@@ -94,7 +96,7 @@ class WaterSkiingPassProcessor {
                     maxAngle: maxAngle,
                     maxGForce: maxGForce,
                     maxAcceleration: maxAcceleration,
-                    timeWhenPassed: record.timeStamp)
+                    timeWhenPassed: abs(record.timeStamp - videoCreationDate))
                 )
             }
             
@@ -104,7 +106,7 @@ class WaterSkiingPassProcessor {
                     maxSpeed: maxSpeed,
                     maxRoll: maxRoll,
                     maxPitch: maxPitch,
-                    timeWhenPassed: record.timeStamp)
+                    timeWhenPassed: abs(record.timeStamp - videoCreationDate))
                 )
                 
                 i += 1
