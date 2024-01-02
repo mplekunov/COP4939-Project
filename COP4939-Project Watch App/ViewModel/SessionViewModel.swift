@@ -62,7 +62,7 @@ class SessionViewModel : ObservableObject {
     
     func sendSession(session: WatchTrackingSession) {
         do {
-            send(dataPacket: DataPacket(dataType: .WatchSession, id: UUID(), data: try converter.encode(session)))
+            sendAsFile(dataPacket: DataPacket(dataType: .WatchSession, id: UUID(), data: try converter.encode(session)))
         } catch {
             logger.error(message: "\(error)")
         }
@@ -79,6 +79,14 @@ class SessionViewModel : ObservableObject {
                     logger.log(message: "\(error)")
                 }
             )
+        } catch {
+            logger.error(message: "\(error)")
+        }
+    }
+    
+    private func sendAsFile(dataPacket: DataPacket) {
+        do {
+            watchConnectivityManager.sendAsFile(data: try converter.encode(dataPacket))
         } catch {
             logger.error(message: "\(error)")
         }

@@ -74,12 +74,12 @@ class WatchConnectivityManager : NSObject, ObservableObject {
         let fileName = UUID().uuidString + JSON_FILE_EXTENSION
         let fileUrl = temporaryDir.appendingPathComponent(fileName)
         
-        try data.write(to: fileUrl, options: .atomic)
+        FileManager.default.createFile(atPath: fileUrl.path(), contents: data, attributes: nil)
         
         return fileUrl
     }
     
-    func sendAsFile(data: Data, errorHandler: @escaping (Error) -> Void) {
+    func sendAsFile(data: Data) {
         if !checkDeviceStatus() {
             return
         }
@@ -89,7 +89,7 @@ class WatchConnectivityManager : NSObject, ObservableObject {
             
             session.transferFile(fileUrl, metadata: nil)
         } catch {
-            errorHandler(error)
+            logger.error(message: "\(error)")
         }
     }
     
@@ -122,14 +122,14 @@ extension WatchConnectivityManager : WCSessionDelegate {
         if !FileManager.default.fileExists(atPath: file.fileURL.path()) {
             logger.error(message: "File Doesn't exist at specified location ~ \(file.fileURL.path())")
         } else {
-            if let jsonData = FileManager.default.contents(atPath: file.fileURL.path()) {
-                DispatchQueue.main.async { [weak self] in
-                    guard let self = self else { return }
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                do {
+                    message = try Data(contentsOf: file.fileURL)
                     
-                    message = jsonData
+                } catch {
+                    logger.error(message: "\(error)")
                 }
-            } else {
-                logger.error(message: "File is empty")
             }
         }
     }
