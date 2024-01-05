@@ -13,6 +13,7 @@ struct WaterSkiingCoursePointSetupView: View {
     
     @Binding var activeElement: CoursePointUI?
     @Binding var coursePointLocation: Coordinate?
+    @Binding var coursePointLocations: Dictionary<UUID, Coordinate>
     @Binding var showPopOverView: Bool
     @Binding var alert: AlertInfo?
     @Binding var showAlert: Bool
@@ -43,8 +44,11 @@ struct WaterSkiingCoursePointSetupView: View {
                 
                 createButton(text: "Set Location", width: 200, height: nil) {
                     guard let currentLocation = currentLocation else { return }
+                    guard let activeElement = activeElement else { return }
                     
                     coursePointLocation = currentLocation.coordinate
+                    
+                    coursePointLocations[activeElement.id] = coursePointLocation
                 }
                 
                 createButton(text: "Close", width: 200, height: nil) {

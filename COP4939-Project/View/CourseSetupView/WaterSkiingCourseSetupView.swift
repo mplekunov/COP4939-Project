@@ -79,6 +79,7 @@ struct WaterSkiingCourseSetupView: View {
                 WaterSkiingCoursePointSetupView(
                     activeElement: $activeElement,
                     coursePointLocation: $coursePointLocation,
+                    coursePointLocations: $coursePointLocations,
                     showPopOverView: $showPopOverView,
                     alert: $alert,
                     showAlert: $showAlert
@@ -87,12 +88,6 @@ struct WaterSkiingCourseSetupView: View {
                     guard let activeElement = activeElement else { return }
                 
                     coursePointLocation = coursePointLocations[activeElement.id]
-                })
-                .onDisappear(perform: {
-                    guard let activeElement = activeElement else { return }
-                    guard let coursePointLocation = coursePointLocation else { return }
-
-                    coursePointLocations[activeElement.id] = coursePointLocation
                 })
             } else {
                 drawCourse()
@@ -188,7 +183,7 @@ struct WaterSkiingCourseSetupView: View {
         
         return WaterSkiingCourse(
             location: buoys.first ?? defaultCoordinate,
-            name: "",
+            name: UUID().uuidString,
             buoys: buoys,
             wakeCrosses: wakeCrosses,
             entryGate: entryGate,
