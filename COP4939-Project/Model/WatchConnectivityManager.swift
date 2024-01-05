@@ -140,15 +140,12 @@ extension WatchConnectivityManager : WCSessionDelegate {
     func session(_ session: WCSession, didReceive file: WCSessionFile) {
         logger.log(message: "File has been received")
         
-        if !FileManager.default.fileExists(atPath: file.fileURL.absoluteString) {
-            logger.error(message: "File Doesn't exist at specified location ~ \(file.fileURL.path())")
-        }
-        
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             do {
                 message = try Data(contentsOf: file.fileURL)
                 
+                try FileManager.default.removeItem(at: file.fileURL)
             } catch {
                 logger.error(message: "\(error)")
             }
