@@ -163,27 +163,6 @@ class FrameManager: NSObject, ObservableObject {
             self.error = AssetWriterError.CreateAssetWriter(error).description
             return
         }
-        
-        assetWriter?.finishWriting {
-            DispatchQueue.main.async {
-                if let error = self.assetWriter?.error {
-                    self.error = error.localizedDescription
-                } else {
-                    guard let outputFileURL = self.outputFileURL else {
-                        self.error = "Output file url is not set for video file."
-                        return
-                    }
-                    
-                    guard let creationDate = self.creationDate else {
-                        self.error = "Creation date is not set for video file."
-                        return
-                    }
-                    
-                    self.videoFile = VideoFile(id: id, creationDate: creationDate.timeIntervalSince1970, url: outputFileURL)
-                    
-                }
-            }
-        }
     }
 }
 
@@ -213,8 +192,8 @@ extension FrameManager: AVCaptureVideoDataOutputSampleBufferDelegate {
             return
         }
         
-//        DispatchQueue.main.async { [weak self] in
-//            guard let self = self else { return }
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             
         logger.log(message: "\(sampleBuffer.imageBuffer != nil)")
         logger.log(message: "\(assetWriterInput.isReadyForMoreMediaData)")
@@ -224,10 +203,9 @@ extension FrameManager: AVCaptureVideoDataOutputSampleBufferDelegate {
                assetWriterInput.isReadyForMoreMediaData,
                pixelBufferAdaptor.assetWriterInput.isReadyForMoreMediaData {
                 
-                logger.log(message: "Surely it's assigned")
                 pixelBufferAdaptor.append(buffer, withPresentationTime: CMSampleBufferGetPresentationTimeStamp(sampleBuffer))
                 current = buffer
             }
-//        }
+        }
     }
 }
