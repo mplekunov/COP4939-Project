@@ -122,8 +122,6 @@ class WaterSkiingPassProcessor {
         logger.log(message: "\(passBuilder.entryGate == nil)")
         logger.log(message: "\(passBuilder.exitGate == nil)")
         
-        logger.log(message: "\(records.count)")
-        
         guard let startTime = passBuilder.entryGate?.timeOfRecordingInSeconds,
               let endTime = passBuilder.exitGate?.timeOfRecordingInSeconds else {
             return nil
@@ -261,9 +259,6 @@ class WaterSkiingPassProcessor {
     }
     
     private func inRange(point: Coordinate, within locationWithRange: Coordinate, withRange: Measurement<UnitLength>) -> Bool {
-        logger.log(message: "Point ~ \(point)")
-        logger.log(message: "Point ~ \(locationWithRange)")
-        
         let distance = getHaversineDistance(from: point, to: locationWithRange)
         
         return distance <= withRange
