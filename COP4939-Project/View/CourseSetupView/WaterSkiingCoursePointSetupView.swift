@@ -26,7 +26,7 @@ struct WaterSkiingCoursePointSetupView: View {
                     .foregroundStyle(.orange)
                     .padding()
                 
-                VStack {
+                VStack(alignment: .leading) {
                     Text("Current Latitude: \(currentLocation?.coordinate.latitude.formatted() ?? "N/A")")
                         .foregroundStyle(.orange)
                     

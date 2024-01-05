@@ -138,6 +138,8 @@ struct WaterSkiingCourseSetupView: View {
                         id: .WaterSkiingCourse,
                         title: "Course data",
                         message: "Please set up all course points before saving course.")
+                    
+                    showAlert = true
                 }
             }
             

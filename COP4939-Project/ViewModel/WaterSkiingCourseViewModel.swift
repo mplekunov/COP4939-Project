@@ -39,7 +39,7 @@ class WaterSkiingCourseViewModel : ObservableObject {
     }
     
     private func getURL() -> URL? {
-        if let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
+        if let url = fileManager.urls(for: .downloadsDirectory, in: .userDomainMask).first {
             return url.appendingPathComponent(fileName)
         }
         
