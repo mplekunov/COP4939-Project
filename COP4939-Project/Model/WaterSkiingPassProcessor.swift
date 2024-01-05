@@ -146,7 +146,7 @@ class WaterSkiingPassProcessor {
         
         guard let documentsDirectory = documentsDirectory else { return nil }
         
-        logger.log(message: "Url has been assigned")
+        logger.log(message: "\(documentsDirectory)")
         
         let creationDate = videoFile.creationDate
         
@@ -156,14 +156,17 @@ class WaterSkiingPassProcessor {
         let startCMTime = CMTime(seconds: startTime, preferredTimescale: 1000)
         let endCMTime = CMTime(seconds: endTime, preferredTimescale: 1000)
         
+        logger.log(message: "StartTime ~ \(startCMTime)")
+        logger.log(message: "EndTime ~ \(endCMTime)")
+        
         let movieOutputID = UUID()
         let movieOutputURL = documentsDirectory.appendingPathComponent("\(movieOutputID.uuidString).\(videoFile.url.pathExtension)")
         
         try FileManager.default.removeItem(at: movieOutputURL)
         
-        try await videoManager.trimVideo(source: videoFile.url, to: movieOutputURL, startTime: startCMTime, endTime: endCMTime)
+        logger.log(message: "Previous trimmed movie file has been deleted")
         
-        try FileManager.default.removeItem(at: videoFile.url)
+        try await videoManager.trimVideo(source: videoFile.url, to: movieOutputURL, startTime: startCMTime, endTime: endCMTime)
         
         return VideoFile(id: movieOutputID, creationDate: videoFile.creationDate, url: movieOutputURL)
     }

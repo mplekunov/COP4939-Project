@@ -145,6 +145,8 @@ extension WatchConnectivityManager : WCSessionDelegate {
             do {
                 message = try Data(contentsOf: file.fileURL)
                 
+                
+                // Not sure if file is being automatically deleted once session function ends its execution
                 try FileManager.default.removeItem(at: file.fileURL)
             } catch {
                 logger.error(message: "\(error)")
