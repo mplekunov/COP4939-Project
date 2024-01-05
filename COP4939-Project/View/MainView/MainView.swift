@@ -12,6 +12,7 @@ import Combine
 struct MainView: View {
     
     @State private var alert: AlertInfo?
+    @State private var showAlert = false
     
     @EnvironmentObject var waterSkiingCourseViewModel: WaterSkiingCourseViewModel
     @EnvironmentObject var sessionViewModel: SessionViewModel
@@ -61,10 +62,10 @@ struct MainView: View {
                         message: "\(error ?? "Something went wrong when app tried to access camera.")"
                     )
                     
+                    showAlert = true
+                    
                     isSendingData = false
                 }
-                
-                alert = nil
             })
             .onReceive(sessionViewModel.$error, perform: { error in
                 guard isSendingData else { return }
@@ -76,10 +77,10 @@ struct MainView: View {
                         message: "\(error ?? "Something went wrong during sending request to the watch.")"
                     )
                     
+                    showAlert = true
+                    
                     isSendingData = false
                 }
-                
-                alert = nil
             })
             .frame(width: 300)
             .padding()
@@ -87,9 +88,18 @@ struct MainView: View {
             .clipShape(.rect(cornerRadius: 20))
             .foregroundStyle(waterSkiingCourseViewModel.course != nil  ? .black : .gray)
             .disabled(waterSkiingCourseViewModel.course == nil)
-            .alert(item: $alert, content: { alert in
-                Alert(title: Text(alert.title), message: Text(alert.message))
-            })
+            .alert(
+                alert?.title ?? "",
+                isPresented: $showAlert,
+                actions: {
+                    Button("Ok") {
+                        showAlert = false
+                    }
+                },
+                message: {
+                    Text(alert?.message ?? "")
+                }
+            )
         }
     }
 }

@@ -15,6 +15,7 @@ struct SessionRecordingView : View {
     @State private var isSendingData = false
     
     @State private var alert: AlertInfo?
+    @State private var showAlert = false
     
     var body: some View {
         VStack {
@@ -41,9 +42,9 @@ struct SessionRecordingView : View {
                         title: "Camera Error",
                         message: "\(error ?? "Something went wrong when app tried to record video from camera.")"
                     )
+                    
+                    showAlert = true
                 }
-                
-                alert = nil
             })
             .onReceive(sessionViewModel.$isEnded, perform: { isEnded in
                 if isEnded {
@@ -60,20 +61,29 @@ struct SessionRecordingView : View {
                         title: "Watch Connectivity Error",
                         message: "\(error ?? "Something went wrong during sending request to the watch.")"
                     )
+                 
+                    showAlert = true
                     
                     isSendingData = false
                 }
-                
-                alert = nil
             })
             .frame(width: 300)
             .padding()
             .background(.orange)
             .foregroundStyle(.black)
             .clipShape(.rect(cornerRadius: 20))
-            .alert(item: $alert, content: { alert in
-                Alert(title: Text(alert.title), message: Text(alert.message))
-            })
+            .alert(
+                alert?.title ?? "",
+                isPresented: $showAlert,
+                actions: {
+                    Button("Ok") {
+                        showAlert = false
+                    }
+                },
+                message: {
+                    Text(alert?.message ?? "")
+                }
+            )
         }
     }
 }

@@ -80,7 +80,8 @@ struct WaterSkiingCourseSetupView: View {
                     activeElement: $activeElement,
                     coursePointLocation: $coursePointLocation,
                     showPopOverView: $showPopOverView,
-                    alert: $alert
+                    alert: $alert,
+                    showAlert: $showAlert
                 )
                 .onAppear(perform: {
                     guard let activeElement = activeElement else { return }
@@ -97,9 +98,18 @@ struct WaterSkiingCourseSetupView: View {
                 drawCourse()
             }
         }
-        .alert(item: $alert, content: { alert in
-            Alert(title: Text(alert.title), message: Text(alert.message))
-        })
+        .alert(
+            alert?.title ?? "",
+            isPresented: $showAlert,
+            actions: {
+                Button("Ok") {
+                    showAlert = false
+                }
+            },
+            message: {
+                Text(alert?.message ?? "")
+            }
+        )
         .onAppear(perform: {
             guard let course = waterSkiingCourseViewModel.course else { return }
             

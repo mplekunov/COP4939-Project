@@ -15,6 +15,7 @@ struct PassSessionResultView : View {
     @StateObject var waterSkiingPassViewModel: WaterSkiingPassViewModel
     
     @State var alert: AlertInfo?
+    @State var showAlert = false
     
     init(
         waterSkiingCourseViewModel: WaterSkiingCourseViewModel,
@@ -60,7 +61,21 @@ struct PassSessionResultView : View {
                     title: "",
                     message: "\(error ?? "Something went wrong during receiving request from the watch.")"
                 )
+                
+                showAlert = true
             }
         })
+        .alert(
+            alert?.title ?? "",
+            isPresented: $showAlert,
+            actions: {
+                Button("Ok") {
+                    showAlert = false
+                }
+            },
+            message: {
+                Text(alert?.message ?? "")
+            }
+        )
     }
 }

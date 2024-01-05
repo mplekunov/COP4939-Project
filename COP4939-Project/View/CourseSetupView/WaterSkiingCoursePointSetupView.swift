@@ -15,6 +15,7 @@ struct WaterSkiingCoursePointSetupView: View {
     @Binding var coursePointLocation: Coordinate?
     @Binding var showPopOverView: Bool
     @Binding var alert: AlertInfo?
+    @Binding var showAlert: Bool
     
     @State var currentLocation: LocationRecord?
     
@@ -70,6 +71,8 @@ struct WaterSkiingCoursePointSetupView: View {
                     title: "Location Manager Error",
                     message: "\(error?.description ?? "Something went wrong when app tried to access Location Services.")"
                 )
+                
+                showAlert = true
                 
                 showPopOverView = false
             }
