@@ -1466,6 +1466,8 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "COP4939-Project/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "COP4939-Project";
+				INFOPLIST_KEY_LSApplicationCategoryType = UIFileSharingEnabled;
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_NSFileProviderDomainUsageDescription = "";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "";
@@ -1506,6 +1508,8 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "COP4939-Project/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "COP4939-Project";
+				INFOPLIST_KEY_LSApplicationCategoryType = UIFileSharingEnabled;
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_NSFileProviderDomainUsageDescription = "";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "";

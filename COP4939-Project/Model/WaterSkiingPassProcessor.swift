@@ -119,12 +119,10 @@ class WaterSkiingPassProcessor {
             }
         }
         
-        
         logger.log(message: "\(passBuilder.entryGate == nil)")
         logger.log(message: "\(passBuilder.exitGate == nil)")
         
         logger.log(message: "\(records.count)")
-        
         
         guard let startTime = passBuilder.entryGate?.timeOfRecordingInSeconds,
               let endTime = passBuilder.exitGate?.timeOfRecordingInSeconds else {
@@ -152,7 +150,7 @@ class WaterSkiingPassProcessor {
     }
     
     private func processVideo(startTime: Double, endTime: Double, videoFile: VideoFile) async throws -> VideoFile? {
-        let documentsDirectory = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask).first
+        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
         
         guard let documentsDirectory = documentsDirectory else { return nil }
         
