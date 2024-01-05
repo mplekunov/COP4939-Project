@@ -35,7 +35,7 @@ class WaterSkiingPassViewModel : ObservableObject {
     }
     
     private func writeToFile(course: WaterSkiingCourse, pass: Pass) {
-        if let url = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask).first {
+        if let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
             let id = UUID().uuidString
             let dataUrl = url.appendingPathComponent(id + "-Data.csv")
             
