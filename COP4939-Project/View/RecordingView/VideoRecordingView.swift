@@ -15,19 +15,20 @@ struct VideoRecordingView : View {
     var body: some View {
         ZStack {
             if let image = image {
-              GeometryReader { geometry in
-                  Image(image, scale: 1.0, orientation: .up, label: label)
-                  .resizable()
-                  .scaledToFill()
-                  .frame(
-                    width: geometry.size.width,
-                    height: geometry.size.height,
-                    alignment: .center)
-                  .clipped()
-              }
-            } else {
-              Text("Camera Feed is not available.")
+                GeometryReader { geometry in
+                    Image(image, scale: 1.0, orientation: .up, label: label)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(
+                            width: geometry.size.width,
+                            height: geometry.size.height,
+                            alignment: .center)
+                        .clipped()
+                }
             }
+//            } else {
+//              Text("Camera Feed is not available.")
+//            }
         }
     }
 }
