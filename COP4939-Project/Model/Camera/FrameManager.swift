@@ -102,7 +102,7 @@ class FrameManager: NSObject, ObservableObject {
     }
     
     private func setupAssetWriter() {
-        let documentsDirectory = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).first
+        let documentsDirectory = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask).first
         
         creationDate = Date()
         id = UUID()

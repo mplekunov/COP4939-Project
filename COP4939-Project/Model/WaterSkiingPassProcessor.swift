@@ -119,11 +119,16 @@ class WaterSkiingPassProcessor {
             }
         }
         
+        guard let startTime = passBuilder.entryGate?.timeOfRecordingInSeconds,
+              let endTime = passBuilder.exitGate?.timeOfRecordingInSeconds else {
+            return nil
+        }
+        
         Task {
             do {
                 guard let videoFile = try await processVideo(
-                    startTime: passBuilder.entryGate.timeOfRecordingInSeconds,
-                    endTime: passBuilder.exitGate.timeOfRecordingInSeconds,
+                    startTime: startTime,
+                    endTime: endTime,
                     videoFile: videoFile
                 ) else {
                     error = "Could not process video file for water skiing pass"
@@ -140,15 +145,17 @@ class WaterSkiingPassProcessor {
     }
     
     private func processVideo(startTime: Double, endTime: Double, videoFile: VideoFile) async throws -> VideoFile? {
-        let documentsDirectory = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).first
-        
-        logger.log(message: "Try to assign url to libraryDirectory")
+        let documentsDirectory = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask).first
         
         guard let documentsDirectory = documentsDirectory else { return nil }
         
         logger.log(message: "\(documentsDirectory)")
         
         let creationDate = videoFile.creationDate
+        
+        logger.log(message: "CreationDate of the video file ~ \(creationDate)")
+        logger.log(message: "Time of recording of the entry gate pass ~ \(startTime)")
+        logger.log(message: "Time of recording of the exit gate pass ~ \(endTime)")
         
         let startTime = abs(creationDate - startTime)
         let endTime = abs(creationDate - endTime)
@@ -161,6 +168,9 @@ class WaterSkiingPassProcessor {
         
         let movieOutputID = UUID()
         let movieOutputURL = documentsDirectory.appendingPathComponent("\(movieOutputID.uuidString).\(videoFile.url.pathExtension)")
+        
+        logger.log(message: "The source file location \(videoFile.url)")
+        logger.log(message: "The trimmed file location \(movieOutputURL)")
         
         try FileManager.default.removeItem(at: movieOutputURL)
         

@@ -8,24 +8,12 @@
 import Foundation
 
 class PassBuilder {
-    public private(set) var score: Int = 0
-    public private(set) var entryGate = Gate(
-        location: Coordinate(latitude: Measurement(value: 0, unit: .degrees), longitude: Measurement(value: 0, unit: .degrees)),
-        maxSpeed: Measurement(value: 0, unit: .metersPerSecond),
-        maxRoll: Measurement(value: 0, unit: .degrees),
-        maxPitch: Measurement(value: 0, unit: .degrees),
-        timeOfRecordingInSeconds: 0
-    )
-    public private(set) var exitGate = Gate(
-        location: Coordinate(latitude: Measurement(value: 0, unit: .degrees), longitude: Measurement(value: 0, unit: .degrees)),
-        maxSpeed: Measurement(value: 0, unit: .metersPerSecond),
-        maxRoll: Measurement(value: 0, unit: .degrees),
-        maxPitch: Measurement(value: 0, unit: .degrees),
-        timeOfRecordingInSeconds: 0
-    )
+    public private(set) var score: Int?
+    public private(set) var entryGate: Gate?
+    public private(set) var exitGate: Gate?
     public private(set) var wakeCrosses: Array<WakeCross> = Array()
     public private(set) var buoys: Array<Buoy> = Array()
-    public private(set) var timeOfRecordingInSeconds = Date().timeIntervalSince1970
+    public private(set) var timeOfRecordingInSeconds: Double?
     public private(set) var videoFile: VideoFile?
     
     @discardableResult
@@ -76,13 +64,22 @@ class PassBuilder {
         return self
     }
     
-    @discardableResult 
+    @discardableResult
     public func setVideoFile(_ videoFile: VideoFile) -> PassBuilder {
         self.videoFile = videoFile
         return self
     }
     
-    public func build() -> Pass {
+    public func build() -> Pass? {
+        guard let score = score,
+              let entryGate = entryGate,
+              let exitGate = exitGate,
+              let timeOfRecordingInSeconds = timeOfRecordingInSeconds,
+              let videoFile = videoFile,
+              !wakeCrosses.isEmpty,
+              !buoys.isEmpty 
+        else { return nil }
+        
         return Pass(
             score: score,
             entryGate: entryGate,
