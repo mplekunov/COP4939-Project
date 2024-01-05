@@ -206,6 +206,8 @@ extension FrameManager: AVCaptureVideoDataOutputSampleBufferDelegate {
             return
         }
         
+        
+        logger.log(message: "Are we even here?")
 //        DispatchQueue.main.async { [weak self] in
 //            guard let self = self else { return }
             
@@ -213,6 +215,7 @@ extension FrameManager: AVCaptureVideoDataOutputSampleBufferDelegate {
                assetWriterInput.isReadyForMoreMediaData,
                pixelBufferAdaptor.assetWriterInput.isReadyForMoreMediaData {
                 
+                logger.log(message: "Surely it's assigned")
                 pixelBufferAdaptor.append(buffer, withPresentationTime: CMSampleBufferGetPresentationTimeStamp(sampleBuffer))
                 current = buffer
             }
