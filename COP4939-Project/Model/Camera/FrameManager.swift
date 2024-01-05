@@ -108,7 +108,12 @@ class FrameManager: NSObject, ObservableObject {
         id = UUID()
         videoFile = nil
         
-        guard let id = id else { return }
+        logger.log(message: "Properties are assigned")
+        
+        guard let id = id else {
+            error = "ID cannot be empty"
+            return
+        }
         
         guard let documentsDirectory = documentsDirectory else {
             error = AssetWriterError.DirectoryIsUndefined.description
@@ -152,6 +157,8 @@ class FrameManager: NSObject, ObservableObject {
             
             assetWriter.startWriting()
             assetWriter.startSession(atSourceTime: CMTime.zero)
+            
+            logger.log(message: "Asset Writer is set up")
         } catch {
             self.error = AssetWriterError.CreateAssetWriter(error).description
             return
@@ -206,11 +213,13 @@ extension FrameManager: AVCaptureVideoDataOutputSampleBufferDelegate {
             return
         }
         
-        
-        logger.log(message: "Are we even here?")
 //        DispatchQueue.main.async { [weak self] in
 //            guard let self = self else { return }
             
+        logger.log(message: "\(sampleBuffer.imageBuffer != nil)")
+        logger.log(message: "\(assetWriterInput.isReadyForMoreMediaData)")
+        logger.log(message: "\(pixelBufferAdaptor.assetWriterInput.isReadyForMoreMediaData)")
+        
             if let buffer = sampleBuffer.imageBuffer,
                assetWriterInput.isReadyForMoreMediaData,
                pixelBufferAdaptor.assetWriterInput.isReadyForMoreMediaData {
