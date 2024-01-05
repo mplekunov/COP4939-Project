@@ -19,7 +19,7 @@ class WaterSkiingCourseViewModel : ObservableObject {
         logger = LoggerService(logSource: String(describing: type(of: self)))
         
         if let path = getURL()?.path(), fileManager.fileExists(atPath: path) {
-            logger.log(message: "file exists")
+            logger.log(message: "Water Course file exists")
             do {
                 try downloadFromDocuments()
             } catch {
@@ -43,19 +43,14 @@ class WaterSkiingCourseViewModel : ObservableObject {
             return url.appendingPathComponent(fileName)
         }
         
-        logger.log(message: "?!")
-        
         return nil
     }
     
     private func saveToDocuments() throws {
         let dataToSave = try JSONConverter().encode(course)
 
-        logger.log(message: "Try to save file")
         if let path = getURL()?.path() {
-            logger.log(message: "Save path ~ \(path)")
-            
-            logger.log(message: "\(fileManager.createFile(atPath: path, contents: dataToSave))")
+            fileManager.createFile(atPath: path, contents: dataToSave)
         }
     }
     
