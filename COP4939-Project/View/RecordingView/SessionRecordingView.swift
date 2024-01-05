@@ -42,6 +42,8 @@ struct SessionRecordingView : View {
                         message: "\(error ?? "Something went wrong when app tried to record video from camera.")"
                     )
                 }
+                
+                alert = nil
             })
             .onReceive(sessionViewModel.$isEnded, perform: { isEnded in
                 if isEnded {
@@ -61,6 +63,8 @@ struct SessionRecordingView : View {
                     
                     isSendingData = false
                 }
+                
+                alert = nil
             })
             .frame(width: 300)
             .padding()

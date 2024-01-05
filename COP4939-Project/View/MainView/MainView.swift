@@ -63,6 +63,8 @@ struct MainView: View {
                     
                     isSendingData = false
                 }
+                
+                alert = nil
             })
             .onReceive(sessionViewModel.$error, perform: { error in
                 guard isSendingData else { return }
@@ -76,6 +78,8 @@ struct MainView: View {
                     
                     isSendingData = false
                 }
+                
+                alert = nil
             })
             .frame(width: 300)
             .padding()
