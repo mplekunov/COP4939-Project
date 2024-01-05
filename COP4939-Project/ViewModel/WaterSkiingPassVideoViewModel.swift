@@ -10,6 +10,7 @@ import AVFoundation
 
 class WaterSkiingPassVideoViewModel : ObservableObject {
     @Published public private(set) var curentPlayingRecord: WaterSkiingObjectRecord?
+    @Published public private(set) var error: String?
    
     public private(set) var objectRecords: [WaterSkiingObjectRecord] = []
     private var currentObjectRecordIndex = -1
@@ -27,11 +28,19 @@ class WaterSkiingPassVideoViewModel : ObservableObject {
     public private(set) var player: AVPlayer?
     
     func startPlayback(pass: Pass) {
-        guard let videoFile = pass.videoFile else {return}
+        error = nil
+        
+        guard let videoFile = pass.videoFile else {
+            error = "Video file is not assigned to the pass"
+            return
+        }
         
         player = AVPlayer(url: videoFile.url)
         
-        guard let player = player else { return }
+        guard let player = player else {
+            error = "Player could not be initialized"
+            return
+        }
         
         playbackObserver = player.addPeriodicTimeObserver(forInterval: CMTime(value: 1, timescale: 10), queue: DispatchQueue.main) { [weak self] time in
             guard let self = self else { return }

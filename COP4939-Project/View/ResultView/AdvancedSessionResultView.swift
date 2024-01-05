@@ -25,52 +25,40 @@ struct AdvancedSessionResultView : View {
     
     var body: some View {
         ZStack(alignment: .center) {
-            VStack(alignment: .center) {
-                VideoPlayer(player: passVideoViewModel.player)
-                    .onAppear {
-                        togglePlayback()
-                    }
-                    .onTapGesture(perform: {
-                        togglePlayback()
-                    })
-                    .overlay(alignment: .center, content: {
-                        if showPlayButton {
-                            Image(systemName: isPlaying ? "pause.circle" : "play.circle")
-                                .foregroundColor(.orange)
-                                .font(.system(size: 50))
-                                .onTapGesture(perform: togglePlayback)
-                                .padding()
+            if let error = passVideoViewModel.error {
+                Text(error)
+            } else {
+                VStack(alignment: .center) {
+                    VideoPlayer(player: passVideoViewModel.player)
+                        .onAppear {
+                            togglePlayback()
                         }
-                    })
-                    .onDisappear {
-                        guard let player = passVideoViewModel.player else { return }
-                        player.pause()
-                    }
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 20)
-                            .stroke(.orange, lineWidth: 1)
-                    )
-                
-                ScrollViewReader { scrollProxy in
-                    List {
-                        createHeaderRow()
-                            .frame(maxWidth: .infinity)
-                            .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
-                                return 0
+                        .onTapGesture(perform: {
+                            togglePlayback()
+                        })
+                        .overlay(alignment: .center, content: {
+                            if showPlayButton {
+                                Image(systemName: isPlaying ? "pause.circle" : "play.circle")
+                                    .foregroundColor(.orange)
+                                    .font(.system(size: 50))
+                                    .onTapGesture(perform: togglePlayback)
+                                    .padding()
                             }
-                            .alignmentGuide(.listRowSeparatorTrailing) { viewDimensions in
-                                return viewDimensions.width
-                            }
-                            .listRowBackground(Color.clear)
-                            .foregroundStyle(Color.orange)
-                            .listRowSeparator(.automatic)
-                            .listRowSeparatorTint(.orange)
-                        
-                        ForEach(0..<passVideoViewModel.objectRecords.count, id: \.self) { index in
-                            let record = passVideoViewModel.objectRecords[index]
-                            
-                            createRow(record: record, index: index)
+                        })
+                        .onDisappear {
+                            guard let player = passVideoViewModel.player else { return }
+                            player.pause()
+                        }
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 20)
+                                .stroke(.orange, lineWidth: 1)
+                        )
+                    
+                    ScrollViewReader { scrollProxy in
+                        List {
+                            createHeaderRow()
+                                .frame(maxWidth: .infinity)
                                 .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
                                     return 0
                                 }
@@ -78,70 +66,86 @@ struct AdvancedSessionResultView : View {
                                     return viewDimensions.width
                                 }
                                 .listRowBackground(Color.clear)
+                                .foregroundStyle(Color.orange)
                                 .listRowSeparator(.automatic)
                                 .listRowSeparatorTint(.orange)
+                            
+                            ForEach(0..<passVideoViewModel.objectRecords.count, id: \.self) { index in
+                                let record = passVideoViewModel.objectRecords[index]
+                                
+                                createRow(record: record, index: index)
+                                    .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
+                                        return 0
+                                    }
+                                    .alignmentGuide(.listRowSeparatorTrailing) { viewDimensions in
+                                        return viewDimensions.width
+                                    }
+                                    .listRowBackground(Color.clear)
+                                    .listRowSeparator(.automatic)
+                                    .listRowSeparatorTint(.orange)
+                            }
+                            
+                            HStack(spacing: 0) {
+                                Text("Score: ")
+                                    .frame(maxWidth: .infinity)
+                                Text("\(passViewModel.pass?.score ?? -1)")
+                                    .frame(maxWidth: .infinity)
+                            }
+                            .padding()
+                            .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
+                                return 0
+                            }
+                            .alignmentGuide(.listRowSeparatorTrailing) { viewDimensions in
+                                return viewDimensions.width
+                            }
+                            .listRowBackground(Color.clear)
+                            .background(Color.black)
+                            .foregroundStyle(Color.orange)
                         }
+                        .onChange(of: passVideoViewModel.curentPlayingRecord) {
+                            guard passVideoViewModel.curentPlayingRecord != nil else { return }
+                            
+                            highlightedRow += 1
+                        }
+                        .onChange(of: highlightedRow) {
+                            withAnimation {
+                                scrollProxy.scrollTo(highlightedRow, anchor: .center)
+                            }
+                        }.scrollContentBackground(.hidden)
                         
-                        HStack(spacing: 0) {
-                            Text("Score: ")
-                                .frame(maxWidth: .infinity)
-                            Text("\(passViewModel.pass?.score ?? -1)")
-                                .frame(maxWidth: .infinity)
-                        }
-                        .padding()
-                        .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
-                            return 0
-                        }
-                        .alignmentGuide(.listRowSeparatorTrailing) { viewDimensions in
-                            return viewDimensions.width
-                        }
-                        .listRowBackground(Color.clear)
-                        .background(Color.black)
-                        .foregroundStyle(Color.orange)
                     }
-                    .onChange(of: passVideoViewModel.curentPlayingRecord) {
-                        guard passVideoViewModel.curentPlayingRecord != nil else { return }
-                        
-                        highlightedRow += 1
-                    }
-                    .onChange(of: highlightedRow) {
-                        withAnimation {
-                            scrollProxy.scrollTo(highlightedRow, anchor: .center)
-                        }
-                    }.scrollContentBackground(.hidden)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Color.black)
+                    .allowsHitTesting(!isPopupToggled())
                     
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color.black)
-                .allowsHitTesting(!isPopupToggled())
-                
-                if isPopupToggled(), let chosenObjectRecord = chosenObjectRecord {
-                    ZStack {
-                        if showGatePopup, let gate = passVideoViewModel.getGateByIndex(chosenObjectRecord.objectIndex) {
-                            GatePopup(
-                                showPopup: $showGatePopup,
-                                title: chosenObjectRecord.objectName,
-                                gate: gate
-                            )
-                        } else if showBuoyPopup, let buoy = passVideoViewModel.getBuoyByIndex(chosenObjectRecord.objectIndex) {
-                            BuoyPopup(
-                                showPopup: $showBuoyPopup,
-                                title: chosenObjectRecord.objectName,
-                                buoy: buoy
-                            )
-                        } else if showWakeCrossPopup, let wakeCross = passVideoViewModel.getWakeCrossByIndex(chosenObjectRecord.objectIndex) {
-                            WakeCrossPopup(
-                                showPopup: $showWakeCrossPopup,
-                                title: chosenObjectRecord.objectName,
-                                wakeCross: wakeCross
-                            )
+                    if isPopupToggled(), let chosenObjectRecord = chosenObjectRecord {
+                        ZStack {
+                            if showGatePopup, let gate = passVideoViewModel.getGateByIndex(chosenObjectRecord.objectIndex) {
+                                GatePopup(
+                                    showPopup: $showGatePopup,
+                                    title: chosenObjectRecord.objectName,
+                                    gate: gate
+                                )
+                            } else if showBuoyPopup, let buoy = passVideoViewModel.getBuoyByIndex(chosenObjectRecord.objectIndex) {
+                                BuoyPopup(
+                                    showPopup: $showBuoyPopup,
+                                    title: chosenObjectRecord.objectName,
+                                    buoy: buoy
+                                )
+                            } else if showWakeCrossPopup, let wakeCross = passVideoViewModel.getWakeCrossByIndex(chosenObjectRecord.objectIndex) {
+                                WakeCrossPopup(
+                                    showPopup: $showWakeCrossPopup,
+                                    title: chosenObjectRecord.objectName,
+                                    wakeCross: wakeCross
+                                )
+                            }
                         }
+                        .onAppear(perform: {
+                            if isPlaying {
+                                togglePlayback()
+                            }
+                        })
                     }
-                    .onAppear(perform: {
-                        if isPlaying {
-                            togglePlayback()
-                        }
-                    })
                 }
             }
         }
