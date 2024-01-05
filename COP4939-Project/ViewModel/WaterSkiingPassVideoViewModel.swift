@@ -31,7 +31,7 @@ class WaterSkiingPassVideoViewModel : ObservableObject {
         error = nil
         
         guard let videoFile = pass.videoFile else {
-            error = "Video file is not assigned to the pass"
+            error = "Video file is not assigned to the water skiing pass"
             return
         }
         

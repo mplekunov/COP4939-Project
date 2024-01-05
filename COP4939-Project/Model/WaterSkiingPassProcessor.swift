@@ -125,7 +125,10 @@ class WaterSkiingPassProcessor {
                     startTime: passBuilder.entryGate.timeOfRecordingInSeconds,
                     endTime: passBuilder.exitGate.timeOfRecordingInSeconds,
                     videoFile: videoFile
-                ) else { return }
+                ) else {
+                    error = "Could not process video file for water skiing pass"
+                    return
+                }
                 
                 passBuilder.setVideoFile(videoFile)
             } catch {
@@ -137,9 +140,13 @@ class WaterSkiingPassProcessor {
     }
     
     private func processVideo(startTime: Double, endTime: Double, videoFile: VideoFile) async throws -> VideoFile? {
-        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+        let documentsDirectory = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).first
+        
+        logger.log(message: "Try to assign url to libraryDirectory")
         
         guard let documentsDirectory = documentsDirectory else { return nil }
+        
+        logger.log(message: "Url has been assigned")
         
         let creationDate = videoFile.creationDate
         
