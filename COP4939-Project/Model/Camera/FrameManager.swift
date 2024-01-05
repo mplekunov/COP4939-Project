@@ -118,11 +118,11 @@ class FrameManager: NSObject, ObservableObject {
             return
         }
         
-        let filename = "\(id.uuidString).\(AVFileType.mov.rawValue)"
+        let filename = "\(id.uuidString).\(AVFileType.mp4.rawValue)"
         outputFileURL = documentsDirectory.appendingPathComponent(filename)
         
         do {
-            assetWriter = try AVAssetWriter(outputURL: outputFileURL!, fileType: .mov)
+            assetWriter = try AVAssetWriter(outputURL: outputFileURL!, fileType: .mp4)
             
             guard let assetWriter = assetWriter else {
                 error = AssetWriterError.AssetWriterIsUndefined.description
