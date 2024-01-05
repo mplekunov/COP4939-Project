@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import Foundation
+import AVFoundation
 
 @main
 struct COP4939_ProjectApp: App {
@@ -15,6 +17,7 @@ struct COP4939_ProjectApp: App {
         }
     }
 }
+
 
 //private func getCoordinate(lat: Double, lon: Double) -> Coordinate {
 //    return Coordinate(latitude: Measurement(value: lat, unit: .degrees), longitude: Measurement(value: lon, unit: .degrees))

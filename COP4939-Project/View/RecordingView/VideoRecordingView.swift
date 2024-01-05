@@ -16,7 +16,7 @@ struct VideoRecordingView : View {
         ZStack {
             if let image = image {
               GeometryReader { geometry in
-                Image(image, scale: 1.0, orientation: .upMirrored, label: label)
+                  Image(image, scale: 1.0, orientation: .up, label: label)
                   .resizable()
                   .scaledToFill()
                   .frame(
@@ -26,7 +26,7 @@ struct VideoRecordingView : View {
                   .clipped()
               }
             } else {
-              Color.orange
+              Text("Camera Feed is not available.")
             }
         }
     }

@@ -13,12 +13,18 @@ class WaterSkiingPassProcessor {
     
     private let videoManager = VideoManager()
     
+    @Published public private(set) var error: String?
+    
     private let NUM_OF_BUOYS = 6
     
     private let RANGE = Measurement<UnitLength>(value: 1.0, unit: .meters)
     
     init() {
         logger = LoggerService(logSource: String(describing: type(of: self)))
+        
+        videoManager.$error
+            .receive(on: DispatchQueue.main)
+            .assign(to: &$error)
     }
     
     func processPass(course: WaterSkiingCourse, records: Array<TrackingRecord>, videoFile: VideoFile) -> Pass? {
@@ -27,12 +33,12 @@ class WaterSkiingPassProcessor {
         let videoCreationDate = videoFile.creationDate
         
         if records.isEmpty {
-            logger.error(message: "Data array cannot be empty")
+            error = "Data array cannot be empty"
             return nil
         }
         
         if course.buoys.count != course.wakeCrosses.count && course.wakeCrosses.count != NUM_OF_BUOYS {
-            logger.error(message: "The number of buoys/wake crosses is incorrect")
+            error = "The number of buoys/wake crosses is incorrect"
             return nil
         }
         
@@ -123,7 +129,7 @@ class WaterSkiingPassProcessor {
                 
                 passBuilder.setVideoFile(videoFile)
             } catch {
-                logger.error(message: "\(error)")
+                self.error = "\(error)"
             }
         }
         
@@ -144,9 +150,13 @@ class WaterSkiingPassProcessor {
         let endCMTime = CMTime(seconds: endTime, preferredTimescale: 1000)
         
         let movieOutputID = UUID()
-        let movieOutputURL = documentsDirectory.appendingPathComponent(movieOutputID.uuidString + "." + videoFile.url.pathExtension)
+        let movieOutputURL = documentsDirectory.appendingPathComponent("\(movieOutputID.uuidString).\(videoFile.url.pathExtension)")
+        
+        try FileManager.default.removeItem(at: movieOutputURL)
         
         try await videoManager.trimVideo(source: videoFile.url, to: movieOutputURL, startTime: startCMTime, endTime: endCMTime)
+        
+        try FileManager.default.removeItem(at: videoFile.url)
         
         return VideoFile(id: movieOutputID, creationDate: videoFile.creationDate, url: movieOutputURL)
     }

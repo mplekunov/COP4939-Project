@@ -8,28 +8,51 @@
 import Foundation
 import AVFoundation
 
-struct VideoManager {
+class VideoManager : ObservableObject {
     private let logger: LoggerService
+    
+    @Published public private(set) var error: String?
     
     init() {
         logger = LoggerService(logSource: String(describing: type(of: self)))
     }
     
+    private func fileExtensionToAVFileType(_ fileExtension: String) -> AVFileType? {
+        switch fileExtension {
+        case "mp4":
+            return .mp4
+        case "mov":
+            return .mov
+        default:
+            return nil
+        }
+    }
+    
     func trimVideo(source movieURL: URL, to outputMovieURL: URL, startTime: CMTime, endTime: CMTime) async throws {
-        let manager = FileManager.default
-        
-        guard let documentDirectory = try? manager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true) else { return }
+        error = nil
         
         let asset = AVAsset(url: movieURL as URL)
         
-        let duration = try await asset.load(.duration)
-        let mediaType = movieURL.pathExtension
+        let mediaType = fileExtensionToAVFileType(movieURL.pathExtension)
         
-        logger.log(message: "MediaType ~ \"\(mediaType)\"")
+        guard let mediaType = mediaType else {
+            error = "Source file type is not supported"
+            return
+        }
         
-        guard let exportSession = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetHighestQuality) else { return }
+        guard let exportSession = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetHighestQuality) else {
+            error = "Export session could not be initialized"
+            return
+        }
+        
+        
+        if FileManager.default.fileExists(atPath: outputMovieURL.path()) {
+            error = "Output file with such name already exists"
+            return
+        }
+        
         exportSession.outputURL = outputMovieURL
-        exportSession.outputFileType = AVFileType(mediaType)
+        exportSession.outputFileType = mediaType
         
         let timeRange = CMTimeRange(start: startTime, end: endTime)
         
@@ -38,12 +61,12 @@ struct VideoManager {
         await exportSession.export()
         
         switch exportSession.status {
-        case .completed:
-            logger.log(message: "Trimming has been successful")
         case .cancelled:
-            logger.log(message: "Trimming has been cancelled")
+            error = "Trimming has been cancelled"
         case .failed:
-            logger.log(message: "Trimming has failed")
+            error = "Trimming has failed"
+        case .unknown:
+            error = "Unknown error has been encountered"
         default:
             break
         }

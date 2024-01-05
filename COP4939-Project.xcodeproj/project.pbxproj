@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6D185DAC2B4860D1008EBFEA /* video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 6D185DAB2B4860D1008EBFEA /* video.mp4 */; };
+		6D185DAE2B4865CC008EBFEA /* VideoPlaybackTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D185DAD2B4865CC008EBFEA /* VideoPlaybackTestView.swift */; };
 		6D4C4FF42B28B64700B5874F /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4C4FF32B28B64700B5874F /* User.swift */; };
 		6D4C4FF62B28B68300B5874F /* WaterSkiingAgeGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4C4FF52B28B68300B5874F /* WaterSkiingAgeGroup.swift */; };
 		6D4C4FF82B28B73B00B5874F /* WaterSkier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4C4FF72B28B73B00B5874F /* WaterSkier.swift */; };
@@ -169,6 +171,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6D185DAB2B4860D1008EBFEA /* video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; name = video.mp4; path = ../../../../.Trash/video.mp4; sourceTree = "<group>"; };
+		6D185DAD2B4865CC008EBFEA /* VideoPlaybackTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlaybackTestView.swift; sourceTree = "<group>"; };
 		6D4C4FF32B28B64700B5874F /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		6D4C4FF52B28B68300B5874F /* WaterSkiingAgeGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterSkiingAgeGroup.swift; sourceTree = "<group>"; };
 		6D4C4FF72B28B73B00B5874F /* WaterSkier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterSkier.swift; sourceTree = "<group>"; };
@@ -571,6 +575,7 @@
 				6DEC85652B159566006746F5 /* ViewModel */,
 				6DEC849F2B1592DB006746F5 /* COP4939_ProjectApp.swift */,
 				6DEC84A32B1592DC006746F5 /* Assets.xcassets */,
+				6D185DAB2B4860D1008EBFEA /* video.mp4 */,
 				6DEC84A52B1592DC006746F5 /* Preview Content */,
 			);
 			path = "COP4939-Project";
@@ -793,6 +798,7 @@
 				6D5283112B3923A7007F71EE /* ResultView */,
 				6DEC85632B159566006746F5 /* ContentView.swift */,
 				6DE846FB2B35E59E00CF5E03 /* ActivityIndicatorView.swift */,
+				6D185DAD2B4865CC008EBFEA /* VideoPlaybackTestView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1051,6 +1057,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6DEC84A72B1592DC006746F5 /* Preview Assets.xcassets in Resources */,
+				6D185DAC2B4860D1008EBFEA /* video.mp4 in Resources */,
 				6DEC84A42B1592DC006746F5 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1110,6 +1117,7 @@
 				6D4C4FF82B28B73B00B5874F /* WaterSkier.swift in Sources */,
 				6D4C4FF42B28B64700B5874F /* User.swift in Sources */,
 				6D52DF842B33543500E96713 /* MainView.swift in Sources */,
+				6D185DAE2B4865CC008EBFEA /* VideoPlaybackTestView.swift in Sources */,
 				6DE846FE2B35EAEA00CF5E03 /* AlertInfo.swift in Sources */,
 				6D4C4FFE2B2A1B4600B5874F /* WaterSkiingCourse.swift in Sources */,
 				6DE847002B37507500CF5E03 /* SessionViewModel.swift in Sources */,

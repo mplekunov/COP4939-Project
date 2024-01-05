@@ -150,7 +150,7 @@ class CameraManager: ObservableObject {
                     }
                     
                     if connection.isVideoMirroringSupported {
-                        connection.isVideoMirrored = true
+                        connection.isVideoMirrored = false
                     }
                     
                     connection.videoOrientation = .portrait
