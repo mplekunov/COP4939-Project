@@ -43,6 +43,12 @@ struct SessionRecordingView : View {
                     )
                 }
             })
+            .onReceive(sessionViewModel.$isEnded, perform: { isEnded in
+                if isEnded {
+                    print("The camera has stopped recording")
+                    cameraViewModel.stopRecording()
+                }
+            })
             .onReceive(sessionViewModel.$error, perform: { error in
                 guard isSendingData else { return }
                 

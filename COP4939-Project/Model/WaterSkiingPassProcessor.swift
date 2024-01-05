@@ -119,6 +119,13 @@ class WaterSkiingPassProcessor {
             }
         }
         
+        
+        logger.log(message: "\(passBuilder.entryGate == nil)")
+        logger.log(message: "\(passBuilder.exitGate == nil)")
+        
+        logger.log(message: "\(records.count)")
+        
+        
         guard let startTime = passBuilder.entryGate?.timeOfRecordingInSeconds,
               let endTime = passBuilder.exitGate?.timeOfRecordingInSeconds else {
             return nil
