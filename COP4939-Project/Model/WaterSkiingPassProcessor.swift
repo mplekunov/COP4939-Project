@@ -177,7 +177,7 @@ class WaterSkiingPassProcessor {
         logger.log(message: "The source file location \(videoFile.url)")
         logger.log(message: "The trimmed file location \(movieOutputURL)")
         
-        try FileManager.default.removeItem(at: movieOutputURL)
+//        try FileManager.default.removeItem(at: movieOutputURL)
         
         logger.log(message: "Previous trimmed movie file has been deleted")
         
