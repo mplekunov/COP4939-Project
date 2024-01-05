@@ -154,7 +154,7 @@ class FrameManager: NSObject, ObservableObject {
             pixelBufferAdaptor = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: assetWriterInput, sourcePixelBufferAttributes: nil)
             
             assetWriter.startWriting()
-            assetWriter.startSession(atSourceTime: CMTime.zero)
+            assetWriter.startSession(atSourceTime: CMTime(seconds: Date().timeIntervalSince1970, preferredTimescale: 600))
         } catch {
             self.error = AssetWriterError.CreateAssetWriter(error).description
             return
