@@ -25,10 +25,9 @@ struct VideoRecordingView : View {
                             alignment: .center)
                         .clipped()
                 }
+            } else {
+                Text("Camera Feed is not available.")
             }
-//            } else {
-//              Text("Camera Feed is not available.")
-//            }
         }
     }
 }

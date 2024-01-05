@@ -23,10 +23,13 @@ struct ContentView: View {
                 SessionRecordingView()
                     .environmentObject(cameraViewModel)
                     .environmentObject(sessionViewModel)
-                    .task {
-                        print("has it run before u pressed the start recording button?")
+//                    .task {
+//                        print("has it run before u pressed the start recording button?")
+//                        
+//                    }
+                    .onAppear(perform: {
                         cameraViewModel.startRecording()
-                    }
+                    })
                     .onDisappear(perform: {
                         cameraViewModel.stopRecording()
                     })
