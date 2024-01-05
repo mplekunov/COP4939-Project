@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import AVKit
 
-struct AdvancedSessionResultView : View {
+struct PassStatisticsView : View {
     @EnvironmentObject var passVideoViewModel: WaterSkiingPassVideoViewModel
     @EnvironmentObject var passViewModel: WaterSkiingPassViewModel
     

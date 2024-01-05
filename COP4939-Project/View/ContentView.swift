@@ -23,9 +23,10 @@ struct ContentView: View {
                 SessionRecordingView()
                     .environmentObject(cameraViewModel)
                     .environmentObject(sessionViewModel)
-                    .onAppear(perform: {
+                    .task {
+                        print("has it run before u pressed the start recording button?")
                         cameraViewModel.startRecording()
-                    })
+                    }
                     .onDisappear(perform: {
                         cameraViewModel.stopRecording()
                     })
@@ -33,7 +34,7 @@ struct ContentView: View {
                 WaterSkiingCourseSetupView(showCourseSetupView: $showCourseSetupView)
                     .environmentObject(waterSkiingCourseViewModel)
             } else if sessionViewModel.isReceived {
-                SessionResultView(waterSkiingCourseViewModel: waterSkiingCourseViewModel, cameraViewModel: cameraViewModel, sessionViewModel: sessionViewModel)
+                PassSessionResultView(waterSkiingCourseViewModel: waterSkiingCourseViewModel, cameraViewModel: cameraViewModel, sessionViewModel: sessionViewModel)
                     .environmentObject(sessionViewModel)
             } else {
                 MainView(showCourseSetupView: $showCourseSetupView)

@@ -59,5 +59,4 @@ class WaterSkiingCourseViewModel : ObservableObject {
             course = try JSONConverter().decode(WaterSkiingCourse.self, from: data)
         }
     }
-    
 }
