@@ -34,6 +34,15 @@ struct SessionRecordingView : View {
                     Text("Stop WaterSkiing Recording")
                 }
             })
+            .onReceive(cameraViewModel.$error, perform: { error in
+                if error != nil {
+                    alert = AlertInfo(
+                        id: .Camera,
+                        title: "Camera Error",
+                        message: "\(error ?? "Something went wrong when app tried to record video from camera.")"
+                    )
+                }
+            })
             .onReceive(sessionViewModel.$error, perform: { error in
                 guard isSendingData else { return }
                 
