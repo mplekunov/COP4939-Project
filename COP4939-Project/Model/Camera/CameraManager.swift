@@ -14,7 +14,7 @@ class CameraManager: ObservableObject {
     @Published public private(set) var error: CameraError?
     @Published public private(set) var isRecording = false
     
-    private let session = AVCaptureSession()
+    private var session: AVCaptureSession?
     
     private let sessionQueue = DispatchQueue(label:"com.CameraManager")
     
@@ -35,10 +35,16 @@ class CameraManager: ObservableObject {
     }
     
     func startRecording() {
+        guard !isRecording else {return}
+        
         configure()
         
         sessionQueue.async { [weak self] in
             guard let self = self else { return }
+            session = AVCaptureSession()
+            
+            guard let session = session else { return }
+            
             configureCaptureSession()
             configureCaptureMode()
             session.startRunning()
@@ -54,6 +60,7 @@ class CameraManager: ObservableObject {
     func stopRecording() {
         sessionQueue.async { [weak self] in
             guard let self = self else { return }
+            guard let session = session else { return }
             
             session.stopRunning()
             
@@ -108,7 +115,10 @@ class CameraManager: ObservableObject {
             return
         }
         
+        guard let session = session else { return }
+        
         session.beginConfiguration()
+        
         
         do {
             try addDevice(AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back))
@@ -124,33 +134,41 @@ class CameraManager: ObservableObject {
     }
     
     private func configureCaptureMode() {
-        if session.canAddOutput(videoOutput) {
-            session.beginConfiguration()
-            
-            session.addOutput(videoOutput)
-            session.sessionPreset = .high
-            
-            videoOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA]
-            
-            if let connection = videoOutput.connection(with: .video) {
-                if connection.isVideoStabilizationSupported {
-                    connection.preferredVideoStabilizationMode = .auto
-                }
-                
-                connection.videoOrientation = .portrait
-            }
-        } else {
-            set(error: .CannotAddOutput)
-            status = .Failed
-            session.commitConfiguration()
-            return
-        }
+        guard let session = session else { return }
         
-        status = .Configured
-        session.commitConfiguration()
-    }
+            if session.canAddOutput(videoOutput) {
+                session.beginConfiguration()
+                
+                session.addOutput(videoOutput)
+                session.sessionPreset = .hd1920x1080
+                
+                videoOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA]
+                
+                if let connection = videoOutput.connection(with: .video) {
+                    if connection.isVideoStabilizationSupported {
+                        connection.preferredVideoStabilizationMode = .auto
+                    }
+                    
+                    if connection.isVideoMirroringSupported {
+                        connection.isVideoMirrored = true
+                    }
+                    
+                    connection.videoOrientation = .portrait
+                }
+            } else {
+                set(error: .CannotAddOutput)
+                status = .Failed
+                session.commitConfiguration()
+                return
+            }
+            
+            status = .Configured
+            session.commitConfiguration()
+        }
     
     private func addDevice(_ device: AVCaptureDevice?) throws {
+        guard let session = session else { return }
+        
         guard let device = device else {
             set(error: .CameraUnavailable)
             status = .Failed

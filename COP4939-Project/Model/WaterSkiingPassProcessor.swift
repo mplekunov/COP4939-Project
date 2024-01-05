@@ -114,34 +114,41 @@ class WaterSkiingPassProcessor {
         }
         
         Task {
-            let videoFile = await processVideo(
-                startTime: passBuilder.entryGate.timeOfRecordingInSeconds,
-                endTime: passBuilder.exitGate.timeOfRecordingInSeconds,
-                videoFile: videoFile
-            )
-            
-            passBuilder.setVideoFile(videoFile)
+            do {
+                guard let videoFile = try await processVideo(
+                    startTime: passBuilder.entryGate.timeOfRecordingInSeconds,
+                    endTime: passBuilder.exitGate.timeOfRecordingInSeconds,
+                    videoFile: videoFile
+                ) else { return }
+                
+                passBuilder.setVideoFile(videoFile)
+            } catch {
+                logger.error(message: "\(error)")
+            }
         }
         
         return passBuilder.build()
     }
     
-    private func processVideo(startTime: Double, endTime: Double, videoFile: VideoFile) async -> VideoFile {
-        let asset = AVAsset(url: videoFile.url)
-        let composition = AVVideoComposition()
+    private func processVideo(startTime: Double, endTime: Double, videoFile: VideoFile) async throws -> VideoFile? {
+        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+        
+        guard let documentsDirectory = documentsDirectory else { return nil }
         
         let creationDate = videoFile.creationDate
         
         let startTime = abs(creationDate - startTime)
         let endTime = abs(creationDate - endTime)
         
-        let startCMTime = CMTime(seconds: startTime, preferredTimescale: 100)
-        let endCMTime = CMTime(seconds: endTime, preferredTimescale: 100)
+        let startCMTime = CMTime(seconds: startTime, preferredTimescale: 1000)
+        let endCMTime = CMTime(seconds: endTime, preferredTimescale: 1000)
         
-        await videoManager.export(asset, to: videoFile.url, startTime: startCMTime, endTime: endCMTime, composition: composition)
+        let movieOutputID = UUID()
+        let movieOutputURL = documentsDirectory.appendingPathComponent(movieOutputID.uuidString + "." + videoFile.url.pathExtension)
         
-        return videoFile
+        try await videoManager.trimVideo(source: videoFile.url, to: movieOutputURL, startTime: startCMTime, endTime: endCMTime)
         
+        return VideoFile(id: movieOutputID, creationDate: videoFile.creationDate, url: movieOutputURL)
     }
     
     private func calculateTotalScore(course: WaterSkiingCourse, records: Array<TrackingRecord>) -> Int {

@@ -15,22 +15,37 @@ struct VideoManager {
         logger = LoggerService(logSource: String(describing: type(of: self)))
     }
     
-    func export(_ asset: AVAsset, to outputMovieURL: URL, startTime: CMTime, endTime: CMTime, composition: AVVideoComposition) async  {
-        let timeRange = CMTimeRangeFromTimeToTime(start: startTime, end: endTime)
+    func trimVideo(source movieURL: URL, to outputMovieURL: URL, startTime: CMTime, endTime: CMTime) async throws {
+        let manager = FileManager.default
         
-        do {
-            try FileManager.default.removeItem(at: outputMovieURL)
-        } catch {
-            logger.error(message: "\(error)")
+        guard let documentDirectory = try? manager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true) else { return }
+        
+        let asset = AVAsset(url: movieURL as URL)
+        
+        let duration = try await asset.load(.duration)
+        let mediaType = movieURL.pathExtension
+        
+        logger.log(message: "MediaType ~ \"\(mediaType)\"")
+        
+        guard let exportSession = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetHighestQuality) else { return }
+        exportSession.outputURL = outputMovieURL
+        exportSession.outputFileType = AVFileType(mediaType)
+        
+        let timeRange = CMTimeRange(start: startTime, end: endTime)
+        
+        exportSession.timeRange = timeRange
+        
+        await exportSession.export()
+        
+        switch exportSession.status {
+        case .completed:
+            logger.log(message: "Trimming has been successful")
+        case .cancelled:
+            logger.log(message: "Trimming has been cancelled")
+        case .failed:
+            logger.log(message: "Trimming has failed")
+        default:
+            break
         }
-        
-        let exporter = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetHighestQuality)
-        
-        exporter?.videoComposition = composition
-        exporter?.outputURL = outputMovieURL
-        exporter?.outputFileType = .mov
-        exporter?.timeRange = timeRange
-        
-        await exporter?.export()
     }
 }

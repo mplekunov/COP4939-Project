@@ -22,6 +22,8 @@ class FrameManager: NSObject, ObservableObject {
     
     private var outputFileURL: URL?
     
+    private var id: UUID?
+    
     private var assetWriter: AVAssetWriter?
     private var assetWriterInput: AVAssetWriterInput?
     private var pixelBufferAdaptor: AVAssetWriterInputPixelBufferAdaptor?
@@ -57,9 +59,6 @@ class FrameManager: NSObject, ObservableObject {
     
     func startRecording() {
         setupAssetWriter()
-        videoFile = nil
-        
-        creationDate = Date()
         
         CameraManager.instance.startRecording()
     }
@@ -73,18 +72,50 @@ class FrameManager: NSObject, ObservableObject {
         }
         
         assetWriterInput.markAsFinished()
+        
+        assetWriter?.finishWriting {
+            self.logger.log(message: "Asset writer stopped recording")
+            
+            DispatchQueue.main.async {
+                if let error = self.assetWriter?.error {
+                    self.error = error.localizedDescription
+                } else {
+                    guard let outputFileURL = self.outputFileURL else {
+                        self.error = "Output file url is not set for video file."
+                        return
+                    }
+                    
+                    guard let creationDate = self.creationDate else {
+                        self.error = "Creation date is not set for video file."
+                        return
+                    }
+                    
+                    guard let id = self.id else {
+                        self.error = "ID is not set for the video file."
+                        return
+                    }
+                    
+                    self.videoFile = VideoFile(id: id, creationDate: creationDate.timeIntervalSince1970, url: outputFileURL)
+                }
+            }
+        }
     }
     
     private func setupAssetWriter() {
         let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+        
+        creationDate = Date()
+        id = UUID()
+        videoFile = nil
+        
+        guard let id = id else { return }
         
         guard let documentsDirectory = documentsDirectory else {
             error = AssetWriterError.DirectoryIsUndefined.description
             return
         }
         
-        let id = UUID()
-        let filename = "\(id.uuidString).mov"
+        let filename = "\(id.uuidString).\(AVFileType.mov.rawValue)"
         outputFileURL = documentsDirectory.appendingPathComponent(filename)
         
         do {
@@ -103,7 +134,7 @@ class FrameManager: NSObject, ObservableObject {
             
             assetWriterInput = AVAssetWriterInput(mediaType: .video, outputSettings: videoSettings)
             
-            guard let assetWriterInput = assetWriterInput else { 
+            guard let assetWriterInput = assetWriterInput else {
                 error = AssetWriterError.AssetWriterInputIsUndefined.description
                 return
             }
@@ -155,7 +186,7 @@ extension FrameManager: AVCaptureVideoDataOutputSampleBufferDelegate {
         didOutput sampleBuffer: CMSampleBuffer,
         from connection: AVCaptureConnection
     ) {
-        guard let assetWriterInput = assetWriterInput else { 
+        guard let assetWriterInput = assetWriterInput else {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 
@@ -164,6 +195,7 @@ extension FrameManager: AVCaptureVideoDataOutputSampleBufferDelegate {
             
             return
         }
+        
         guard let pixelBufferAdaptor = pixelBufferAdaptor else {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
@@ -174,11 +206,12 @@ extension FrameManager: AVCaptureVideoDataOutputSampleBufferDelegate {
             return
         }
         
-        if let buffer = sampleBuffer.imageBuffer,
-           assetWriterInput.isReadyForMoreMediaData,
-           pixelBufferAdaptor.assetWriterInput.isReadyForMoreMediaData {
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            
+            if let buffer = sampleBuffer.imageBuffer,
+               assetWriterInput.isReadyForMoreMediaData,
+               pixelBufferAdaptor.assetWriterInput.isReadyForMoreMediaData {
                 
                 pixelBufferAdaptor.append(buffer, withPresentationTime: CMSampleBufferGetPresentationTimeStamp(sampleBuffer))
                 current = buffer

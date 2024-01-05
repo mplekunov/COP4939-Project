@@ -87,6 +87,14 @@ class WatchConnectivityManager : NSObject, ObservableObject {
         return fileUrl
     }
     
+    private func deleteFile(url: URL) {
+        do {
+            try FileManager.default.removeItem(at: url)
+        } catch {
+            logger.log(message: "\(error)")
+        }
+    }
+    
     func sendAsFile(data: Data) {
         if !checkDeviceStatus() {
             return
@@ -108,9 +116,6 @@ class WatchConnectivityManager : NSObject, ObservableObject {
         
         do {
             let compressedData = try (data as NSData).compressed(using: .lzma)
-            
-            logger.log(message: "\(compressedData.length)")
-            logger.log(message: "\(data.count)")
             
             session.sendMessageData(
                 compressedData as Data,
@@ -135,23 +140,26 @@ extension WatchConnectivityManager : WCSessionDelegate {
     func session(_ session: WCSession, didReceive file: WCSessionFile) {
         logger.log(message: "File has been received")
         
-        if !FileManager.default.fileExists(atPath: file.fileURL.path()) {
+        if !FileManager.default.fileExists(atPath: file.fileURL.absoluteString) {
             logger.error(message: "File Doesn't exist at specified location ~ \(file.fileURL.path())")
-        } else {
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                do {
-                    message = try Data(contentsOf: file.fileURL)
-                    
-                } catch {
-                    logger.error(message: "\(error)")
-                }
+        }
+        
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            do {
+                message = try Data(contentsOf: file.fileURL)
+                
+            } catch {
+                logger.error(message: "\(error)")
             }
         }
     }
     
     func session(_ session: WCSession, didFinish fileTransfer: WCSessionFileTransfer, error: Error?) {
         logger.log(message: "File has been sent")
+        
+        deleteFile(url: fileTransfer.file.fileURL)
+        
         logger.log(message: "Outstanding file transfers: \(WCSession.default.outstandingFileTransfers)")
         logger.log(message: "Has content pending: \(WCSession.default.hasContentPending)")
     }

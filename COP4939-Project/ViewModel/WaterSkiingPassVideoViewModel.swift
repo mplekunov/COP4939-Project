@@ -27,7 +27,9 @@ class WaterSkiingPassVideoViewModel : ObservableObject {
     public private(set) var player: AVPlayer?
     
     func startPlayback(pass: Pass) {
-        player = AVPlayer(url: pass.videoFile.url)
+        guard let videoFile = pass.videoFile else {return}
+        
+        player = AVPlayer(url: videoFile.url)
         
         guard let player = player else { return }
         
