@@ -6,9 +6,8 @@
 //
 
 import Foundation
-import CoreImage
-import CoreGraphics
 import Combine
+import VideoToolbox
 
 class CameraViewModel: ObservableObject {
     @Published public private(set) var frame: CGImage?
@@ -24,9 +23,10 @@ class CameraViewModel: ObservableObject {
             .compactMap { buffer in
                 guard let buffer = buffer else { return nil }
                 
-                let ciContext = CIContext()
-                let ciImage = CIImage(cvImageBuffer: buffer )
-                return ciContext.createCGImage(ciImage, from: ciImage.extent)
+                var imageOut: CGImage?
+                VTCreateCGImageFromCVPixelBuffer(buffer, options: nil, imageOut: &imageOut)
+                
+                return imageOut
             }
             .assign(to: &$frame)
         
