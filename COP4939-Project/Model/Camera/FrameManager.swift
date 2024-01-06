@@ -73,6 +73,8 @@ class FrameManager: NSObject, ObservableObject {
         
         assetWriterInput.markAsFinished()
         
+        assetWriter?.endSession(atSourceTime: CMTime(seconds: Date().timeIntervalSince1970, preferredTimescale: 600))
+        
         assetWriter?.finishWriting {
             self.logger.log(message: "Asset writer stopped recording")
             
