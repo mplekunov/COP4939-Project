@@ -58,10 +58,10 @@ class WatchConnectivityManager : NSObject, ObservableObject {
     }
     
     private func checkDeviceStatus() -> Bool {
-        if !session.isReachable {
-            logger.log(message: "Session is not reachable")
-            set(error: .DeviceNotReachable)
-        }
+//        if !session.isReachable {
+//            logger.log(message: "Session is not reachable")
+//            set(error: .DeviceNotReachable)
+//        }
         
         if !session.isPaired {
             logger.log(message: "Session is not paired")
