@@ -52,6 +52,8 @@ class CameraManager: ObservableObject {
             if error == nil && status == .Configured {
                 DispatchQueue.main.async {
                     self.isRecording = true
+                    
+                    self.logger.log(message: "Is it true? \(self.isRecording)")
                 }
             }
         }

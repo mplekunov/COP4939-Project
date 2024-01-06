@@ -15,7 +15,7 @@ class FrameManager: NSObject, ObservableObject {
     
     @Published public private(set) var current: CVPixelBuffer?
     @Published public private(set) var error: String?
-    @Published public private(set) var isRecording: Bool?
+    @Published public private(set) var isRecording = false
     @Published public private(set) var videoFile: VideoFile?
     
     private var creationDate: Date?
@@ -193,7 +193,9 @@ extension FrameManager: AVCaptureVideoDataOutputSampleBufferDelegate {
         
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            guard isRecording == false else { return }
+            logger.log(message: "\(isRecording)")
+            
+            guard isRecording else { return }
             
             if let buffer = sampleBuffer.imageBuffer,
                assetWriterInput.isReadyForMoreMediaData,
@@ -204,7 +206,10 @@ extension FrameManager: AVCaptureVideoDataOutputSampleBufferDelegate {
         
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            guard isRecording == false else { return }
+            
+            logger.log(message: "\(isRecording)")
+            
+            guard isRecording else { return }
             
             if let buffer = sampleBuffer.imageBuffer,
                assetWriterInput.isReadyForMoreMediaData,
