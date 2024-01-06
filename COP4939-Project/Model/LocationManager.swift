@@ -32,8 +32,8 @@ class LocationManager: NSObject, ObservableObject {
     
     private func configure() {
         locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        locationManager.distanceFilter = 0.5
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.distanceFilter = kCLDistanceFilterNone
     }
     
     private func set(error: LocationManagerError?) {

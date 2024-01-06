@@ -388,6 +388,7 @@
 		6D5283122B3923B6007F71EE /* RecordingView */ = {
 			isa = PBXGroup;
 			children = (
+				6D185DB12B49A0B1008EBFEA /* CameraPreviewView.swift */,
 				6D52DF812B3352DC00E96713 /* SessionRecordingView.swift */,
 				6D52DF852B33570000E96713 /* VideoRecordingView.swift */,
 			);
@@ -795,7 +796,6 @@
 				6DEC85632B159566006746F5 /* ContentView.swift */,
 				6DE846FB2B35E59E00CF5E03 /* ActivityIndicatorView.swift */,
 				6D185DAD2B4865CC008EBFEA /* VideoPlaybackTestView.swift */,
-				6D185DB12B49A0B1008EBFEA /* CameraPreviewView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";

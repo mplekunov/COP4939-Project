@@ -25,7 +25,7 @@ struct SessionRecordingView : View {
             
             CameraPreviewView(captureSession: cameraViewModel.session)
                 .edgesIgnoringSafeArea(.all)
-                .padding(/*@START_MENU_TOKEN@*/EdgeInsets()/*@END_MENU_TOKEN@*/)
+                .padding()
             
             Button(action: {
                 sessionViewModel.endSession()
