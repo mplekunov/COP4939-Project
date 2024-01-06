@@ -10,6 +10,8 @@ struct CameraPreviewView: UIViewRepresentable {
         
         guard let session = captureSession else { return view }
         
+        print("Surely it's initialized")
+        
         view.backgroundColor = .black
         view.videoPreviewLayer.session = session
         view.videoPreviewLayer.videoGravity = .resizeAspect
