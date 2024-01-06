@@ -261,30 +261,30 @@ class WaterSkiingPassProcessor {
     private func inRange(point: Coordinate, within locationWithRange: Coordinate, withRange: Measurement<UnitLength>) -> Bool {
         let distance = getHaversineDistance(from: point, to: locationWithRange)
         
-        logger.log(message: "\(distance.converted(to: .meters))")
+        logger.log(message: "\(distance)")
         
-        return distance.converted(to: .meters) <= withRange
+        return distance <= withRange
     }
     
     private func getHaversineDistance(from start: Coordinate, to end: Coordinate) -> Measurement<UnitLength> {
-        let earthRadius = 6371.0
+        let r = 6371000.0
         
-        let firstLat = start.latitude.converted(to: .radians)
-        let secondLat = end.latitude.converted(to: .radians)
-        let firstLon = start.longitude.converted(to: .radians)
-        let secondLon = end.longitude.converted(to: .radians)
+        let phi_1 = start.latitude.converted(to: .radians)
+        let phi_2 = end.latitude.converted(to: .radians)
+        let lambda_1 = start.longitude.converted(to: .radians)
+        let lambda_2 = end.longitude.converted(to: .radians)
         
-        let dLat = secondLat - firstLat
-        let dLon = secondLon - firstLon
+        let dPhi = phi_2 - phi_1
+        let dLambda = lambda_2 - lambda_1
         
-        let haversineLat = sin(dLat.value / 2.0) * sin(dLat.value / 2.0)
-        let haversineLon = sin(dLon.value / 2.0) * sin(dLon.value / 2.0)
+        let dPhiSin2 = pow(sin(dPhi.value / 2.0), 2)
+        let dLambdaSin2 = pow(sin(dLambda.value / 2.0), 2)
         
-        let a = haversineLat + cos(firstLat.value) * cos(secondLat.value) * haversineLon
+        let a = dPhiSin2 + cos(phi_1.value) * cos(phi_2.value) * dLambdaSin2
         
-        let c = 2 * atan2(sqrt(a), sqrt(1 - a))
+        let d = 2 * r * asin(sqrt(a))
         
-        return Measurement(value: c * earthRadius, unit: .kilometers)
+        return Measurement(value: d, unit: .meters)
     }
     
     private func getTotalFromPythagorean<T: Unit>(x: Measurement<T>, y: Measurement<T>, z: Measurement<T>) -> Measurement<T> {
