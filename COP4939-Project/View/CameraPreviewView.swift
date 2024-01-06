@@ -1,11 +1,10 @@
 import SwiftUI
 import AVFoundation
 
-struct CameraPreview: UIViewRepresentable { // for attaching AVCaptureVideoPreviewLayer to SwiftUI View
+struct CameraPreviewView: UIViewRepresentable {
     
     let captureSession: AVCaptureSession?
     
-    // creates and configures a UIKit-based video preview view
     func makeUIView(context: Context) -> VideoPreviewView {
         let view = VideoPreviewView()
         
@@ -19,18 +18,14 @@ struct CameraPreview: UIViewRepresentable { // for attaching AVCaptureVideoPrevi
         return view
     }
     
-    // updates the video preview view
     public func updateUIView(_ uiView: VideoPreviewView, context: Context) { }
     
-    // UIKit-based view for displaying the camera preview
     class VideoPreviewView: UIView {
         
-        // specifies the layer class used
         override class var layerClass: AnyClass {
             AVCaptureVideoPreviewLayer.self
         }
         
-        // retrieves the AVCaptureVideoPreviewLayer for configuration
         var videoPreviewLayer: AVCaptureVideoPreviewLayer {
             return layer as! AVCaptureVideoPreviewLayer
         }

@@ -23,7 +23,7 @@ struct SessionRecordingView : View {
 //                .edgesIgnoringSafeArea(.all)
 //                .padding()
             
-            CameraPreview(captureSession: cameraViewModel.session)
+            CameraPreviewView(captureSession: cameraViewModel.session)
                 .edgesIgnoringSafeArea(.all)
                 .padding(/*@START_MENU_TOKEN@*/EdgeInsets()/*@END_MENU_TOKEN@*/)
             
