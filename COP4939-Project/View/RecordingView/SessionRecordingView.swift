@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import AVFoundation
 
 struct SessionRecordingView : View {
     @EnvironmentObject var cameraViewModel: CameraViewModel
@@ -17,11 +18,17 @@ struct SessionRecordingView : View {
     @State private var alert: AlertInfo?
     @State private var showAlert = false
     
+    @State private var cameraSession: AVCaptureSession?
+    
     var body: some View {
         VStack {
-            CameraPreviewView(captureSession: cameraViewModel.session)
+            CameraPreviewView(captureSession: cameraSession)
                 .edgesIgnoringSafeArea(.all)
                 .padding()
+                .onReceive(cameraViewModel.$session, perform: { session in
+                    print("Camera session value: \(session)")
+                    cameraSession = session
+                })
             
             Button(action: {
                 sessionViewModel.endSession()
