@@ -263,7 +263,7 @@ class WaterSkiingPassProcessor {
     private func inRange(point: Coordinate, within locationWithRange: Coordinate, withRange: Measurement<UnitLength>) -> Bool {
         let distance = getHaversineDistance(from: point, to: locationWithRange)
         
-        return distance <= withRange
+        return distance.converted(to: .meters) <= withRange
     }
     
     private func getHaversineDistance(from start: Coordinate, to end: Coordinate) -> Measurement<UnitLength> {
