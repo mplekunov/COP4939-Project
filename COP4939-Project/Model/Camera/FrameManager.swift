@@ -193,6 +193,7 @@ extension FrameManager: AVCaptureVideoDataOutputSampleBufferDelegate {
         
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
+            guard isRecording == true else { return }
             
             if let buffer = sampleBuffer.imageBuffer,
                assetWriterInput.isReadyForMoreMediaData,
@@ -203,10 +204,11 @@ extension FrameManager: AVCaptureVideoDataOutputSampleBufferDelegate {
         
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
+            guard isRecording == true else { return }
             
             if let buffer = sampleBuffer.imageBuffer,
                assetWriterInput.isReadyForMoreMediaData,
-               pixelBufferAdaptor.assetWriterInput.isReadyForMoreMediaData {
+               pixelBufferAdaptor.assetWriterInput.isReadyForMoreMediaData{
                 pixelBufferAdaptor.append(buffer, withPresentationTime: CMSampleBufferGetPresentationTimeStamp(sampleBuffer))
             }
         }
