@@ -34,7 +34,7 @@ struct MainView: View {
             .foregroundStyle(.black)
             
             Button(action: {
-                cameraViewModel.startRecording()
+                sessionViewModel.startSession()
                 isSendingData = true
             }, label: {
                 if isSendingData {
@@ -45,11 +45,9 @@ struct MainView: View {
                     Text(waterSkiingCourseViewModel.course != nil ? "Start WaterSkiing Recording" : "Recording Unavailable")
                 }
             })
-            .onReceive(cameraViewModel.$isRecording, perform: { isRecording in
-                guard let isRecording = isRecording else { return }
-                
-                if isSendingData && isRecording {
-                    sessionViewModel.startSession()
+            .onReceive(sessionViewModel.$isStarted, perform: { isStarted in
+                if isSendingData && isStarted {
+                    cameraViewModel.startRecording()
                 }
             })
             .onReceive(cameraViewModel.$error, perform: { error in
