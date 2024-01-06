@@ -20,6 +20,10 @@ struct SessionRecordingView : View {
     
     @State private var cameraSession: AVCaptureSession?
     
+    init() {
+        print("Is it called once?")
+    }
+    
     var body: some View {
         VStack {
             CameraPreviewView(captureSession: $cameraSession)

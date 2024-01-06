@@ -8,6 +8,8 @@ struct CameraPreviewView: UIViewRepresentable {
     func makeUIView(context: Context) -> VideoPreviewView {
         let view = VideoPreviewView()
         
+        print(captureSession)
+        
         guard let session = captureSession else { return view }
         
         view.backgroundColor = .black
