@@ -3,7 +3,7 @@ import AVFoundation
 
 struct CameraPreviewView: UIViewRepresentable {
     
-    @Binding var captureSession: AVCaptureSession?
+    var captureSession: AVCaptureSession?
     
     func makeUIView(context: Context) -> VideoPreviewView {
         let view = VideoPreviewView()

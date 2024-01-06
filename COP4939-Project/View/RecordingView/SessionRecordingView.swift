@@ -22,12 +22,12 @@ struct SessionRecordingView : View {
     
     init() {
         print("Is it called once?")
-        print(cameraSession)
+        print(sessionViewModel.session)
     }
     
     var body: some View {
         VStack {
-            CameraPreviewView(captureSession: $cameraSession)
+            CameraPreviewView(captureSession: sessionViewModel.session)
                 .edgesIgnoringSafeArea(.all)
                 .padding()
             
@@ -93,9 +93,5 @@ struct SessionRecordingView : View {
                 }
             )
         }
-        .onReceive(cameraViewModel.$session, perform: { session in
-            print("Camera session value: \(session)")
-            cameraSession = session
-        })
     }
 }
