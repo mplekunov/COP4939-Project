@@ -73,8 +73,6 @@ class FrameManager: NSObject, ObservableObject {
         
         assetWriterInput.markAsFinished()
         
-        assetWriter?.endSession(atSourceTime: CMTime(seconds: Date().timeIntervalSince1970, preferredTimescale: 600))
-        
         assetWriter?.finishWriting {
             self.logger.log(message: "Asset writer stopped recording")
             
@@ -155,9 +153,6 @@ class FrameManager: NSObject, ObservableObject {
             }
             
             pixelBufferAdaptor = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: assetWriterInput, sourcePixelBufferAttributes: nil)
-            
-            assetWriter.startWriting()
-            assetWriter.startSession(atSourceTime: CMTime(seconds: Date().timeIntervalSince1970, preferredTimescale: 600))
         } catch {
             self.error = AssetWriterError.CreateAssetWriter(error).description
             return
@@ -171,50 +166,35 @@ extension FrameManager: AVCaptureVideoDataOutputSampleBufferDelegate {
         didOutput sampleBuffer: CMSampleBuffer,
         from connection: AVCaptureConnection
     ) {
-        guard let assetWriterInput = assetWriterInput else {
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                
-                error = AssetWriterError.AssetWriterInputIsUndefined.description
-            }
-            
-            return
-        }
-        
-        guard let pixelBufferAdaptor = pixelBufferAdaptor else {
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                
-                error = AssetWriterError.PixelBufferAdaptorIsUndefined.description
-            }
-            
-            return
-        }
-        
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            logger.log(message: "\(isRecording)")
-            
             guard isRecording == true else { return }
+            
+            guard let assetWriterInput = assetWriterInput else {
+                error = AssetWriterError.AssetWriterInputIsUndefined.description
+                return
+            }
+            
+            guard let assetWriter = assetWriter else {
+                error = AssetWriterError.AssetWriterIsUndefined.description
+                return
+            }
+            
+            guard let pixelBufferAdaptor = pixelBufferAdaptor else {
+                error = AssetWriterError.PixelBufferAdaptorIsUndefined.description
+                return
+            }
+            
+            if assetWriter.status != .writing {
+                assetWriter.startWriting()
+                assetWriter.startSession(atSourceTime: CMSampleBufferGetPresentationTimeStamp(sampleBuffer))
+            }
             
             if let buffer = sampleBuffer.imageBuffer,
                assetWriterInput.isReadyForMoreMediaData,
                pixelBufferAdaptor.assetWriterInput.isReadyForMoreMediaData {
-                current = buffer
-            }
-        }
-        
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            
-            logger.log(message: "\(isRecording)")
-            
-            guard isRecording == true else { return }
-            
-            if let buffer = sampleBuffer.imageBuffer,
-               assetWriterInput.isReadyForMoreMediaData,
-               pixelBufferAdaptor.assetWriterInput.isReadyForMoreMediaData{
                 pixelBufferAdaptor.append(buffer, withPresentationTime: CMSampleBufferGetPresentationTimeStamp(sampleBuffer))
+                current = buffer
             }
         }
     }
