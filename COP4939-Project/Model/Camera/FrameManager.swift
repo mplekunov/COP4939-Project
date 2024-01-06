@@ -190,7 +190,7 @@ extension FrameManager: AVCaptureVideoDataOutputSampleBufferDelegate {
                 assetWriter.startSession(atSourceTime: CMSampleBufferGetPresentationTimeStamp(sampleBuffer))
             }
             
-            if let buffer = sampleBuffer.imageBuffer,
+            if let buffer = CMSampleBufferGetImageBuffer(sampleBuffer),
                assetWriterInput.isReadyForMoreMediaData,
                pixelBufferAdaptor.assetWriterInput.isReadyForMoreMediaData {
                 pixelBufferAdaptor.append(buffer, withPresentationTime: CMSampleBufferGetPresentationTimeStamp(sampleBuffer))

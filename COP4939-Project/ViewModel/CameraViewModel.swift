@@ -7,19 +7,26 @@
 
 import Foundation
 import Combine
+import AVFoundation
 import VideoToolbox
 
 class CameraViewModel: ObservableObject {
     @Published public private(set) var frame: CGImage?
+    @Published public private(set) var session: AVCaptureSession?
     @Published public private(set) var error: String?
     @Published public private(set) var isRecording: Bool?
     @Published public private(set) var videoFile: VideoFile?
     
     private let frameManager = FrameManager.instance
+    private let cameraManager = CameraManager.instance
     
     init() {
+        cameraManager.$session
+            .receive(on: DispatchQueue.main)
+            .assign(to: &$session)
+        
         frameManager.$current
-            .receive(on: RunLoop.main)
+            .receive(on: DispatchQueue.main)
             .compactMap { buffer in
                 guard let buffer = buffer else { return nil }
                 

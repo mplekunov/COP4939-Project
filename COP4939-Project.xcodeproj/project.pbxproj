@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6D185DAE2B4865CC008EBFEA /* VideoPlaybackTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D185DAD2B4865CC008EBFEA /* VideoPlaybackTestView.swift */; };
 		6D185DB02B4875EA008EBFEA /* PassSessionResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D185DAF2B4875EA008EBFEA /* PassSessionResultView.swift */; };
+		6D185DB22B49A0B1008EBFEA /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D185DB12B49A0B1008EBFEA /* CameraPreviewView.swift */; };
 		6D4C4FF42B28B64700B5874F /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4C4FF32B28B64700B5874F /* User.swift */; };
 		6D4C4FF62B28B68300B5874F /* WaterSkiingAgeGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4C4FF52B28B68300B5874F /* WaterSkiingAgeGroup.swift */; };
 		6D4C4FF82B28B73B00B5874F /* WaterSkier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4C4FF72B28B73B00B5874F /* WaterSkier.swift */; };
@@ -171,6 +172,7 @@
 /* Begin PBXFileReference section */
 		6D185DAD2B4865CC008EBFEA /* VideoPlaybackTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlaybackTestView.swift; sourceTree = "<group>"; };
 		6D185DAF2B4875EA008EBFEA /* PassSessionResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassSessionResultView.swift; sourceTree = "<group>"; };
+		6D185DB12B49A0B1008EBFEA /* CameraPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreviewView.swift; sourceTree = "<group>"; };
 		6D4C4FF32B28B64700B5874F /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		6D4C4FF52B28B68300B5874F /* WaterSkiingAgeGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterSkiingAgeGroup.swift; sourceTree = "<group>"; };
 		6D4C4FF72B28B73B00B5874F /* WaterSkier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterSkier.swift; sourceTree = "<group>"; };
@@ -793,6 +795,7 @@
 				6DEC85632B159566006746F5 /* ContentView.swift */,
 				6DE846FB2B35E59E00CF5E03 /* ActivityIndicatorView.swift */,
 				6D185DAD2B4865CC008EBFEA /* VideoPlaybackTestView.swift */,
+				6D185DB12B49A0B1008EBFEA /* CameraPreviewView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1138,6 +1141,7 @@
 				6D5283242B3B4286007F71EE /* VideoFile.swift in Sources */,
 				6DEC856E2B159566006746F5 /* Coordinate.swift in Sources */,
 				6D52DF952B351D6C00E96713 /* FrameManager.swift in Sources */,
+				6D185DB22B49A0B1008EBFEA /* CameraPreviewView.swift in Sources */,
 				6D52DF6D2B2CAD5B00E96713 /* WaterSkiingCourseSetupView.swift in Sources */,
 				6DEC856C2B159566006746F5 /* LocationRecord.swift in Sources */,
 				6DE846F82B3528A100CF5E03 /* CameraError.swift in Sources */,

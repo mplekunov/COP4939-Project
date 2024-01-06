@@ -19,9 +19,13 @@ struct SessionRecordingView : View {
     
     var body: some View {
         VStack {
-            VideoRecordingView(image: cameraViewModel.frame)
+//            VideoRecordingView(image: cameraViewModel.frame)
+//                .edgesIgnoringSafeArea(.all)
+//                .padding()
+            
+            CameraPreview(captureSession: cameraViewModel.session)
                 .edgesIgnoringSafeArea(.all)
-                .padding()
+                .padding(/*@START_MENU_TOKEN@*/EdgeInsets()/*@END_MENU_TOKEN@*/)
             
             Button(action: {
                 sessionViewModel.endSession()
