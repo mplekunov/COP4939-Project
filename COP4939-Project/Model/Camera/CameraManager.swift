@@ -39,10 +39,10 @@ class CameraManager: ObservableObject {
         
         configure()
         
+        session = AVCaptureSession()
+        
         sessionQueue.async { [weak self] in
             guard let self = self else { return }
-            session = AVCaptureSession()
-            
             guard let session = session else { return }
             
             configureCaptureSession()
