@@ -185,7 +185,7 @@ extension FrameManager: AVCaptureVideoDataOutputSampleBufferDelegate {
                 return
             }
             
-            if assetWriter.status != .unknown {
+            if assetWriter.status != .writing && assetWriter.status != .completed {
                 assetWriter.startWriting()
                 assetWriter.startSession(atSourceTime: CMSampleBufferGetPresentationTimeStamp(sampleBuffer))
             }
