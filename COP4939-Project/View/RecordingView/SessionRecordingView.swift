@@ -19,10 +19,6 @@ struct SessionRecordingView : View {
     
     var body: some View {
         VStack {
-//            VideoRecordingView(image: cameraViewModel.frame)
-//                .edgesIgnoringSafeArea(.all)
-//                .padding()
-            
             CameraPreviewView(captureSession: cameraViewModel.session)
                 .edgesIgnoringSafeArea(.all)
                 .padding()

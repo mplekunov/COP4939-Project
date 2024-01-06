@@ -8,6 +8,8 @@ struct CameraPreviewView: UIViewRepresentable {
     func makeUIView(context: Context) -> VideoPreviewView {
         let view = VideoPreviewView()
         
+        print("Session: \(captureSession)")
+        
         guard let session = captureSession else { return view }
         
         print("Surely it's initialized")
