@@ -206,9 +206,6 @@ extension FrameManager: AVCaptureVideoDataOutputSampleBufferDelegate {
             if let buffer = sampleBuffer.imageBuffer,
                assetWriterInput.isReadyForMoreMediaData,
                pixelBufferAdaptor.assetWriterInput.isReadyForMoreMediaData {
-                
-                logger.log(message: "Time Stamp: \(CMSampleBufferGetPresentationTimeStamp(sampleBuffer))")
-                
                 pixelBufferAdaptor.append(buffer, withPresentationTime: CMSampleBufferGetPresentationTimeStamp(sampleBuffer))
             }
         }
