@@ -153,6 +153,8 @@ class FrameManager: NSObject, ObservableObject {
             }
             
             pixelBufferAdaptor = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: assetWriterInput, sourcePixelBufferAttributes: nil)
+            
+            logger.log(message: "\(assetWriter.status)")
         } catch {
             self.error = AssetWriterError.CreateAssetWriter(error).description
             return
@@ -185,7 +187,7 @@ extension FrameManager: AVCaptureVideoDataOutputSampleBufferDelegate {
                 return
             }
             
-            if assetWriter.status != .writing {
+            if assetWriter.status != .writing && assetWriter.status != .completed {
                 assetWriter.startWriting()
                 assetWriter.startSession(atSourceTime: CMSampleBufferGetPresentationTimeStamp(sampleBuffer))
             }
