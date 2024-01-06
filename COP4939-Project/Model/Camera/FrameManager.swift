@@ -144,6 +144,7 @@ class FrameManager: NSObject, ObservableObject {
                 return
             }
             
+            assetWriterInput.mediaTimeScale = CMTimeScale(bitPattern: 600)
             assetWriterInput.expectsMediaDataInRealTime = true
             
             if assetWriter.canAdd(assetWriterInput) {
