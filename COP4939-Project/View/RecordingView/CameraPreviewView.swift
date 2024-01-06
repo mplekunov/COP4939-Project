@@ -3,16 +3,12 @@ import AVFoundation
 
 struct CameraPreviewView: UIViewRepresentable {
     
-    let captureSession: AVCaptureSession?
+    @Binding var captureSession: AVCaptureSession?
     
     func makeUIView(context: Context) -> VideoPreviewView {
         let view = VideoPreviewView()
         
-        print("Session: \(captureSession)")
-        
         guard let session = captureSession else { return view }
-        
-        print("Surely it's initialized")
         
         view.backgroundColor = .black
         view.videoPreviewLayer.session = session
