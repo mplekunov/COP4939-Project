@@ -11,7 +11,7 @@ import AVFoundation
 
 struct SessionRecordingView : View {
     @EnvironmentObject var cameraViewModel: CameraViewModel
-    @EnvironmentObject var sessionViewModel: SessionViewModel
+    @EnvironmentObject var sessionViewModel: BaseSessionViewModel
     
     @State private var isSendingData = false
     

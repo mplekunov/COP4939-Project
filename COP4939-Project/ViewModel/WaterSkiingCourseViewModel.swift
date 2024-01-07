@@ -1,22 +1,24 @@
 //
-//  WaterSkiingCourseViewModel.swift
+//  WaterSkiingCourseFromCoordinatesViewModel.swift
 //  COP4939-Project
 //
-//  Created by Mikhail Plekunov on 12/19/23.
+//  Created by Mikhail Plekunov on 1/7/24.
 //
 
 import Foundation
 
-class WaterSkiingCourseViewModel : ObservableObject {
-    @Published public private(set) var course: WaterSkiingCourse?
+class WaterSkiingCourseViewModel<T> : ObservableObject where T : Codable {
+    @Published public private(set) var course: T?
     
     private let logger: LoggerService
     private let fileManager = FileManager.default
     
-    private let fileName: String = "Course.txt"
+    private let fileName: String
     
-    init() {
+    init(courseFileName: String) {
         logger = LoggerService(logSource: String(describing: type(of: self)))
+        
+        fileName = courseFileName
         
         if let path = getURL()?.path(), fileManager.fileExists(atPath: path) {
             logger.log(message: "Water Course file exists")
@@ -28,7 +30,7 @@ class WaterSkiingCourseViewModel : ObservableObject {
         }
     }
     
-    func setCourse(_ course: WaterSkiingCourse) {
+    func setCourse(_ course: T) {
         self.course = course
         
         do {
@@ -57,7 +59,7 @@ class WaterSkiingCourseViewModel : ObservableObject {
     private func downloadFromDocuments() throws {
         if let url = getURL() {
             let data = try Data(contentsOf: url)
-            course = try JSONConverter().decode(WaterSkiingCourse.self, from: data)
+            course = try JSONConverter().decode(T.self, from: data)
         }
     }
 }

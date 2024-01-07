@@ -1,11 +1,9 @@
 //
 //  LocationManager.swift
-//  WatchApp Watch App
+//  COP4939-Project Watch App
 //
-//  Created by Mikhail Plekunov on 11/18/23.
+//  Created by Mikhail Plekunov on 1/7/24.
 //
-
-import Foundation
 
 import Foundation
 import CoreLocation
@@ -33,7 +31,7 @@ class LocationManager: NSObject, ObservableObject {
     private func configure() {
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        locationManager.distanceFilter = 1
+        locationManager.distanceFilter = 0.5
     }
     
     private func set(error: LocationManagerError?) {

@@ -7,14 +7,14 @@
 
 import Foundation
 
-class PassBuilder {
+class PassBuilder<T, K> where T : Codable, K : Codable {
     public private(set) var score: Int?
-    public private(set) var entryGate: Gate?
-    public private(set) var exitGate: Gate?
-    public private(set) var wakeCrosses: Array<WakeCross> = Array()
-    public private(set) var buoys: Array<Buoy> = Array()
+    public private(set) var entryGate: GateBase<T>?
+    public private(set) var exitGate: GateBase<T>?
+    public private(set) var wakeCrosses: Array<WakeCrossBase<T>> = Array()
+    public private(set) var buoys: Array<BuoyBase<T>> = Array()
     public private(set) var timeOfRecordingInSeconds: Double?
-    public private(set) var videoFile: VideoFile?
+    public private(set) var videoFile: Video<K>?
     
     @discardableResult
     public func setScore(_ score: Int) -> PassBuilder{
@@ -23,37 +23,37 @@ class PassBuilder {
     }
     
     @discardableResult
-    public func setEntryGate(_ gate: Gate) -> PassBuilder {
+    public func setEntryGate(_ gate: GateBase<T>) -> PassBuilder {
         self.entryGate = gate
         return self
     }
     
     @discardableResult
-    public func setExitGate(_ gate: Gate) -> PassBuilder {
+    public func setExitGate(_ gate: GateBase<T>) -> PassBuilder {
         self.exitGate = gate
         return self
     }
     
     @discardableResult
-    public func addWakeCross(_ stats: WakeCross) -> PassBuilder {
+    public func addWakeCross(_ stats: WakeCrossBase<T>) -> PassBuilder {
         self.wakeCrosses.append(stats)
         return self
     }
     
     @discardableResult
-    public func setWakeCrosses(_ stats: Array<WakeCross>) -> PassBuilder {
+    public func setWakeCrosses(_ stats: Array<WakeCrossBase<T>>) -> PassBuilder {
         self.wakeCrosses = stats
         return self
     }
     
     @discardableResult
-    public func addBuoy(_ stats: Buoy) -> PassBuilder {
+    public func addBuoy(_ stats: BuoyBase<T>) -> PassBuilder {
         self.buoys.append(stats)
         return self
     }
     
     @discardableResult
-    public func setBuoys(_ stats: Array<Buoy>) -> PassBuilder {
+    public func setBuoys(_ stats: Array<BuoyBase<T>>) -> PassBuilder {
         self.buoys = stats
         return self
     }
@@ -65,12 +65,12 @@ class PassBuilder {
     }
     
     @discardableResult
-    public func setVideoFile(_ videoFile: VideoFile) -> PassBuilder {
+    public func setVideoFile(_ videoFile: Video<K>) -> PassBuilder {
         self.videoFile = videoFile
         return self
     }
     
-    public func build() -> Pass? {
+    public func build() -> Pass<T, K>? {
         guard let score = score,
               let entryGate = entryGate,
               let exitGate = exitGate,
@@ -92,12 +92,12 @@ class PassBuilder {
     }
 }
 
-struct Pass {
+struct Pass<T, K> : Codable where T : Codable, K : Codable {
     public let score: Int
-    public let entryGate: Gate
-    public let exitGate: Gate
-    public let wakeCrosses: Array<WakeCross>
-    public let buoys: Array<Buoy>
+    public let entryGate: GateBase<T>
+    public let exitGate: GateBase<T>
+    public let wakeCrosses: Array<WakeCrossBase<T>>
+    public let buoys: Array<BuoyBase<T>>
     public let timeOfRecordingInSeconds: Double
-    public let videoFile: VideoFile?
+    public let videoFile: Video<K>?
 }

@@ -38,14 +38,7 @@ struct StatisticsView: View {
                     Text("Count: \(dataCollectorViewModel.trackingRecords.count)")
                 }
             }
-            
-            Section("Location Coordinates") {
-                VStack(alignment: .leading, spacing: 10) {
-                    Text("Latitude: \(dataCollectorViewModel.locationRecord?.coordinate.latitude.formatted() ?? "N/A")")
-                    Text("Longitude: \(dataCollectorViewModel.locationRecord?.coordinate.longitude.formatted() ?? "N/A")")
-                }
-            }
-            
+
             Section("Attitude") {
                 VStack(alignment: .leading, spacing: 10) {
                     Text("Pitch: \(dataCollectorViewModel.motionRecord?.attitude.pitch.formatted() ?? "N/A")")

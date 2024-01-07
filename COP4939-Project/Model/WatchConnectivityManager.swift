@@ -100,6 +100,8 @@ class WatchConnectivityManager : NSObject, ObservableObject {
             return
         }
         
+        logger.log(message: "Trying to send Data as File")
+        
         do {
             let fileUrl = try writeDataToFile(data: data)
             
@@ -113,6 +115,8 @@ class WatchConnectivityManager : NSObject, ObservableObject {
         if !checkDeviceStatus() {
             return
         }
+        
+        logger.log(message: "Trying to send Data as String")
         
         do {
             let compressedData = try (data as NSData).compressed(using: .lzma)

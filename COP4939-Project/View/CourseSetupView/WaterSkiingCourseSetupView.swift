@@ -55,7 +55,7 @@ struct WaterSkiingCourseSetupView: View {
     
     @State private var alert: AlertInfo?
     
-    @EnvironmentObject var waterSkiingCourseViewModel: WaterSkiingCourseViewModel
+    @EnvironmentObject var waterSkiingCourseViewModel: WaterSkiingCourseViewModel<WaterSkiingCourseBase<Coordinate>>
     
     @Binding private var showCourseSetupView: Bool
     
@@ -144,29 +144,29 @@ struct WaterSkiingCourseSetupView: View {
         }
     }
     
-    private func initCourse(course: WaterSkiingCourse) {
+    private func initCourse(course: WaterSkiingCourseBase<Coordinate>) {
         DispatchQueue.main.async {
             var i = 0
             
-            course.buoys.forEach({ buoy in
+            course.buoyPositions.forEach({ buoy in
                 coursePointLocations.updateValue(buoy, forKey: buoysUI[i].id)
                 i += 1
             })
             
             i = 0
             
-            course.wakeCrosses.forEach({ wakeCross in
+            course.wakeCrossPositions.forEach({ wakeCross in
                 coursePointLocations.updateValue(wakeCross, forKey: wakeCrossesUI[i].id)
                 i += 1
             })
             
-            coursePointLocations.updateValue(course.entryGate, forKey: entryGateUI.id)
-            coursePointLocations.updateValue(course.exitGate, forKey: exitGateUI.id)
+            coursePointLocations.updateValue(course.entryGatePosition, forKey: entryGateUI.id)
+            coursePointLocations.updateValue(course.exitGatePosition, forKey: exitGateUI.id)
         }
     }
     
-    private func saveCourse() -> WaterSkiingCourse {
-        let defaultCoordinate = Coordinate(latitude: Measurement(value: 0, unit: .degrees), longitude: Measurement(value: 0, unit: .degrees))
+    private func saveCourse() -> WaterSkiingCourseBase<Coordinate> {
+        let defaultCoordinate = Coordinate(longitude: Measurement(value: 0, unit: .degrees), latitude: Measurement(value: 0, unit: .degrees))
         
         var buoys = Array<Coordinate>()
         var wakeCrosses = Array<Coordinate>()
@@ -181,13 +181,11 @@ struct WaterSkiingCourseSetupView: View {
             wakeCrosses.append(coursePointLocations[wakeCross.id] ?? defaultCoordinate)
         })
         
-        return WaterSkiingCourse(
-            location: buoys.first ?? defaultCoordinate,
-            name: UUID().uuidString,
-            buoys: buoys,
-            wakeCrosses: wakeCrosses,
-            entryGate: entryGate,
-            exitGate: exitGate
+        return WaterSkiingCourseBase<Coordinate>(
+            buoyPositions: buoys,
+            wakeCrossPositions: wakeCrosses,
+            entryGatePosition: entryGate,
+            exitGatePosition: exitGate
         )
     }
     

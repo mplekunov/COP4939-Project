@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 struct WaterSkiingCoursePointSetupView: View {
-    @StateObject var locationSensorViewModel: DeviceLocationSensorViewModel = DeviceLocationSensorViewModel()
+    @StateObject var locationSensorViewModel = LocationSensorViewModel()
     
     @Binding var activeElement: CoursePointUI?
     @Binding var coursePointLocation: Coordinate?

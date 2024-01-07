@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct VideoFile {
+struct Video<T> : Codable where T : Codable {
     let id: UUID
     let creationDate: Double
-    let url: URL
+    let fileLocation: T
     
-    init(id: UUID, creationDate: Double, url: URL) {
+    init(id: UUID, creationDate: Double, fileLocation: T) {
         self.id = id
-        self.url = url
+        self.fileLocation = fileLocation
         self.creationDate = creationDate
     }
 }

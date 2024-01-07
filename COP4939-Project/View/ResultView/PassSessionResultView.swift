@@ -9,36 +9,41 @@ import Foundation
 import SwiftUI
 
 struct PassSessionResultView : View {
-    @EnvironmentObject var sessionViewModel: SessionViewModel
+    @EnvironmentObject var sessionViewModel: BaseSessionViewModel
     
-    @StateObject var waterSkiingPassVideoManager = WaterSkiingPassVideoViewModel()
+    @StateObject var waterSkiingPassVideoViewModel = WaterSkiingPassVideoViewModel<Double>()
     @StateObject var waterSkiingPassViewModel: WaterSkiingPassViewModel
     
     @State var alert: AlertInfo?
     @State var showAlert = false
+    @Binding var showResultsView: Bool
     
     init(
-        waterSkiingCourseViewModel: WaterSkiingCourseViewModel,
+        waterSkiingCourseViewModel: WaterSkiingCourseViewModel<WaterSkiingCourseFromVideo>,
         cameraViewModel: CameraViewModel,
-        sessionViewModel: SessionViewModel
+        sessionViewModel: BaseSessionViewModel,
+        showResultsView: Binding<Bool>
     ) {
        _waterSkiingPassViewModel = StateObject(wrappedValue: WaterSkiingPassViewModel(
             waterSkiingCourseViewModel: waterSkiingCourseViewModel,
             cameraViewModel: cameraViewModel,
             sessionViewModel: sessionViewModel
         ))
+        
+        self._showResultsView = showResultsView
     }
     
     var body: some View {
         ZStack {
             VStack {
-                PassStatisticsView()
+                PassStatisticsView<Double>()
                     .environmentObject(waterSkiingPassViewModel)
-                    .environmentObject(waterSkiingPassVideoManager)
+                    .environmentObject(waterSkiingPassVideoViewModel)
                     .padding()
                 
                 Button("Close") {
                     sessionViewModel.clear()
+                    showResultsView = false
                 }
                 .frame(width: 300)
                 .padding()
@@ -50,7 +55,7 @@ struct PassSessionResultView : View {
         .onReceive(waterSkiingPassViewModel.$pass, perform: { pass in
             guard let pass = pass else { return }
             
-            waterSkiingPassVideoManager.startPlayback(pass: pass)
+            waterSkiingPassVideoViewModel.startPlayback(pass: pass)
         })
         .onReceive(sessionViewModel.$error, perform: { error in
             guard error == nil else { return }

@@ -13,8 +13,7 @@ struct SessionRecordingView: View {
     @EnvironmentObject var sessionViewModel: SessionViewModel
     
     @StateObject private var dataCollectorViewModel: DataCollectorViewModel = DataCollectorViewModel(
-        deviceMotionSensorModel: DeviceMotionSensorViewModel(updateFrequency: 0.05),
-        deviceLocationSensorModel: DeviceLocationSensorViewModel())
+        deviceMotionSensorModel: DeviceMotionSensorViewModel(updateFrequency: 0.05))
     
     var body: some View {
         VStack {
@@ -28,7 +27,7 @@ struct SessionRecordingView: View {
                 .onReceive(sessionViewModel.$isEnded, perform: { isEnded in
                     if isEnded {
                         dataCollectorViewModel.stopDataCollection()
-                        sessionViewModel.sendSession(session: WatchTrackingSession(uuid: UUID(), data: dataCollectorViewModel.trackingRecords))
+                        sessionViewModel.sendSession(data: dataCollectorViewModel.trackingRecords)
                         dataCollectorViewModel.clear()
                     }
                 })

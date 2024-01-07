@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-class SessionViewModel : ObservableObject {
+class BaseSessionViewModel : ObservableObject {
     private let logger: LoggerService
     
     private var converter: JSONConverter = JSONConverter()
@@ -79,10 +79,15 @@ class SessionViewModel : ObservableObject {
                 errorHandler:  { [weak self] error in
                     guard let self = self else { return }
                     
+                    DispatchQueue.main.async {
+                        self.error = error.localizedDescription
+                    }
+                    
                     logger.log(message: "\(error)")
                 }
             )
         } catch {
+            self.error = error.localizedDescription
             logger.error(message: "\(error)")
         }
     }

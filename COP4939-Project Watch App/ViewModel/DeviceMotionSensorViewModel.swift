@@ -7,9 +7,12 @@
 
 import Foundation
 import CoreMotion
+import CoreLocation
 
 class DeviceMotionSensorViewModel : ObservableObject {
-    private let motionManager: CMMotionManager = CMMotionManager()
+    private let motionManager = CMMotionManager()
+    private let locationManager = LocationManager.instance
+    
     private let operationQueue: OperationQueue = OperationQueue()
     private let updateFrequency: Double
     private let logger: LoggerService
@@ -42,13 +45,15 @@ class DeviceMotionSensorViewModel : ObservableObject {
         if motionManager.isDeviceMotionAvailable {
             set(error: .DeviceMotionNotAvailable)
         }
+        
     }
     
     func startRecording() {
         motionManager.startDeviceMotionUpdates(to: operationQueue) { [weak self] motionData, error in
             guard let self = self else { return }
             
-            if let motionData = motionData {
+            if let motionData = motionData,
+               let speed = locationManager.location?.speed {
                 let attitude = motionData.attitude
                 let acceleration = motionData.userAcceleration
                 let gForce = motionData.gravity
@@ -58,6 +63,7 @@ class DeviceMotionSensorViewModel : ObservableObject {
                     guard let self = self else { return }
                     
                      motion = MotionRecord(
+                        speed: Measurement(value: speed, unit: .metersPerSecond),
                         attitude: Attitude(
                             roll: Measurement(value: attitude.roll, unit: .radians),
                             yaw: Measurement(value: attitude.yaw, unit: .radians),

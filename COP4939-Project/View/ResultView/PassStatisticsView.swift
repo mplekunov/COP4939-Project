@@ -9,8 +9,8 @@ import Foundation
 import SwiftUI
 import AVKit
 
-struct PassStatisticsView : View {
-    @EnvironmentObject var passVideoViewModel: WaterSkiingPassVideoViewModel
+struct PassStatisticsView<T> : View where T : Codable {
+    @EnvironmentObject var passVideoViewModel: WaterSkiingPassVideoViewModel<T>
     @EnvironmentObject var passViewModel: WaterSkiingPassViewModel
     
     @State private var isPlaying = false

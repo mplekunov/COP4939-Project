@@ -9,11 +9,13 @@ import SwiftUI
 import Combine
 
 struct ContentView: View {
-    @StateObject var waterSkiingCourseViewModel = WaterSkiingCourseViewModel()
-    @StateObject var sessionViewModel = SessionViewModel()
+    @StateObject var waterSkiingCourseViewModel = WaterSkiingCourseViewModel<WaterSkiingCourseFromVideo>(courseFileName: "Course_From_Video.txt")
+    @StateObject var sessionViewModel = BaseSessionViewModel()
     @StateObject var cameraViewModel = CameraViewModel()
+    @StateObject var videoViewModel = VideoViewModel()
     
-    @State private var showCourseSetupView: Bool = false
+    @State private var showResultsView = false
+    @State private var showCourseSetupView = false
     
     var body: some View {
         ZStack {
@@ -26,11 +28,19 @@ struct ContentView: View {
             } else if showCourseSetupView {
                 WaterSkiingCourseSetupView(showCourseSetupView: $showCourseSetupView)
                     .environmentObject(waterSkiingCourseViewModel)
-            } else if sessionViewModel.isReceived {
-                PassSessionResultView(waterSkiingCourseViewModel: waterSkiingCourseViewModel, cameraViewModel: cameraViewModel, sessionViewModel: sessionViewModel)
+            } else if sessionViewModel.isReceived && cameraViewModel.videoFile != nil {
+                WaterSkiingCourseSetupFromVideoView(showResultsView: $showResultsView)
+                    .environmentObject(waterSkiingCourseViewModel)
+                    .environmentObject(videoViewModel)
+                    .onAppear(perform: {
+                        guard let videoFile = cameraViewModel.videoFile else { return }
+                        videoViewModel.startPlayback(video: videoFile)
+                    })
+            } else if showResultsView {
+                PassSessionResultView(waterSkiingCourseViewModel: waterSkiingCourseViewModel, cameraViewModel: cameraViewModel, sessionViewModel: sessionViewModel, showResultsView: $showResultsView)
                     .environmentObject(sessionViewModel)
             } else {
-                MainView(showCourseSetupView: $showCourseSetupView)
+                MainViewWithoutLocation(showCourseSetupView: $showCourseSetupView)
                     .environmentObject(cameraViewModel)
                     .environmentObject(waterSkiingCourseViewModel)
                     .environmentObject(sessionViewModel)

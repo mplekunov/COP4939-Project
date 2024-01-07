@@ -8,7 +8,13 @@
 import Foundation
 import AVFoundation
 
-class WaterSkiingPassProcessor {
+class WaterSkiingPassProcessorForCoordinates : WaterSkiingPassProcessorProtocol {
+    typealias P = Coordinate
+    typealias C = WaterSkiingCourseBase<P>
+    typealias R = TrackingRecord
+    typealias V = URL
+    
+    
     private var logger: LoggerService
     
     private let videoManager = VideoManager()
@@ -27,22 +33,22 @@ class WaterSkiingPassProcessor {
             .assign(to: &$error)
     }
     
-    func processPass(course: WaterSkiingCourse, records: Array<TrackingRecord>, videoFile: VideoFile) -> Pass? {
-        let passBuilder = PassBuilder()
+    func process(course: WaterSkiingCourseBase<Coordinate>, records: Array<TrackingRecord>, video: Video<URL>) -> Pass<Coordinate, URL>? {
+        let passBuilder = PassBuilder<P, V>()
         
-        let videoCreationDate = videoFile.creationDate
+        let videoCreationDate = video.creationDate
         
         if records.isEmpty {
             error = "Data array cannot be empty"
             return nil
         }
         
-        if course.buoys.count != course.wakeCrosses.count && course.wakeCrosses.count != NUM_OF_BUOYS {
+        if course.buoyPositions.count != course.wakeCrossPositions.count && course.wakeCrossPositions.count != NUM_OF_BUOYS {
             error = "The number of buoys/wake crosses is incorrect"
             return nil
         }
         
-        var maxSpeed = Measurement<UnitSpeed>(value: 0.0, unit: records.first!.location.speed.unit)
+        var maxSpeed = Measurement<UnitSpeed>(value: 0.0, unit: records.first!.motion.speed.unit)
         var maxRoll = Measurement<UnitAngle>(value: 0.0, unit: records.first!.motion.attitude.roll.unit)
         var maxPitch = Measurement<UnitAngle>(value: 0.0, unit: records.first!.motion.attitude.pitch.unit)
         var maxGForce = Measurement<UnitAcceleration>(value: 0.0, unit: records.first!.motion.gForce.x.unit)
@@ -57,9 +63,17 @@ class WaterSkiingPassProcessor {
         
         logger.log(message: "Number of records: \(records.count)")
         
+        var trimmedRecords = Array<TrackingRecord>()
+        
         for record in records {
+            if record.timeOfRecordingInSeconds >= videoCreationDate {
+                trimmedRecords.append(record)
+            }
+        }
+        
+        for record in trimmedRecords {
             if crossedEntryGate {
-                maxSpeed = max(record.location.speed, maxSpeed)
+                maxSpeed = max(record.motion.speed, maxSpeed)
                 maxPitch = max(record.motion.attitude.pitch, maxPitch)
                 maxRoll = max(record.motion.attitude.roll, maxRoll)
                 maxAngle = max(record.motion.attitude.yaw, maxAngle)
@@ -73,49 +87,49 @@ class WaterSkiingPassProcessor {
                 )
             }
             
-            if inRange(point: record.location.coordinate, within: course.entryGate, withRange: RANGE) {
-                passBuilder.setEntryGate(Gate(
-                    location: course.entryGate,
-                    maxSpeed: record.location.speed,
+            if inRange(point: record.location.coordinate, within: course.entryGatePosition, withRange: RANGE) {
+                passBuilder.setEntryGate(GateBase(
+                    maxSpeed: record.motion.speed,
                     maxRoll: record.motion.attitude.roll,
                     maxPitch: record.motion.attitude.pitch,
-                    timeOfRecordingInSeconds: abs(record.timeOfRecordingInSeconds - videoCreationDate))
-                ).setTimeOfRecording(record.timeOfRecordingInSeconds)
+                    position: course.entryGatePosition,
+                    timeOfRecordingInSeconds: record.timeOfRecordingInSeconds
+                )).setTimeOfRecording(record.timeOfRecordingInSeconds)
                 
                 crossedEntryGate = true
             }
             
-            if inRange(point: record.location.coordinate, within: course.exitGate, withRange: RANGE) {
-                passBuilder.setExitGate(Gate(
-                    location: course.exitGate,
+            if inRange(point: record.location.coordinate, within: course.exitGatePosition, withRange: RANGE) {
+                passBuilder.setExitGate(GateBase(
                     maxSpeed: maxSpeed,
                     maxRoll: maxRoll,
                     maxPitch: maxPitch,
-                    timeOfRecordingInSeconds: abs(record.timeOfRecordingInSeconds - videoCreationDate))
-                )
+                    position: course.exitGatePosition,
+                    timeOfRecordingInSeconds: record.timeOfRecordingInSeconds
+                ))
             }
             
-            if i < course.wakeCrosses.count && inRange(point: record.location.coordinate, within: course.wakeCrosses[i], withRange: RANGE) {
-                passBuilder.addWakeCross(WakeCross(
-                    location: course.wakeCrosses[i],
+            if i < course.wakeCrossPositions.count && inRange(point: record.location.coordinate, within: course.wakeCrossPositions[i], withRange: RANGE) {
+                passBuilder.addWakeCross(WakeCrossBase(
                     maxSpeed: maxSpeed,
                     maxRoll: maxRoll,
                     maxPitch: maxPitch,
                     maxAngle: maxAngle,
                     maxGForce: maxGForce,
                     maxAcceleration: maxAcceleration,
-                    timeOfRecordingInSeconds: abs(record.timeOfRecordingInSeconds - videoCreationDate))
-                )
+                    position: course.wakeCrossPositions[i],
+                    timeOfRecordingInSeconds: record.timeOfRecordingInSeconds
+                ))
             }
             
-            if i < course.buoys.count && inRange(point: record.location.coordinate, within: course.buoys[i], withRange: RANGE) {
-                passBuilder.addBuoy(Buoy(
-                    location: course.buoys[i],
+            if i < course.buoyPositions.count && inRange(point: record.location.coordinate, within: course.buoyPositions[i], withRange: RANGE) {
+                passBuilder.addBuoy(BuoyBase(
                     maxSpeed: maxSpeed,
                     maxRoll: maxRoll,
                     maxPitch: maxPitch,
-                    timeOfRecordingInSeconds: abs(record.timeOfRecordingInSeconds - videoCreationDate))
-                )
+                    position: course.buoyPositions[i],
+                    timeOfRecordingInSeconds: record.timeOfRecordingInSeconds
+                ))
                 
                 i += 1
             }
@@ -128,10 +142,10 @@ class WaterSkiingPassProcessor {
         
         Task {
             do {
-                guard let videoFile = try await processVideo(
+                guard let videoFile = try await trimVideo(
                     startTime: startTime,
                     endTime: endTime,
-                    videoFile: videoFile
+                    video: video
                 ) else {
                     error = "Could not process video file for water skiing pass"
                     return
@@ -146,14 +160,12 @@ class WaterSkiingPassProcessor {
         return passBuilder.build()
     }
     
-    private func processVideo(startTime: Double, endTime: Double, videoFile: VideoFile) async throws -> VideoFile? {
+    private func trimVideo(startTime: Double, endTime: Double, video: Video<V>) async throws -> Video<V>? {
         let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
         
         guard let documentsDirectory = documentsDirectory else { return nil }
         
-        logger.log(message: "\(documentsDirectory)")
-        
-        let creationDate = videoFile.creationDate
+        let creationDate = video.creationDate
         
         let startTime = abs(creationDate - startTime)
         let endTime = abs(creationDate - endTime)
@@ -162,26 +174,26 @@ class WaterSkiingPassProcessor {
         let endCMTime = CMTime(seconds: endTime, preferredTimescale: 1000)
         
         let movieOutputID = UUID()
-        let movieOutputURL = documentsDirectory.appendingPathComponent("\(movieOutputID.uuidString).\(videoFile.url.pathExtension)")
+        let movieOutputURL = documentsDirectory.appendingPathComponent("\(movieOutputID.uuidString).\(video.fileLocation.pathExtension)")
         
         try FileManager.default.removeItem(at: movieOutputURL)
         
-        try await videoManager.trimVideo(source: videoFile.url, to: movieOutputURL, startTime: startCMTime, endTime: endCMTime)
+        try await videoManager.trimVideo(source: video.fileLocation, to: movieOutputURL, startTime: startCMTime, endTime: endCMTime)
         
-        return VideoFile(id: movieOutputID, creationDate: videoFile.creationDate, url: movieOutputURL)
+        return Video(id: movieOutputID, creationDate: video.creationDate, fileLocation: movieOutputURL)
     }
     
-    private func calculateTotalScore(course: WaterSkiingCourse, records: Array<TrackingRecord>) -> Int {
+    private func calculateTotalScore(course: WaterSkiingCourseBase<Coordinate>, records: Array<TrackingRecord>) -> Int {
         var i = 0
         
         var score = 0
         
         for record in records {
-            if i < course.buoys.count && inRange(point: record.location.coordinate, within: course.buoys[i], withRange: RANGE) {
+            if i < course.buoyPositions.count && inRange(point: record.location.coordinate, within: course.buoyPositions[i], withRange: RANGE) {
                 let skier = record.location.coordinate
-                let buoy = course.buoys[i]
-                let entryGate = course.entryGate
-                let exitGate = course.exitGate
+                let buoy = course.buoyPositions[i]
+                let entryGate = course.entryGatePosition
+                let exitGate = course.exitGatePosition
                 
                 if i % 2 == 0 {
                     score += getBuoyScore(skier: skier, buoy: buoy, entryGate: entryGate, exitGate: exitGate, fromSide: .Right)

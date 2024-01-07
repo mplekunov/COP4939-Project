@@ -1,19 +1,19 @@
 //
-//  MainView.swift
+//  MainViewWithoutLocation.swift
 //  COP4939-Project
 //
-//  Created by Mikhail Plekunov on 12/20/23.
+//  Created by Mikhail Plekunov on 1/7/24.
 //
 
 import Foundation
 import SwiftUI
 import Combine
 
-struct MainView : View {
+struct MainViewWithoutLocation : View {
     @State private var alert: AlertInfo?
     @State private var showAlert = false
     
-    @EnvironmentObject var waterSkiingCourseViewModel: WaterSkiingCourseViewModel<WaterSkiingCourseBase<Coordinate>>
+    @EnvironmentObject var waterSkiingCourseViewModel: WaterSkiingCourseViewModel<WaterSkiingCourseFromVideo>
     @EnvironmentObject var sessionViewModel: BaseSessionViewModel
     @EnvironmentObject var cameraViewModel: CameraViewModel
     
@@ -23,15 +23,6 @@ struct MainView : View {
     
     var body: some View {
         VStack {
-            Button(waterSkiingCourseViewModel.course != nil ? "Edit WaterSkiing Course Layout" : "Setup WaterSkiing Course Layout") {
-                showCourseSetupView = true
-            }
-            .frame(width: 300)
-            .padding()
-            .background(.orange)
-            .clipShape(.rect(cornerRadius: 20))
-            .foregroundStyle(.black)
-            
             Button(action: {
                 sessionViewModel.startSession()
                 isSendingData = true
@@ -41,7 +32,7 @@ struct MainView : View {
                         .foregroundColor(.orange)
                         .cornerRadius(10)
                 } else {
-                    Text(waterSkiingCourseViewModel.course != nil ? "Start WaterSkiing Recording" : "Recording Unavailable")
+                    Text("Start Recording")
                 }
             })
             .onReceive(sessionViewModel.$isStarted, perform: { isStarted in
@@ -83,8 +74,7 @@ struct MainView : View {
             .padding()
             .background(.orange)
             .clipShape(.rect(cornerRadius: 20))
-            .foregroundStyle(waterSkiingCourseViewModel.course != nil  ? .black : .gray)
-            .disabled(waterSkiingCourseViewModel.course == nil)
+            .foregroundStyle(.black)
             .alert(
                 alert?.title ?? "",
                 isPresented: $showAlert,

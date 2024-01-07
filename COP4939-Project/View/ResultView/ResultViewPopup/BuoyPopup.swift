@@ -8,11 +8,11 @@
 import Foundation
 import SwiftUI
 
-struct BuoyPopup : View {
+struct BuoyPopup<T> : View where T : Codable {
     @Binding var showPopup: Bool
     
     var title: String
-    var buoy: Buoy
+    var buoy: BuoyBase<T>
     
     var body: some View {
         ZStack{
@@ -70,16 +70,19 @@ struct BuoyPopup : View {
 
 struct BuoyPopupPreview: PreviewProvider {
     private static func getCoordinate(lat: Double, lon: Double) -> Coordinate {
-        return Coordinate(latitude: Measurement(value: lat, unit: .degrees), longitude: Measurement(value: lon, unit: .degrees))
+        return Coordinate(longitude: Measurement(value: lon, unit: .degrees), latitude: Measurement(value: lat, unit: .degrees))
     }
     
     static var previews: some View {
-        BuoyPopup(showPopup: .constant(true), title: "Buoy 1", buoy: Buoy(
-            location: getCoordinate(lat: 0.02, lon: 0.1),
-            maxSpeed: Measurement(value: 20, unit: .metersPerSecond),
-            maxRoll: Measurement(value: 3, unit: .degrees),
-            maxPitch: Measurement(value: 2, unit: .degrees),
-            timeOfRecordingInSeconds: 0
+        BuoyPopup<Coordinate>(
+            showPopup: .constant(true),
+            title: "Buoy 1",
+            buoy: BuoyBase<Coordinate>(
+                maxSpeed: Measurement(value: 20, unit: .metersPerSecond),
+                maxRoll: Measurement(value: 3, unit: .degrees),
+                maxPitch: Measurement(value: 2, unit: .degrees),
+                position: getCoordinate(lat: 0.02, lon: 0.1),
+                timeOfRecordingInSeconds: 0
         ))
     }
 }

@@ -1,8 +1,8 @@
 //
-//  Location.swift
-//  WatchApp Watch App
+//  LocationRecord.swift
+//  COP4939-Project
 //
-//  Created by Mikhail Plekunov on 11/17/23.
+//  Created by Mikhail Plekunov on 1/7/24.
 //
 
 import Foundation

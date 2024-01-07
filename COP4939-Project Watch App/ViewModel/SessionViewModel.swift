@@ -22,6 +22,8 @@ class SessionViewModel : ObservableObject {
     @Published public private(set) var isStarted = false
     @Published public private(set) var isReceived = false
     
+    private var sessionStartDateInSeconds: Double?
+    
     init() {
         logger = LoggerService(logSource: String(describing: type(of: self)))
         
@@ -48,6 +50,7 @@ class SessionViewModel : ObservableObject {
                 case .WatchSessionStart:
                     self.send(dataPacket: DataPacket(dataType: .WatchSessionStart, id: UUID(), data: Data()))
                     self.isStarted = true
+                    self.sessionStartDateInSeconds = Date().timeIntervalSince1970
                 case .WatchSessionEnd:
                     self.send(dataPacket: DataPacket(dataType: .WatchSessionEnd, id: UUID(), data: Data()))
                     self.isEnded = true
@@ -60,9 +63,15 @@ class SessionViewModel : ObservableObject {
         }
     }
     
-    func sendSession(session: WatchTrackingSession) {
+    func sendSession(data: Array<WatchTrackingRecord>) {
+        guard let sessionStartDateInSeconds = sessionStartDateInSeconds else { return }
+        
+        let id = UUID()
+        
+        let watchSession = WatchTrackingSession(uuid: id, dateInSeconds: sessionStartDateInSeconds, data: data)
+        
         do {
-            sendAsFile(dataPacket: DataPacket(dataType: .WatchSession, id: UUID(), data: try converter.encode(session)))
+            sendAsFile(dataPacket: DataPacket(dataType: .WatchSession, id: id, data: try converter.encode(watchSession)))
         } catch {
             logger.error(message: "\(error)")
         }

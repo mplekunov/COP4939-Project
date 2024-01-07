@@ -11,11 +11,10 @@ import AVFoundation
 import VideoToolbox
 
 class CameraViewModel: ObservableObject {
-    @Published public private(set) var frame: CGImage?
     @Published public private(set) var session: AVCaptureSession?
     @Published public private(set) var error: String?
     @Published public private(set) var isRecording: Bool?
-    @Published public private(set) var videoFile: VideoFile?
+    @Published public private(set) var videoFile: Video<URL>?
     
     private let frameManager = FrameManager.instance
     private let cameraManager = CameraManager.instance
@@ -24,18 +23,6 @@ class CameraViewModel: ObservableObject {
         cameraManager.$session
             .receive(on: DispatchQueue.main)
             .assign(to: &$session)
-        
-        frameManager.$current
-            .receive(on: DispatchQueue.main)
-            .compactMap { buffer in
-                guard let buffer = buffer else { return nil }
-                
-                var imageOut: CGImage?
-                VTCreateCGImageFromCVPixelBuffer(buffer, options: nil, imageOut: &imageOut)
-                
-                return imageOut
-            }
-            .assign(to: &$frame)
         
         frameManager.$error
             .receive(on: DispatchQueue.main)

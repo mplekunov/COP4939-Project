@@ -13,10 +13,9 @@ class FrameManager: NSObject, ObservableObject {
     private let logger: LoggerService
     static let instance = FrameManager()
     
-    @Published public private(set) var current: CVPixelBuffer?
     @Published public private(set) var error: String?
     @Published public private(set) var isRecording: Bool?
-    @Published public private(set) var videoFile: VideoFile?
+    @Published public private(set) var videoFile: Video<URL>?
     
     private var creationDate: Date?
     
@@ -95,7 +94,7 @@ class FrameManager: NSObject, ObservableObject {
                         return
                     }
                     
-                    self.videoFile = VideoFile(id: id, creationDate: creationDate.timeIntervalSince1970, url: outputFileURL)
+                    self.videoFile = Video(id: id, creationDate: creationDate.timeIntervalSince1970, fileLocation: outputFileURL)
                 }
             }
         }
@@ -194,7 +193,6 @@ extension FrameManager: AVCaptureVideoDataOutputSampleBufferDelegate {
                assetWriterInput.isReadyForMoreMediaData,
                pixelBufferAdaptor.assetWriterInput.isReadyForMoreMediaData {
                 pixelBufferAdaptor.append(buffer, withPresentationTime: CMSampleBufferGetPresentationTimeStamp(sampleBuffer))
-                current = buffer
             }
         }
     }

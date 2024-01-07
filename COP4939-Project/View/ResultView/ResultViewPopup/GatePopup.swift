@@ -8,11 +8,11 @@
 import Foundation
 import SwiftUI
 
-struct GatePopup : View {
+struct GatePopup<T> : View where T : Codable {
     @Binding var showPopup: Bool
     
     var title: String
-    var gate: Gate
+    var gate: GateBase<T>
     
     var body: some View {
         ZStack{
@@ -69,15 +69,15 @@ struct GatePopup : View {
 
 struct GatePopupPreview: PreviewProvider {
     private static func getCoordinate(lat: Double, lon: Double) -> Coordinate {
-        return Coordinate(latitude: Measurement(value: lat, unit: .degrees), longitude: Measurement(value: lon, unit: .degrees))
+        return Coordinate(longitude: Measurement(value: lon, unit: .degrees), latitude: Measurement(value: lat, unit: .degrees))
     }
     
     static var previews: some View {
-        GatePopup(showPopup: .constant(true), title: "Entry Gate", gate: Gate(
-            location: getCoordinate(lat: 0.02, lon: 0.1),
+        GatePopup(showPopup: .constant(true), title: "Entry Gate", gate: GateBase<Coordinate>(
             maxSpeed: Measurement(value: 20, unit: .metersPerSecond),
             maxRoll: Measurement(value: 3, unit: .degrees),
             maxPitch: Measurement(value: 2, unit: .degrees),
+            position: getCoordinate(lat: 0.02, lon: 0.1),
             timeOfRecordingInSeconds: 0
         ))
     }

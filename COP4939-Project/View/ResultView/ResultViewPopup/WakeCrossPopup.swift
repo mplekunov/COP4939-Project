@@ -8,11 +8,11 @@
 import Foundation
 import SwiftUI
 
-struct WakeCrossPopup : View {
+struct WakeCrossPopup<T> : View where T : Codable {
     @Binding var showPopup: Bool
     
     var title: String
-    var wakeCross: WakeCross
+    var wakeCross: WakeCrossBase<T>
     
     var body: some View {
         ZStack{
@@ -82,19 +82,22 @@ struct WakeCrossPopup : View {
 
 struct WakeCrossPopupPreview: PreviewProvider {
     private static func getCoordinate(lat: Double, lon: Double) -> Coordinate {
-        return Coordinate(latitude: Measurement(value: lat, unit: .degrees), longitude: Measurement(value: lon, unit: .degrees))
+        return Coordinate(longitude: Measurement(value: lon, unit: .degrees), latitude: Measurement(value: lat, unit: .degrees))
     }
     
     static var previews: some View {
-        WakeCrossPopup(showPopup: .constant(true), title: "Wake Cross 1", wakeCross: WakeCross(
-            location: getCoordinate(lat: 0.22222, lon: 0.3222222),
-            maxSpeed: Measurement(value: 2, unit: .milesPerHour),
-            maxRoll: Measurement(value: 3, unit: .degrees),
-            maxPitch: Measurement(value: 2, unit: .degrees),
-            maxAngle: Measurement(value: 1, unit: .degrees),
-            maxGForce: Measurement(value: 4, unit: .gravity),
-            maxAcceleration: Measurement(value: 10, unit: .metersPerSecondSquared),
-            timeOfRecordingInSeconds: 0)
+        WakeCrossPopup<Coordinate>(
+            showPopup: .constant(true),
+            title: "Wake Cross 1",
+            wakeCross: WakeCrossBase(
+                maxSpeed: Measurement(value: 2, unit: .milesPerHour),
+                maxRoll: Measurement(value: 3, unit: .degrees),
+                maxPitch: Measurement(value: 2, unit: .degrees),
+                maxAngle: Measurement(value: 1, unit: .degrees),
+                maxGForce: Measurement(value: 4, unit: .gravity),
+                maxAcceleration: Measurement(value: 10, unit: .metersPerSecondSquared),
+                position: getCoordinate(lat: 0.22222, lon: 0.3222222),
+                timeOfRecordingInSeconds: 0)
         )
     }
 }
