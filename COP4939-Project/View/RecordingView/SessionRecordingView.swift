@@ -22,7 +22,7 @@ struct SessionRecordingView : View {
     
     init() {
         print("Is it called once?")
-        print(sessionViewModel.session)
+        print(cameraViewModel.session)
     }
     
     var body: some View {
