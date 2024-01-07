@@ -31,11 +31,6 @@ class CameraManager: ObservableObject {
     
     private init() {
         logger = LoggerService(logSource: String(describing: type(of: self)))
-        
-        session = AVCaptureSession()
-     
-        configureCaptureSession()
-        configureCaptureMode()
     }
     
     func startRecording() {
@@ -45,7 +40,14 @@ class CameraManager: ObservableObject {
         
         sessionQueue.async { [weak self] in
             guard let self = self else { return }
+            
+            session = AVCaptureSession()
+            
             guard let session = session else { return }
+            
+            
+            configureCaptureSession()
+            configureCaptureMode()
             
             session.startRunning()
             
