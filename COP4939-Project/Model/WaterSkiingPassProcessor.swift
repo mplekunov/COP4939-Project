@@ -55,6 +55,8 @@ class WaterSkiingPassProcessor {
         
         var crossedEntryGate: Bool = false
         
+        logger.log(message: "Number of records: \(records.count)")
+        
         for record in records {
             if crossedEntryGate {
                 maxSpeed = max(record.location.speed, maxSpeed)
@@ -117,6 +119,8 @@ class WaterSkiingPassProcessor {
                 
                 i += 1
             }
+            
+            logger.log(message: "Record has been reviewed")
         }
         
         logger.log(message: "\(passBuilder.entryGate != nil)")
