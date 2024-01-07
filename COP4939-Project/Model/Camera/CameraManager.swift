@@ -17,7 +17,7 @@ class CameraManager: ObservableObject {
     
     private let sessionQueue = DispatchQueue(label:"com.CameraManager")
     
-    private var videoOutput: AVCaptureVideoDataOutput?
+    private let videoOutput = AVCaptureVideoDataOutput()
     private var status = Status.Unconfigured
     
     enum Status {
@@ -42,7 +42,6 @@ class CameraManager: ObservableObject {
             guard let self = self else { return }
             
             session = AVCaptureSession()
-            videoOutput = AVCaptureVideoDataOutput()
             
             guard let session = session else { return }
             
@@ -136,7 +135,6 @@ class CameraManager: ObservableObject {
     
     private func configureCaptureMode() {
         guard let session = session else { return }
-        guard let videoOutput = videoOutput else { return }
         
         if session.canAddOutput(videoOutput) {
             session.beginConfiguration()
@@ -194,7 +192,6 @@ class CameraManager: ObservableObject {
     ) {
         sessionQueue.async { [weak self] in
             guard let self = self else { return }
-            guard let videoOutput = videoOutput else { return }
             
             videoOutput.setSampleBufferDelegate(delegate, queue: queue)
         }
