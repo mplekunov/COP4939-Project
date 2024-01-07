@@ -18,16 +18,12 @@ struct SessionRecordingView : View {
     @State private var alert: AlertInfo?
     @State private var showAlert = false
     
-    @State private var cameraSession: AVCaptureSession?
-    
     var body: some View {
         VStack {
-            CameraPreviewView(captureSession: cameraViewModel.session)
+            CameraPreviewView()
                 .edgesIgnoringSafeArea(.all)
                 .padding()
-                .task {
-                    print(cameraViewModel.session)
-                }
+                .environmentObject(cameraViewModel)
             
             Button(action: {
                 sessionViewModel.endSession()
