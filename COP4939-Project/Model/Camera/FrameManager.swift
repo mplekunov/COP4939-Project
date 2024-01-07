@@ -31,18 +31,12 @@ class FrameManager: NSObject, ObservableObject {
     private var cameraManagerErrorSubscriber: AnyCancellable?
     private var cameraManagerIsRecordingSubscriber: AnyCancellable?
     
-    let videoOutputQueue = DispatchQueue(
-        label: "com.FrameManager",
-        qos: .userInitiated,
-        attributes: [],
-        autoreleaseFrequency: .workItem)
+    var videoOutputQueue: DispatchQueue?
     
     private override init() {
         logger = LoggerService(logSource: String(describing: type(of: self)))
         
         super.init()
-        
-        CameraManager.instance.set(self, queue: videoOutputQueue)
         
         cameraManagerErrorSubscriber = CameraManager.instance.$error.sink { error in
             DispatchQueue.main.async {
@@ -59,6 +53,17 @@ class FrameManager: NSObject, ObservableObject {
     
     func startRecording() {
         setupAssetWriter()
+        
+        videoOutputQueue = DispatchQueue(
+           label: "com.FrameManager",
+           qos: .userInitiated,
+           attributes: [],
+           autoreleaseFrequency: .workItem
+        )
+        
+        guard let videoOutputQueue = videoOutputQueue else { return }
+        
+        CameraManager.instance.set(self, queue: videoOutputQueue)
         
         CameraManager.instance.startRecording()
     }
