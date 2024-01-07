@@ -18,7 +18,6 @@ class CameraManager: ObservableObject {
     private let sessionQueue = DispatchQueue(label:"com.CameraManager")
     
     private var videoOutput: AVCaptureVideoDataOutput?
-    private var previewLayer: AVCaptureVideoPreviewLayer?
     private var status = Status.Unconfigured
     
     enum Status {
@@ -42,11 +41,8 @@ class CameraManager: ObservableObject {
         sessionQueue.async { [weak self] in
             guard let self = self else { return }
             
-            DispatchQueue.main.async {
-                self.session = AVCaptureSession()
-                self.videoOutput = AVCaptureVideoDataOutput()
-                self.previewLayer = AVCaptureVideoPreviewLayer()
-            }
+            session = AVCaptureSession()
+            videoOutput = AVCaptureVideoDataOutput()
             
             guard let session = session else { return }
             
