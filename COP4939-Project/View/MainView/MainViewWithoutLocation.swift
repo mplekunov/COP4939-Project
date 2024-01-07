@@ -24,7 +24,7 @@ struct MainViewWithoutLocation : View {
     var body: some View {
         VStack {
             Button(action: {
-                sessionViewModel.startSession()
+                cameraViewModel.startRecording()
                 isSendingData = true
             }, label: {
                 if isSendingData {
@@ -35,9 +35,10 @@ struct MainViewWithoutLocation : View {
                     Text("Start Recording")
                 }
             })
-            .onReceive(sessionViewModel.$isStarted, perform: { isStarted in
-                if isSendingData && isStarted {
-                    cameraViewModel.startRecording()
+            .onReceive(cameraViewModel.$isRecording, perform: { isRecording in
+                guard let isRecording = isRecording else { return }
+                if isSendingData && isRecording {
+                    sessionViewModel.startSession()
                 }
             })
             .onReceive(cameraViewModel.$error, perform: { error in
@@ -51,7 +52,6 @@ struct MainViewWithoutLocation : View {
                     )
                     
                     showAlert = true
-                    
                     isSendingData = false
                 }
             })
@@ -66,7 +66,6 @@ struct MainViewWithoutLocation : View {
                     )
                     
                     showAlert = true
-                    
                     isSendingData = false
                 }
             })

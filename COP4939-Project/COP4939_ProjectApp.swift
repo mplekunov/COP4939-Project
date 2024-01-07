@@ -10,12 +10,7 @@ import Foundation
 import AVFoundation
 
 @main
-struct COP4939_ProjectApp: App {
-//    
-//    @StateObject var videoViewModel = VideoViewModel()
-//    @StateObject var courseViewModel = WaterSkiingCourseViewModel<WaterSkiingCourseFromVideo>(courseFileName: "CourseFile.txt")
-    
-    
+struct COP4939_ProjectApp: App {    
     var body: some Scene {
         WindowGroup {
             ContentView()
