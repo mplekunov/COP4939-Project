@@ -20,10 +20,11 @@ struct SessionRecordingView : View {
     
     var body: some View {
         VStack {
-            CameraPreviewView()
-                .edgesIgnoringSafeArea(.all)
-                .padding()
-                .environmentObject(cameraViewModel)
+            if (cameraViewModel.session != nil) {
+                CameraPreviewView(captureSession: cameraViewModel.session)
+                    .edgesIgnoringSafeArea(.all)
+                    .padding()
+            }
             
             Button(action: {
                 sessionViewModel.endSession()

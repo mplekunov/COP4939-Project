@@ -2,14 +2,12 @@ import SwiftUI
 import AVFoundation
 
 struct CameraPreviewView: UIViewRepresentable {
-    @EnvironmentObject var cameraViewModel: CameraViewModel
+    var captureSession: AVCaptureSession?
     
     func makeUIView(context: Context) -> VideoPreviewView {
         let view = VideoPreviewView()
         
-        print("??")
-        
-        guard let session = cameraViewModel.session else { return view }
+        guard let session = captureSession else { return view }
         
         view.backgroundColor = .black
         view.videoPreviewLayer.session = session
