@@ -38,13 +38,11 @@ class CameraManager: ObservableObject {
         
         configure()
         
+        session = AVCaptureSession()
+        
         sessionQueue.async { [weak self] in
             guard let self = self else { return }
-            
-            session = AVCaptureSession()
-            
             guard let session = session else { return }
-            
             
             configureCaptureSession()
             configureCaptureMode()
@@ -121,7 +119,6 @@ class CameraManager: ObservableObject {
         
         session.beginConfiguration()
         
-        
         do {
             try addDevice(AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back))
             try addDevice(AVCaptureDevice.default(for: .audio))
@@ -137,6 +134,8 @@ class CameraManager: ObservableObject {
     
     private func configureCaptureMode() {
         guard let session = session else { return }
+        
+        logger.log(message: "Trying to configure capture mode")
         
         if session.canAddOutput(videoOutput) {
             session.beginConfiguration()

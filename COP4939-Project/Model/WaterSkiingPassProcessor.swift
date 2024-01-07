@@ -119,12 +119,7 @@ class WaterSkiingPassProcessor {
                 
                 i += 1
             }
-            
-            logger.log(message: "Record has been reviewed")
         }
-        
-        logger.log(message: "\(passBuilder.entryGate != nil)")
-        logger.log(message: "\(passBuilder.exitGate != nil)")
         
         guard let startTime = passBuilder.entryGate?.timeOfRecordingInSeconds,
               let endTime = passBuilder.exitGate?.timeOfRecordingInSeconds else {
@@ -160,28 +155,16 @@ class WaterSkiingPassProcessor {
         
         let creationDate = videoFile.creationDate
         
-        logger.log(message: "CreationDate of the video file ~ \(creationDate)")
-        logger.log(message: "Time of recording of the entry gate pass ~ \(startTime)")
-        logger.log(message: "Time of recording of the exit gate pass ~ \(endTime)")
-        
         let startTime = abs(creationDate - startTime)
         let endTime = abs(creationDate - endTime)
         
         let startCMTime = CMTime(seconds: startTime, preferredTimescale: 1000)
         let endCMTime = CMTime(seconds: endTime, preferredTimescale: 1000)
         
-        logger.log(message: "StartTime ~ \(startCMTime)")
-        logger.log(message: "EndTime ~ \(endCMTime)")
-        
         let movieOutputID = UUID()
         let movieOutputURL = documentsDirectory.appendingPathComponent("\(movieOutputID.uuidString).\(videoFile.url.pathExtension)")
         
-        logger.log(message: "The source file location \(videoFile.url)")
-        logger.log(message: "The trimmed file location \(movieOutputURL)")
-        
         try FileManager.default.removeItem(at: movieOutputURL)
-        
-        logger.log(message: "Previous trimmed movie file has been deleted")
         
         try await videoManager.trimVideo(source: videoFile.url, to: movieOutputURL, startTime: startCMTime, endTime: endCMTime)
         
@@ -264,8 +247,6 @@ class WaterSkiingPassProcessor {
     
     private func inRange(point: Coordinate, within locationWithRange: Coordinate, withRange: Measurement<UnitLength>) -> Bool {
         let distance = getHaversineDistance(from: point, to: locationWithRange)
-        
-        logger.log(message: "\(distance)")
         
         return distance <= withRange
     }
