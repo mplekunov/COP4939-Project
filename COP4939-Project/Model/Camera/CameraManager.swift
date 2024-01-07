@@ -39,12 +39,15 @@ class CameraManager: ObservableObject {
         
         configure()
         
-        session = AVCaptureSession()
-        videoOutput = AVCaptureVideoDataOutput()
-        previewLayer = AVCaptureVideoPreviewLayer()
-        
         sessionQueue.async { [weak self] in
             guard let self = self else { return }
+            
+            DispatchQueue.main.async {
+                self.session = AVCaptureSession()
+                self.videoOutput = AVCaptureVideoDataOutput()
+                self.previewLayer = AVCaptureVideoPreviewLayer()
+            }
+            
             guard let session = session else { return }
             
             configureCaptureSession()
