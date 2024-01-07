@@ -20,16 +20,14 @@ struct SessionRecordingView : View {
     
     @State private var cameraSession: AVCaptureSession?
     
-    init() {
-        print("Is it called once?")
-        print(cameraViewModel.session)
-    }
-    
     var body: some View {
         VStack {
             CameraPreviewView(captureSession: cameraViewModel.session)
                 .edgesIgnoringSafeArea(.all)
                 .padding()
+                .task {
+                    print(cameraViewModel.session)
+                }
             
             Button(action: {
                 sessionViewModel.endSession()
