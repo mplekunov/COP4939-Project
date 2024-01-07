@@ -17,8 +17,8 @@ class CameraManager: ObservableObject {
     
     private let sessionQueue = DispatchQueue(label:"com.CameraManager")
     
-    private let videoOutput = AVCaptureVideoDataOutput()
-    private let previewLayer = AVCaptureVideoPreviewLayer()
+    private var videoOutput: AVCaptureVideoDataOutput?
+    private var previewLayer: AVCaptureVideoPreviewLayer?
     private var status = Status.Unconfigured
     
     enum Status {
@@ -40,6 +40,8 @@ class CameraManager: ObservableObject {
         configure()
         
         session = AVCaptureSession()
+        videoOutput = AVCaptureVideoDataOutput()
+        previewLayer = AVCaptureVideoPreviewLayer()
         
         sessionQueue.async { [weak self] in
             guard let self = self else { return }
@@ -52,8 +54,6 @@ class CameraManager: ObservableObject {
             if error == nil && status == .Configured {
                 DispatchQueue.main.async {
                     self.isRecording = true
-                    
-                    self.logger.log(message: "Is it true? \(self.isRecording)")
                 }
             }
         }
@@ -137,6 +137,7 @@ class CameraManager: ObservableObject {
     
     private func configureCaptureMode() {
         guard let session = session else { return }
+        guard let videoOutput = videoOutput else { return }
         
         if session.canAddOutput(videoOutput) {
             session.beginConfiguration()
@@ -194,6 +195,8 @@ class CameraManager: ObservableObject {
     ) {
         sessionQueue.async { [weak self] in
             guard let self = self else { return }
+            guard let videoOutput = videoOutput else { return }
+            
             videoOutput.setSampleBufferDelegate(delegate, queue: queue)
         }
     }
