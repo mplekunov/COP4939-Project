@@ -136,10 +136,9 @@ class CameraManager: ObservableObject {
         guard let session = session else { return }
         
         logger.log(message: "Trying to configure capture mode")
+        session.beginConfiguration()
         
         if session.canAddOutput(videoOutput) {
-            session.beginConfiguration()
-            
             session.addOutput(videoOutput)
             session.sessionPreset = .hd1920x1080
             
