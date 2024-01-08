@@ -39,15 +39,14 @@ struct SessionRecordingView : View {
                 }
             })
             .onReceive(cameraViewModel.$error, perform: { error in
-                if error != nil {
-                    alert = AlertInfo(
-                        id: .Camera,
-                        title: "Camera Error",
-                        message: "\(error ?? "Something went wrong when app tried to record video from camera.")"
-                    )
-                    
-                    showAlert = true
-                }
+                guard let error = error else { return }
+                alert = AlertInfo(
+                    id: .Camera,
+                    title: "Camera Error",
+                    message: "\(error ?? "Something went wrong when app tried to record video from camera.")"
+                )
+                
+                showAlert = true
             })
             .onReceive(sessionViewModel.$isEnded, perform: { isEnded in
                 if isEnded {
@@ -56,18 +55,16 @@ struct SessionRecordingView : View {
             })
             .onReceive(sessionViewModel.$error, perform: { error in
                 guard isSendingData else { return }
+                guard let error = error else { return }
                 
-                if error != nil {
-                    alert = AlertInfo(
-                        id: .DataSender,
-                        title: "Watch Connectivity Error",
-                        message: "\(error ?? "Something went wrong during sending request to the watch.")"
-                    )
-                 
-                    showAlert = true
-                    
-                    isSendingData = false
-                }
+                alert = AlertInfo(
+                    id: .DataSender,
+                    title: "Watch Connectivity Error",
+                    message: "\(error ?? "Something went wrong during sending request to the watch.")"
+                )
+                
+                showAlert = true
+                isSendingData = false
             })
             .frame(width: 300)
             .padding()

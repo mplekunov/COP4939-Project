@@ -22,6 +22,9 @@ class CameraViewModel: ObservableObject {
     init() {
         cameraManager.$session
             .receive(on: DispatchQueue.main)
+            .compactMap { session in
+                return session
+            }
             .assign(to: &$session)
         
         frameManager.$error

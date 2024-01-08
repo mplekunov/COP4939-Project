@@ -69,17 +69,16 @@ struct WaterSkiingCoursePointSetupView: View {
             locationSensorViewModel.stopRecording()
         })
         .onReceive(locationSensorViewModel.$error, perform: { error in
-            if error != nil {
-                alert = AlertInfo(
-                    id: .LocationManager,
-                    title: "Location Manager Error",
-                    message: "\(error?.description ?? "Something went wrong when app tried to access Location Services.")"
-                )
-                
-                showAlert = true
-                
-                showPopOverView = false
-            }
+            guard let error = error else { return }
+            alert = AlertInfo(
+                id: .LocationManager,
+                title: "Location Manager Error",
+                message: "\(error.description)"
+            )
+            
+            showAlert = true
+            
+            showPopOverView = false
         })
     }
     
@@ -90,10 +89,10 @@ struct WaterSkiingCoursePointSetupView: View {
         action: @escaping () -> Void
     ) -> some View {
         return Button(text, action: action)
-        .frame(width: width, height: height)
-        .padding()
-        .background(.orange)
-        .foregroundStyle(.black)
-        .clipShape(.rect(cornerRadius: 20))
+            .frame(width: width, height: height)
+            .padding()
+            .background(.orange)
+            .foregroundStyle(.black)
+            .clipShape(.rect(cornerRadius: 20))
     }
 }

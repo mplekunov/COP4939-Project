@@ -24,7 +24,7 @@ struct PassSessionResultView : View {
         sessionViewModel: BaseSessionViewModel,
         showResultsView: Binding<Bool>
     ) {
-       _waterSkiingPassViewModel = StateObject(wrappedValue: WaterSkiingPassViewModel(
+        _waterSkiingPassViewModel = StateObject(wrappedValue: WaterSkiingPassViewModel(
             waterSkiingCourseViewModel: waterSkiingCourseViewModel,
             cameraViewModel: cameraViewModel,
             sessionViewModel: sessionViewModel
@@ -60,17 +60,15 @@ struct PassSessionResultView : View {
             waterSkiingPassVideoViewModel.startPlayback(pass: pass)
         })
         .onReceive(sessionViewModel.$error, perform: { error in
-            guard error == nil else { return }
+            guard let error = error else { return }
             
-            if error != nil {
-                alert = AlertInfo(
-                    id: .DataReceiver,
-                    title: "",
-                    message: "\(error ?? "Something went wrong during receiving request from the watch.")"
-                )
-                
-                showAlert = true
-            }
+            alert = AlertInfo(
+                id: .DataReceiver,
+                title: "",
+                message: "\(error)"
+            )
+            
+            showAlert = true
         })
         .alert(
             alert?.title ?? "",

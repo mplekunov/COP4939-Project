@@ -13,7 +13,7 @@ class CameraManager: ObservableObject {
     
     @Published public private(set) var error: CameraError?
     @Published public private(set) var isRecording = false
-    @Published public private(set) var session: AVCaptureSession?
+    @Published public private(set) var session: AVCaptureSession = AVCaptureSession()
     
     private let sessionQueue = DispatchQueue(label:"com.CameraManager")
     
@@ -31,28 +31,36 @@ class CameraManager: ObservableObject {
     
     private init() {
         logger = LoggerService(logSource: String(describing: type(of: self)))
+        
+        configureCaptureSession()
+        configureCaptureMode()
     }
     
     func startRecording() {
         guard !isRecording else {return}
+        guard error == nil else {
+            set(error: error)
+            return
+        }
         
         configure()
         
-        session = AVCaptureSession()
+        if status != .Configured {
+            set(error: .CameraNotConfigured)
+            stopRecording()
+        }
         
         sessionQueue.async { [weak self] in
             guard let self = self else { return }
-            guard let session = session else { return }
-            
-            configureCaptureSession()
-            configureCaptureMode()
-            
             session.startRunning()
             
-            if error == nil && status == .Configured {
+            if error == nil && status == .Configured && session.isRunning {
                 DispatchQueue.main.async {
+                    self.logger.log(message: "well")
                     self.isRecording = true
                 }
+            } else {
+                set(error: .CameraUnavailable)
             }
         }
     }
@@ -60,7 +68,6 @@ class CameraManager: ObservableObject {
     func stopRecording() {
         sessionQueue.async { [weak self] in
             guard let self = self else { return }
-            guard let session = session else { return }
             
             session.stopRunning()
             
@@ -115,8 +122,6 @@ class CameraManager: ObservableObject {
             return
         }
         
-        guard let session = session else { return }
-        
         session.beginConfiguration()
         
         do {
@@ -133,9 +138,9 @@ class CameraManager: ObservableObject {
     }
     
     private func configureCaptureMode() {
-        guard let session = session else { return }
-        
         logger.log(message: "Trying to configure capture mode")
+        
+        logger.log(message: "\(sessionQueue)")
         session.beginConfiguration()
         
         if session.canAddOutput(videoOutput) {
@@ -167,8 +172,6 @@ class CameraManager: ObservableObject {
     }
     
     private func addDevice(_ device: AVCaptureDevice?) throws {
-        guard let session = session else { return }
-        
         guard let device = device else {
             set(error: .CameraUnavailable)
             status = .Failed

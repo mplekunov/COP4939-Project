@@ -43,31 +43,31 @@ struct MainViewWithoutLocation : View {
             })
             .onReceive(cameraViewModel.$error, perform: { error in
                 guard isSendingData else { return }
+                guard let error = error else { return }
                 
-                if error != nil {
-                    alert = AlertInfo(
-                        id: .Camera,
-                        title: "Camera Error",
-                        message: "\(error ?? "Something went wrong when app tried to access camera.")"
-                    )
-                    
-                    showAlert = true
-                    isSendingData = false
-                }
+                alert = AlertInfo(
+                    id: .Camera,
+                    title: "Camera Error",
+                    message: "\(error)"
+                )
+                
+                showAlert = true
+                isSendingData = false
+                
             })
             .onReceive(sessionViewModel.$error, perform: { error in
                 guard isSendingData else { return }
+                guard let error = error else { return }
                 
-                if error != nil {
-                    alert = AlertInfo(
-                        id: .DataSender,
-                        title: "Watch Connectivity Error",
-                        message: "\(error ?? "Something went wrong during sending request to the watch.")"
-                    )
-                    
-                    showAlert = true
-                    isSendingData = false
-                }
+                alert = AlertInfo(
+                    id: .DataSender,
+                    title: "Watch Connectivity Error",
+                    message: "\(error)"
+                )
+                
+                showAlert = true
+                isSendingData = false
+                
             })
             .frame(width: 300)
             .padding()

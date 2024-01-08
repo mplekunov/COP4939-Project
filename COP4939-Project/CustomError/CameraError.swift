@@ -16,12 +16,15 @@ enum CameraError: Error {
     case CreateCaptureInput(_ error: Error)
     case CannotAddInput
     case CannotAddOutput
+    case CameraNotConfigured
 }
 
 
 extension CameraError : CustomStringConvertible {
     public var description: String {
         switch self {
+        case .CameraNotConfigured:
+            "Camera session is not configured"
         case .CameraUnavailable:
             "Camera is currently unavailable."
         case .CannotAddInput:
