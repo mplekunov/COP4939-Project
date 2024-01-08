@@ -138,9 +138,6 @@ class CameraManager: ObservableObject {
     }
     
     private func configureCaptureMode() {
-        logger.log(message: "Trying to configure capture mode")
-        
-        logger.log(message: "\(sessionQueue)")
         session.beginConfiguration()
         
         if session.canAddOutput(videoOutput) {
