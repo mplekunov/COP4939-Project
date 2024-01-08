@@ -124,7 +124,7 @@ class CameraManager: ObservableObject {
         session.beginConfiguration()
         
         do {
-            try addDevice(AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back))
+            try addDevice(AVCaptureDevice.default(.builtInTelephotoCamera, for: .video, position: .back))
             try addDevice(AVCaptureDevice.default(for: .audio))
         } catch {
             set(error: .CreateCaptureInput(error))

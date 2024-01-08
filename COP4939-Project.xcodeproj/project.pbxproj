@@ -404,6 +404,16 @@
 			path = Camera;
 			sourceTree = "<group>";
 		};
+		6D6281B42B4C75C200089311 /* PassProcessor */ = {
+			isa = PBXGroup;
+			children = (
+				6D185DD12B4B0E9E008EBFEA /* WaterSkiingPassProcessorForVideo.swift */,
+				6D6DDA602B277A9E00E33CCE /* WaterSkiingPassProcessorForCoordinates.swift */,
+				6D185DC82B4AF612008EBFEA /* WaterSkiingPassProcessorProtocol.swift */,
+			);
+			path = PassProcessor;
+			sourceTree = "<group>";
+		};
 		6D6DDA682B279C9100E33CCE /* WaterSkiing */ = {
 			isa = PBXGroup;
 			children = (
@@ -669,9 +679,7 @@
 			isa = PBXGroup;
 			children = (
 				6DEC85522B159566006746F5 /* WatchConnectivityManager.swift */,
-				6D185DD12B4B0E9E008EBFEA /* WaterSkiingPassProcessorForVideo.swift */,
-				6D6DDA602B277A9E00E33CCE /* WaterSkiingPassProcessorForCoordinates.swift */,
-				6D185DC82B4AF612008EBFEA /* WaterSkiingPassProcessorProtocol.swift */,
+				6D6281B42B4C75C200089311 /* PassProcessor */,
 				6D52DF962B351DD600E96713 /* Camera */,
 				6D52DF752B30E78400E96713 /* UI */,
 				6DEC85532B159566006746F5 /* Data */,
