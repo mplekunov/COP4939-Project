@@ -57,7 +57,7 @@ class FrameManager: NSObject, ObservableObject {
     }
     
     func startRecording() {
-//        setupAssetWriter()
+        setupAssetWriter()
         
         CameraManager.instance.startRecording()
     }
