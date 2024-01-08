@@ -16,7 +16,7 @@ struct ContentView: View {
     
     @State private var showResultsView = false
     @State private var showCourseSetupView = false
-    
+
     var body: some View {
         ZStack {
             Color.black.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)

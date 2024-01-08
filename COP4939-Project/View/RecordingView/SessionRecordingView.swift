@@ -40,10 +40,11 @@ struct SessionRecordingView : View {
             })
             .onReceive(cameraViewModel.$error, perform: { error in
                 guard let error = error else { return }
+                
                 alert = AlertInfo(
                     id: .Camera,
                     title: "Camera Error",
-                    message: "\(error ?? "Something went wrong when app tried to record video from camera.")"
+                    message: "\(error)"
                 )
                 
                 showAlert = true
@@ -60,7 +61,7 @@ struct SessionRecordingView : View {
                 alert = AlertInfo(
                     id: .DataSender,
                     title: "Watch Connectivity Error",
-                    message: "\(error ?? "Something went wrong during sending request to the watch.")"
+                    message: "\(error)"
                 )
                 
                 showAlert = true

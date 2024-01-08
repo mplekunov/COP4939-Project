@@ -344,17 +344,3 @@ struct WaterSkiingCourseSetupFromVideoView : View {
         }
     }
 }
-
-//struct WaterSkiingCourseSetupFromVideoViewPreview: PreviewProvider {
-//    @StateObject static var videoViewModel = VideoViewModel()
-//    @StateObject static var courseViewModel = WaterSkiingCourseViewModel<WaterSkiingCourseFromVideo>(courseFileName: "CourseFile.txt")
-//    
-//    static var previews: some View {
-//        WaterSkiingCourseSetupFromVideoView()
-//            .environmentObject(videoViewModel)
-//            .environmentObject(courseViewModel)
-//            .onAppear(perform: {
-//                videoViewModel.startPlayback(video: Video<URL>(id: UUID(), creationDate: 0, fileLocation: Bundle.main.url(forResource: "video", withExtension: "mp4")!))
-//            })
-//    }
-//}
