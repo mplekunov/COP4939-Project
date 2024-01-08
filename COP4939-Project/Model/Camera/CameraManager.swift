@@ -58,8 +58,6 @@ class CameraManager: ObservableObject {
                 DispatchQueue.main.async {
                     self.isRecording = true
                 }
-            } else {
-                set(error: .CameraUnavailable)
             }
         }
     }
