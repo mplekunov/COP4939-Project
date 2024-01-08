@@ -36,10 +36,12 @@ struct PassSessionResultView : View {
     var body: some View {
         ZStack {
             VStack {
-                PassStatisticsView<Double>()
-                    .environmentObject(waterSkiingPassViewModel)
-                    .environmentObject(waterSkiingPassVideoViewModel)
-                    .padding()
+                if waterSkiingPassViewModel.pass != nil {
+                    PassStatisticsView<Double>()
+                        .environmentObject(waterSkiingPassViewModel)
+                        .environmentObject(waterSkiingPassVideoViewModel)
+                        .padding()
+                }
                 
                 Button("Close") {
                     sessionViewModel.clear()
