@@ -56,7 +56,6 @@ class CameraManager: ObservableObject {
             
             if error == nil && status == .Configured && session.isRunning {
                 DispatchQueue.main.async {
-                    self.logger.log(message: "well")
                     self.isRecording = true
                 }
             } else {
