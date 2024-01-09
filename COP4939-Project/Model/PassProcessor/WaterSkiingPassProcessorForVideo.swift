@@ -8,12 +8,7 @@
 import Foundation
 import AVFoundation
 
-class WaterSkiingPassProcessorForVideo : WaterSkiingPassProcessorProtocol {
-    typealias P = Double
-    typealias C = WaterSkiingCourseFromVideo
-    typealias R = WatchTrackingRecord
-    typealias V = URL
-    
+class WaterSkiingPassProcessorForVideo {
     private var logger: LoggerService
     
     private let videoManager = VideoManager()
@@ -32,8 +27,8 @@ class WaterSkiingPassProcessorForVideo : WaterSkiingPassProcessorProtocol {
             .assign(to: &$error)
     }
     
-    func process(course: C, records: Array<R>, video: Video<V>) -> Pass<P, V>? {
-        let passBuilder = PassBuilder<P, V>()
+    func process(course: WaterSkiingCourseBase<Double>, totalScore: Int, records: Array<WatchTrackingRecord>, video: Video<URL>) async -> Pass<Double, URL>? {
+        let passBuilder = PassBuilder<Double, URL>()
         
         let videoCreationDate = video.creationDate
         
@@ -56,19 +51,19 @@ class WaterSkiingPassProcessorForVideo : WaterSkiingPassProcessorProtocol {
         
         var i = 0
         
-        passBuilder.setScore(course.totalScore)
+        passBuilder.setScore(totalScore)
         
         var crossedEntryGate: Bool = false
         
-        logger.log(message: "Number of records: \(records.count)")
-        
-        var trimmedRecords = Array<R>()
+        var trimmedRecords = Array<WatchTrackingRecord>()
         
         for record in records {
             if record.timeOfRecordingInSeconds >= videoCreationDate {
                 trimmedRecords.append(record)
             }
         }
+        
+        let alpha = 0.01
         
         for record in trimmedRecords {
             if crossedEntryGate {
@@ -86,7 +81,7 @@ class WaterSkiingPassProcessorForVideo : WaterSkiingPassProcessorProtocol {
                 )
             }
             
-            if record.timeOfRecordingInSeconds == course.entryGatePosition {
+            if inRange(record.timeOfRecordingInSeconds, course.entryGatePosition + videoCreationDate, alpha: alpha) {
                 passBuilder.setEntryGate(GateBase(
                     maxSpeed: record.motion.speed,
                     maxRoll: record.motion.attitude.roll,
@@ -98,7 +93,7 @@ class WaterSkiingPassProcessorForVideo : WaterSkiingPassProcessorProtocol {
                 crossedEntryGate = true
             }
             
-            if record.timeOfRecordingInSeconds == course.exitGatePosition {
+            if inRange(record.timeOfRecordingInSeconds, course.exitGatePosition + videoCreationDate, alpha: alpha) {
                 passBuilder.setExitGate(GateBase(
                     maxSpeed: maxSpeed,
                     maxRoll: maxRoll,
@@ -108,7 +103,7 @@ class WaterSkiingPassProcessorForVideo : WaterSkiingPassProcessorProtocol {
                 ))
             }
             
-            if i < course.wakeCrossPositions.count && record.timeOfRecordingInSeconds == course.wakeCrossPositions[i] {
+            if i < course.wakeCrossPositions.count && inRange(record.timeOfRecordingInSeconds, course.wakeCrossPositions[i] + videoCreationDate, alpha: alpha) {
                 passBuilder.addWakeCross(WakeCrossBase(
                     maxSpeed: maxSpeed,
                     maxRoll: maxRoll,
@@ -121,7 +116,7 @@ class WaterSkiingPassProcessorForVideo : WaterSkiingPassProcessorProtocol {
                 ))
             }
             
-            if i < course.buoyPositions.count && record.timeOfRecordingInSeconds == course.buoyPositions[i] {
+            if i < course.buoyPositions.count && inRange(record.timeOfRecordingInSeconds, course.buoyPositions[i] + videoCreationDate, alpha: alpha) {
                 passBuilder.addBuoy(BuoyBase(
                     maxSpeed: maxSpeed,
                     maxRoll: maxRoll,
@@ -139,31 +134,33 @@ class WaterSkiingPassProcessorForVideo : WaterSkiingPassProcessorProtocol {
             return nil
         }
         
-        Task {
-            do {
-                guard let videoFile = try await trimVideo(
-                    startTime: startTime,
-                    endTime: endTime,
-                    video: video
-                ) else {
-                    DispatchQueue.main.async {
-                        self.error = "Could not process video file for water skiing pass"
-                    }
-                    return
-                }
-                
-                passBuilder.setVideoFile(videoFile)
-            } catch {
+        do {
+            guard let videoFile = try await trimVideo(
+                startTime: startTime,
+                endTime: endTime,
+                video: video
+            ) else {
                 DispatchQueue.main.async {
-                    self.error = "\(error)"
+                    self.error = "Could not process video file for water skiing pass"
                 }
+                return nil
+            }
+            
+            passBuilder.setVideoFile(videoFile)
+        } catch {
+            DispatchQueue.main.async {
+                self.error = "\(error)"
             }
         }
         
         return passBuilder.build()
     }
     
-    private func trimVideo(startTime: Double, endTime: Double, video: Video<V>) async throws -> Video<V>? {
+    private func inRange(_ first: Double, _ second: Double, alpha: Double) -> Bool {
+        return (first - second) <= alpha
+    }
+    
+    private func trimVideo(startTime: Double, endTime: Double, video: Video<URL>) async throws -> Video<URL>? {
         let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
         
         guard let documentsDirectory = documentsDirectory else { return nil }
@@ -179,7 +176,9 @@ class WaterSkiingPassProcessorForVideo : WaterSkiingPassProcessorProtocol {
         let movieOutputID = UUID()
         let movieOutputURL = documentsDirectory.appendingPathComponent("\(movieOutputID.uuidString).\(video.fileLocation.pathExtension)")
         
-        try FileManager.default.removeItem(at: movieOutputURL)
+        if FileManager.default.fileExists(atPath: movieOutputURL.path()) {
+            try FileManager.default.removeItem(at: movieOutputURL)
+        }
         
         try await videoManager.trimVideo(source: video.fileLocation, to: movieOutputURL, startTime: startCMTime, endTime: endCMTime)
         

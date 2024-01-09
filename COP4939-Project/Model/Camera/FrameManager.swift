@@ -117,7 +117,7 @@ class FrameManager: NSObject, ObservableObject {
             return
         }
         
-        let filename = "\(id.uuidString).\(AVFileType.mp4.rawValue)"
+        let filename = "\(id.uuidString).mp4"
         outputFileURL = documentsDirectory.appendingPathComponent(filename)
         
         do {

@@ -13,7 +13,7 @@ struct MainViewWithoutLocation : View {
     @State private var alert: AlertInfo?
     @State private var showAlert = false
     
-    @EnvironmentObject var waterSkiingCourseViewModel: WaterSkiingCourseViewModel<WaterSkiingCourseFromVideo>
+    @EnvironmentObject var waterSkiingCourseViewModel: WaterSkiingCourseViewModel<Double>
     @EnvironmentObject var sessionViewModel: BaseSessionViewModel
     @EnvironmentObject var cameraViewModel: CameraViewModel
     

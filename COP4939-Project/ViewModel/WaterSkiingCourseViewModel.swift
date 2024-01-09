@@ -8,7 +8,7 @@
 import Foundation
 
 class WaterSkiingCourseViewModel<T> : ObservableObject where T : Codable {
-    @Published public private(set) var course: T?
+    @Published public private(set) var course: WaterSkiingCourseBase<T>?
     
     private let logger: LoggerService
     private let fileManager = FileManager.default
@@ -19,18 +19,23 @@ class WaterSkiingCourseViewModel<T> : ObservableObject where T : Codable {
         logger = LoggerService(logSource: String(describing: type(of: self)))
         
         fileName = courseFileName
-        
+    }
+    
+    func getCourse() -> Bool {
         if let path = getURL()?.path(), fileManager.fileExists(atPath: path) {
             logger.log(message: "Water Course file exists")
             do {
                 try downloadFromDocuments()
             } catch {
                 logger.log(message: "\(error)")
+                return false
             }
         }
+        
+        return true
     }
     
-    func setCourse(_ course: T) {
+    func setCourse(_ course: WaterSkiingCourseBase<T>) {
         self.course = course
         
         do {
@@ -59,7 +64,7 @@ class WaterSkiingCourseViewModel<T> : ObservableObject where T : Codable {
     private func downloadFromDocuments() throws {
         if let url = getURL() {
             let data = try Data(contentsOf: url)
-            course = try JSONConverter().decode(T.self, from: data)
+            course = try JSONConverter().decode(WaterSkiingCourseBase<T>.self, from: data)
         }
     }
 }

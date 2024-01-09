@@ -51,7 +51,7 @@ private let fullCoursePointUINames: Dictionary<String, String> = [
 
 struct WaterSkiingCourseSetupFromVideoView : View {
     @EnvironmentObject var videoViewModel: VideoViewModel
-    @EnvironmentObject var waterSkiingCourseViewModel: WaterSkiingCourseViewModel<WaterSkiingCourseFromVideo>
+    @EnvironmentObject var waterSkiingCourseViewModel: WaterSkiingCourseViewModel<Double>
     
     @State private var isPlaying = false
     @State private var showPlayButton = false
@@ -73,8 +73,6 @@ struct WaterSkiingCourseSetupFromVideoView : View {
             VStack(alignment: .center) {
                 VideoPlayer(player: videoViewModel.player)
                     .onAppear {
-                        videoViewModel.startPlayback(video: Video<URL>(id: UUID(), creationDate: 0, fileLocation: Bundle.main.url(forResource: "video", withExtension: "mp4")!))
-                        
                         togglePlayback()
                     }
                     .onTapGesture(perform: {
@@ -220,7 +218,7 @@ struct WaterSkiingCourseSetupFromVideoView : View {
         isPlaying.toggle()
     }
     
-    private func initCourse(course: WaterSkiingCourseFromVideo) {
+    private func initCourse(course: WaterSkiingCourseBase<Double>) {
         DispatchQueue.main.async {
             var i = 0
             
@@ -293,7 +291,7 @@ struct WaterSkiingCourseSetupFromVideoView : View {
             .clipShape(.rect(cornerRadius: 20))
     }
     
-    private func saveCourse() -> WaterSkiingCourseFromVideo {
+    private func saveCourse() -> WaterSkiingCourseBase<Double> {
         var buoys = Array<Double>()
         var wakeCrosses = Array<Double>()
         let entryGate = coursePointToVideoTimeStamp[entryGateUI.id] ?? 0.0
@@ -307,8 +305,7 @@ struct WaterSkiingCourseSetupFromVideoView : View {
             wakeCrosses.append(coursePointToVideoTimeStamp[wakeCross.id] ?? 0.0)
         })
         
-        return WaterSkiingCourseFromVideo(
-            totalScore: 0,
+        return WaterSkiingCourseBase<Double>(
             buoyPositions: buoys,
             wakeCrossPositions: wakeCrosses,
             entryGatePosition: entryGate,
@@ -325,7 +322,7 @@ struct WaterSkiingCourseSetupFromVideoView : View {
                     drawCourseElement(element: entryGateUI, geometry: geometry)
                     drawCourseElement(element: exitGateUI, geometry: geometry)
                 }
-                .background(.primary)
+                .background(Color.black)
             }
             
             createButton(text: "Next", width: 300, height: nil) {

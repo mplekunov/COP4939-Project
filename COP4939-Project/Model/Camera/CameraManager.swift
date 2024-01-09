@@ -58,6 +58,8 @@ class CameraManager: ObservableObject {
                 DispatchQueue.main.async {
                     self.isRecording = true
                 }
+            } else {
+                set(error: .CameraUnavailable)
             }
         }
     }
@@ -76,7 +78,6 @@ class CameraManager: ObservableObject {
     
     private func configure() {
         error = nil
-        status = .Unconfigured
         
         checkPermissions()
     }
@@ -121,8 +122,9 @@ class CameraManager: ObservableObject {
         
         session.beginConfiguration()
         
+        
         do {
-            try addDevice(AVCaptureDevice.default(.builtInTelephotoCamera, for: .video, position: .back))
+            try addDevice(AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back))
             try addDevice(AVCaptureDevice.default(for: .audio))
         } catch {
             set(error: .CreateCaptureInput(error))
@@ -152,6 +154,11 @@ class CameraManager: ObservableObject {
                     connection.isVideoMirrored = false
                 }
                 
+                if connection.isVideoStabilizationSupported {
+                    connection.preferredVideoStabilizationMode = .standard
+                }
+                
+                connection.videoPreviewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
                 connection.videoOrientation = .portrait
             }
         } else {

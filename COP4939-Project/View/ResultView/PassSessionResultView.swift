@@ -19,7 +19,7 @@ struct PassSessionResultView : View {
     @Binding var showResultsView: Bool
     
     init(
-        waterSkiingCourseViewModel: WaterSkiingCourseViewModel<WaterSkiingCourseFromVideo>,
+        waterSkiingCourseViewModel: WaterSkiingCourseViewModel<Double>,
         cameraViewModel: CameraViewModel,
         sessionViewModel: BaseSessionViewModel,
         showResultsView: Binding<Bool>

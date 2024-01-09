@@ -55,7 +55,7 @@ struct WaterSkiingCourseSetupView: View {
     
     @State private var alert: AlertInfo?
     
-    @EnvironmentObject var waterSkiingCourseViewModel: WaterSkiingCourseViewModel<WaterSkiingCourseBase<Coordinate>>
+    @EnvironmentObject var waterSkiingCourseViewModel: WaterSkiingCourseViewModel<Coordinate>
     
     @Binding private var showCourseSetupView: Bool
     

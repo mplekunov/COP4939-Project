@@ -22,8 +22,10 @@ class VideoViewModel : ObservableObject {
         
         player = AVPlayer(url: video.fileLocation)
         
-        Task {
-            duration = try await player?.currentItem?.asset.load(.duration).seconds
+        DispatchQueue.main.async {
+            Task {
+                self.duration = try await self.player?.currentItem?.asset.load(.duration).seconds
+            }
         }
         
         guard let player = player else {

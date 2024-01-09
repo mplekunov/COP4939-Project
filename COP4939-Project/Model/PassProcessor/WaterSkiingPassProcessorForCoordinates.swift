@@ -8,13 +8,7 @@
 import Foundation
 import AVFoundation
 
-class WaterSkiingPassProcessorForCoordinates : WaterSkiingPassProcessorProtocol {
-    typealias P = Coordinate
-    typealias C = WaterSkiingCourseBase<P>
-    typealias R = TrackingRecord
-    typealias V = URL
-    
-    
+class WaterSkiingPassProcessorForCoordinates {
     private var logger: LoggerService
     
     private let videoManager = VideoManager()
@@ -34,7 +28,7 @@ class WaterSkiingPassProcessorForCoordinates : WaterSkiingPassProcessorProtocol 
     }
     
     func process(course: WaterSkiingCourseBase<Coordinate>, records: Array<TrackingRecord>, video: Video<URL>) -> Pass<Coordinate, URL>? {
-        let passBuilder = PassBuilder<P, V>()
+        let passBuilder = PassBuilder<Coordinate, URL>()
         
         let videoCreationDate = video.creationDate
         
@@ -164,7 +158,7 @@ class WaterSkiingPassProcessorForCoordinates : WaterSkiingPassProcessorProtocol 
         return passBuilder.build()
     }
     
-    private func trimVideo(startTime: Double, endTime: Double, video: Video<V>) async throws -> Video<V>? {
+    private func trimVideo(startTime: Double, endTime: Double, video: Video<URL>) async throws -> Video<URL>? {
         let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
         
         guard let documentsDirectory = documentsDirectory else { return nil }

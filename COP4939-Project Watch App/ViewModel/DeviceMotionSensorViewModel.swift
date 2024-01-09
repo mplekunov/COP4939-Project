@@ -49,6 +49,8 @@ class DeviceMotionSensorViewModel : ObservableObject {
     }
     
     func startRecording() {
+        locationManager.startLocationRecording()
+        
         motionManager.startDeviceMotionUpdates(to: operationQueue) { [weak self] motionData, error in
             guard let self = self else { return }
             
@@ -93,6 +95,7 @@ class DeviceMotionSensorViewModel : ObservableObject {
     func stopRecording() {
         operationQueue.cancelAllOperations()
         motionManager.stopDeviceMotionUpdates()
+        locationManager.stopLocationRecording()
         isRecording = false
     }
 }

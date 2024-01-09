@@ -9,7 +9,7 @@ import SwiftUI
 import Combine
 
 struct ContentView: View {
-    @StateObject var waterSkiingCourseViewModel = WaterSkiingCourseViewModel<WaterSkiingCourseFromVideo>(courseFileName: "Course_From_Video.txt")
+    @StateObject var waterSkiingCourseViewModel = WaterSkiingCourseViewModel<Double>(courseFileName: "Course_From_Video.txt")
     @StateObject var sessionViewModel = BaseSessionViewModel()
     @StateObject var cameraViewModel = CameraViewModel()
     @StateObject var videoViewModel = VideoViewModel()
@@ -28,7 +28,10 @@ struct ContentView: View {
             } else if showCourseSetupView {
                 WaterSkiingCourseSetupView(showCourseSetupView: $showCourseSetupView)
                     .environmentObject(waterSkiingCourseViewModel)
-            } else if sessionViewModel.isReceived && cameraViewModel.videoFile != nil {
+            } else if showResultsView {
+                PassSessionResultView(waterSkiingCourseViewModel: waterSkiingCourseViewModel, cameraViewModel: cameraViewModel, sessionViewModel: sessionViewModel, showResultsView: $showResultsView)
+                    .environmentObject(sessionViewModel)
+            }  else if sessionViewModel.isReceived && cameraViewModel.videoFile != nil {
                 WaterSkiingCourseSetupFromVideoView(showResultsView: $showResultsView)
                     .environmentObject(waterSkiingCourseViewModel)
                     .environmentObject(videoViewModel)
@@ -36,9 +39,6 @@ struct ContentView: View {
                         guard let videoFile = cameraViewModel.videoFile else { return }
                         videoViewModel.startPlayback(video: videoFile)
                     })
-            } else if showResultsView {
-                PassSessionResultView(waterSkiingCourseViewModel: waterSkiingCourseViewModel, cameraViewModel: cameraViewModel, sessionViewModel: sessionViewModel, showResultsView: $showResultsView)
-                    .environmentObject(sessionViewModel)
             } else {
                 MainViewWithoutLocation(showCourseSetupView: $showCourseSetupView)
                     .environmentObject(cameraViewModel)
