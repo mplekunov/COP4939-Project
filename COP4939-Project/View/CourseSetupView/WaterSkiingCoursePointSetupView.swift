@@ -9,8 +9,6 @@ import Foundation
 import SwiftUI
 
 struct WaterSkiingCoursePointSetupView: View {
-    @StateObject var locationSensorViewModel = LocationSensorViewModel()
-    
     @Binding var activeElement: CoursePointUI?
     @Binding var coursePointLocation: Coordinate?
     @Binding var coursePointLocations: Dictionary<UUID, Coordinate>
@@ -57,29 +55,6 @@ struct WaterSkiingCoursePointSetupView: View {
             }
             .padding()
         }
-        .onReceive(locationSensorViewModel.$lastLocation, perform: { lastLocation in
-            guard let lastLocation = lastLocation else { return }
-            
-            currentLocation = lastLocation
-        })
-        .onAppear(perform: {
-            locationSensorViewModel.startRecording()
-        })
-        .onDisappear(perform: {
-            locationSensorViewModel.stopRecording()
-        })
-        .onReceive(locationSensorViewModel.$error, perform: { error in
-            guard let error = error else { return }
-            alert = AlertInfo(
-                id: .LocationManager,
-                title: "Location Manager Error",
-                message: "\(error.description)"
-            )
-            
-            showAlert = true
-            
-            showPopOverView = false
-        })
     }
     
     private func createButton(

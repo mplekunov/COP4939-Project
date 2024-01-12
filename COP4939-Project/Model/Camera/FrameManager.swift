@@ -130,8 +130,8 @@ class FrameManager: NSObject, ObservableObject {
             
             let videoSettings: [String: Any] = [
                 AVVideoCodecKey: AVVideoCodecType.h264,
-                AVVideoWidthKey: 1920,
-                AVVideoHeightKey: 1080
+                AVVideoWidthKey: 1080,
+                AVVideoHeightKey: 1920
             ]
             
             assetWriterInput = AVAssetWriterInput(mediaType: .video, outputSettings: videoSettings)

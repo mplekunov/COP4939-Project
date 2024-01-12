@@ -9,8 +9,15 @@ import Foundation
 import SwiftUI
 
 struct ActivityIndicatorView: UIViewRepresentable {
+    let color: Color
+    
     func makeUIView(context: Context) -> UIActivityIndicatorView {
-        UIActivityIndicatorView(style: .medium)
+        let view = UIActivityIndicatorView(style: .medium)
+        
+        view.color = UIColor(color)
+        
+        return view
+
     }
     
     func updateUIView(_ uiView: UIActivityIndicatorView, context: Context) {

@@ -1,25 +1,25 @@
 //
 //  CollectedData.swift
-//  WatchApp Watch App
+//  PhoneApp
 //
-//  Created by Mikhail Plekunov on 11/19/23.
+//  Created by Mikhail Plekunov on 11/23/23.
 //
 
 import Foundation
 
-struct WatchTrackingRecord : Codable, Equatable {
+class BaseTrackingRecord : Codable, Equatable {
     let motion: MotionRecord
-    let timeOfRecrodingInSeconds: Double
+    let timeOfRecordingInSeconds: Double
     
     init(motion: MotionRecord, timeOfRecordingInSeconds: Double) {
         self.motion = motion
-        self.timeOfRecrodingInSeconds = timeOfRecordingInSeconds
+        self.timeOfRecordingInSeconds = timeOfRecordingInSeconds
     }
     
-    init(from decoder: Decoder) throws {
+    required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.motion = try container.decode(MotionRecord.self, forKey: .motion)
-        self.timeOfRecrodingInSeconds = try container.decode(Double.self, forKey: .timeOfRecordingInSeconds)
+        self.timeOfRecordingInSeconds = try container.decode(Double.self, forKey: .timeOfRecordingInSeconds)
     }
     
     enum CodingKeys: CodingKey {
@@ -30,11 +30,11 @@ struct WatchTrackingRecord : Codable, Equatable {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.motion, forKey: .motion)
-        try container.encode(self.timeOfRecrodingInSeconds, forKey: .timeOfRecordingInSeconds)
+        try container.encode(self.timeOfRecordingInSeconds, forKey: .timeOfRecordingInSeconds)
     }
  
-    static func == (lhs: Self, rhs: Self) -> Bool {
+    static func == (lhs: BaseTrackingRecord, rhs: BaseTrackingRecord) -> Bool {
         return lhs.motion == rhs.motion &&
-        lhs.timeOfRecrodingInSeconds == rhs.timeOfRecrodingInSeconds
+        lhs.timeOfRecordingInSeconds == rhs.timeOfRecordingInSeconds
     }
 }

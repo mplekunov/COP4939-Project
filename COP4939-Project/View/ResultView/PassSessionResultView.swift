@@ -11,7 +11,7 @@ import SwiftUI
 struct PassSessionResultView : View {
     @EnvironmentObject var sessionViewModel: BaseSessionViewModel
     
-    @StateObject var waterSkiingPassVideoViewModel = WaterSkiingPassVideoViewModel<Double>()
+    @StateObject var waterSkiingPassVideoViewModel = WaterSkiingPassVideoViewModel()
     @StateObject var waterSkiingPassViewModel: WaterSkiingPassViewModel
     
     @State var alert: AlertInfo?
@@ -36,22 +36,25 @@ struct PassSessionResultView : View {
     var body: some View {
         ZStack {
             VStack {
-                if waterSkiingPassViewModel.pass != nil {
-                    PassStatisticsView<Double>()
+                if waterSkiingPassViewModel.pass == nil {
+                    ActivityIndicatorView(color: .orange)
+                        .cornerRadius(20)
+                } else {
+                    PassStatisticsView()
                         .environmentObject(waterSkiingPassViewModel)
                         .environmentObject(waterSkiingPassVideoViewModel)
                         .padding()
+                    
+                    Button("Close") {
+                        sessionViewModel.clear()
+                        showResultsView = false
+                    }
+                    .frame(width: 300)
+                    .padding()
+                    .background(.orange)
+                    .foregroundStyle(.black)
+                    .clipShape(.rect(cornerRadius: 20))
                 }
-                
-                Button("Close") {
-                    sessionViewModel.clear()
-                    showResultsView = false
-                }
-                .frame(width: 300)
-                .padding()
-                .background(.orange)
-                .foregroundStyle(.black)
-                .clipShape(.rect(cornerRadius: 20))
             }
         }
         .onReceive(waterSkiingPassViewModel.$pass, perform: { pass in

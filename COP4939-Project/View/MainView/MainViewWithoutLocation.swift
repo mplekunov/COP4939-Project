@@ -28,8 +28,7 @@ struct MainViewWithoutLocation : View {
                 isSendingData = true
             }, label: {
                 if isSendingData {
-                    ActivityIndicatorView()
-                        .foregroundColor(.orange)
+                    ActivityIndicatorView(color: .black)
                         .cornerRadius(10)
                 } else {
                     Text("Start Recording")

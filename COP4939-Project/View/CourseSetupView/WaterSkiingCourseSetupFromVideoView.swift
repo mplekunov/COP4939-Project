@@ -10,12 +10,12 @@ import SwiftUI
 import AVKit
 
 private var buoysUI: [CoursePointUI] = [
-    CoursePointUI(name: "B 1", position: CGPoint(x: 0.75, y: 0.88), setColor: .orange, unsetColor: .gray),
-    CoursePointUI(name: "B 2", position: CGPoint(x: 0.25, y: 0.76), setColor: .orange, unsetColor: .gray),
-    CoursePointUI(name: "B 3", position: CGPoint(x: 0.75, y: 0.64), setColor: .orange, unsetColor: .gray),
-    CoursePointUI(name: "B 4", position: CGPoint(x: 0.25, y: 0.54), setColor: .orange, unsetColor: .gray),
-    CoursePointUI(name: "B 5", position: CGPoint(x: 0.75, y: 0.40), setColor: .orange, unsetColor: .gray),
-    CoursePointUI(name: "B 6", position: CGPoint(x: 0.25, y: 0.28), setColor: .orange, unsetColor: .gray)
+    CoursePointUI(name: "B 1", position: CGPoint(x: 0.75, y: 0.75), setColor: .orange, unsetColor: .gray),
+    CoursePointUI(name: "B 2", position: CGPoint(x: 0.25, y: 0.64), setColor: .orange, unsetColor: .gray),
+    CoursePointUI(name: "B 3", position: CGPoint(x: 0.75, y: 0.52), setColor: .orange, unsetColor: .gray),
+    CoursePointUI(name: "B 4", position: CGPoint(x: 0.25, y: 0.40), setColor: .orange, unsetColor: .gray),
+    CoursePointUI(name: "B 5", position: CGPoint(x: 0.75, y: 0.28), setColor: .orange, unsetColor: .gray),
+    CoursePointUI(name: "B 6", position: CGPoint(x: 0.25, y: 0.16), setColor: .orange, unsetColor: .gray)
 ]
 
 private var wakeCrossesUI: [CoursePointUI] = [
@@ -189,6 +189,9 @@ struct WaterSkiingCourseSetupFromVideoView : View {
                 
                 initCourse(course: course)
             })
+            .onDisappear(perform: {
+                waterSkiingCourseViewModel.course = nil
+            })
         }
     }
     
@@ -339,5 +342,16 @@ struct WaterSkiingCourseSetupFromVideoView : View {
                 }
             }
         }
+    }
+}
+
+struct WaterSkiingCourseSetupFromVideoPreviewView : PreviewProvider {
+    @StateObject static var courseVM = WaterSkiingCourseViewModel<Double>(courseFileName: "CourseText.txt")
+    @StateObject static var videoVM = VideoViewModel()
+    
+    static var previews: some View {
+        WaterSkiingCourseSetupFromVideoView(showResultsView: .constant(false))
+            .environmentObject(courseVM)
+            .environmentObject(videoVM)
     }
 }

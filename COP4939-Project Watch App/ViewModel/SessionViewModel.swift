@@ -63,7 +63,7 @@ class SessionViewModel : ObservableObject {
         }
     }
     
-    func sendSession(data: Array<WatchTrackingRecord>) {
+    func sendSession(data: Array<BaseTrackingRecord>) {
         guard let sessionStartDateInSeconds = sessionStartDateInSeconds else { return }
         
         let id = UUID()

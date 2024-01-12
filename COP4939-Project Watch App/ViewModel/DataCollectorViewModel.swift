@@ -15,7 +15,7 @@ class DataCollectorViewModel : ObservableObject {
     
     private var dataSubscription: AnyCancellable?
     
-    @Published public private(set) var trackingRecords: Array<WatchTrackingRecord> = Array()
+    @Published public private(set) var trackingRecords: Array<BaseTrackingRecord> = Array()
     
     @Published var motionRecord: MotionRecord?
     
@@ -65,7 +65,7 @@ class DataCollectorViewModel : ObservableObject {
                 guard let self = self else { return }
                 guard let motion = deviceMotionSensorModel.motion else { return }
                 
-                trackingRecords.append(WatchTrackingRecord(motion: motion, timeOfRecordingInSeconds: Date().timeIntervalSince1970))
+                trackingRecords.append(BaseTrackingRecord(motion: motion, timeOfRecordingInSeconds: Date().timeIntervalSince1970))
             }
     }
     

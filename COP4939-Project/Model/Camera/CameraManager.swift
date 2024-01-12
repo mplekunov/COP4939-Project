@@ -158,7 +158,6 @@ class CameraManager: ObservableObject {
                     connection.preferredVideoStabilizationMode = .standard
                 }
                 
-                connection.videoPreviewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
                 connection.videoOrientation = .portrait
             }
         } else {

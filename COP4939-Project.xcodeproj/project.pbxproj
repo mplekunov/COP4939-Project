@@ -19,7 +19,6 @@
 		6D185DD02B4AFFFB008EBFEA /* LocationRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D185DCF2B4AFFFB008EBFEA /* LocationRecord.swift */; };
 		6D185DD22B4B0E9E008EBFEA /* WaterSkiingPassProcessorForVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D185DD12B4B0E9E008EBFEA /* WaterSkiingPassProcessorForVideo.swift */; };
 		6D185DD82B4B1D43008EBFEA /* WaterSkiingCourseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D185DD72B4B1D43008EBFEA /* WaterSkiingCourseViewModel.swift */; };
-		6D185DDA2B4B2163008EBFEA /* LocationSensorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D185DD92B4B2163008EBFEA /* LocationSensorViewModel.swift */; };
 		6D185DDC2B4B2ED2008EBFEA /* MainViewWithoutLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D185DDB2B4B2ED2008EBFEA /* MainViewWithoutLocation.swift */; };
 		6D185DDF2B4B30F0008EBFEA /* WaterSkiingCourseSetupFromVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D185DDE2B4B30F0008EBFEA /* WaterSkiingCourseSetupFromVideoView.swift */; };
 		6D185DE12B4B3265008EBFEA /* VideoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D185DE02B4B3265008EBFEA /* VideoViewModel.swift */; };
@@ -77,7 +76,7 @@
 		6DEC852C2B159353006746F5 /* WatchConnectivityError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85082B159353006746F5 /* WatchConnectivityError.swift */; };
 		6DEC85302B159353006746F5 /* DeviceMotionSensorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC850F2B159353006746F5 /* DeviceMotionSensorViewModel.swift */; };
 		6DEC85322B159353006746F5 /* DataCollectorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85122B159353006746F5 /* DataCollectorViewModel.swift */; };
-		6DEC853B2B159353006746F5 /* WatchTrackingRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC851F2B159353006746F5 /* WatchTrackingRecord.swift */; };
+		6DEC853B2B159353006746F5 /* BaseTrackingRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC851F2B159353006746F5 /* BaseTrackingRecord.swift */; };
 		6DEC853D2B159353006746F5 /* MotionRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85212B159353006746F5 /* MotionRecord.swift */; };
 		6DEC853E2B159353006746F5 /* Attitude.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85222B159353006746F5 /* Attitude.swift */; };
 		6DEC853F2B159353006746F5 /* Unit3D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85232B159353006746F5 /* Unit3D.swift */; };
@@ -88,7 +87,7 @@
 		6DEC854A2B15949E006746F5 /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DEC85492B15949E006746F5 /* WatchConnectivity.framework */; };
 		6DEC85672B159566006746F5 /* WatchConnectivityError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC854C2B159566006746F5 /* WatchConnectivityError.swift */; };
 		6DEC856B2B159566006746F5 /* WatchConnectivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85522B159566006746F5 /* WatchConnectivityManager.swift */; };
-		6DEC856D2B159566006746F5 /* WatchTrackingRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85562B159566006746F5 /* WatchTrackingRecord.swift */; };
+		6DEC856D2B159566006746F5 /* BaseTrackingRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85562B159566006746F5 /* BaseTrackingRecord.swift */; };
 		6DEC856F2B159566006746F5 /* MotionRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85582B159566006746F5 /* MotionRecord.swift */; };
 		6DEC85702B159566006746F5 /* Attitude.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC85592B159566006746F5 /* Attitude.swift */; };
 		6DEC85722B159566006746F5 /* DataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC855C2B159566006746F5 /* DataType.swift */; };
@@ -168,7 +167,6 @@
 		6D185DCF2B4AFFFB008EBFEA /* LocationRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationRecord.swift; sourceTree = "<group>"; };
 		6D185DD12B4B0E9E008EBFEA /* WaterSkiingPassProcessorForVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterSkiingPassProcessorForVideo.swift; sourceTree = "<group>"; };
 		6D185DD72B4B1D43008EBFEA /* WaterSkiingCourseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterSkiingCourseViewModel.swift; sourceTree = "<group>"; };
-		6D185DD92B4B2163008EBFEA /* LocationSensorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSensorViewModel.swift; sourceTree = "<group>"; };
 		6D185DDB2B4B2ED2008EBFEA /* MainViewWithoutLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewWithoutLocation.swift; sourceTree = "<group>"; };
 		6D185DDE2B4B30F0008EBFEA /* WaterSkiingCourseSetupFromVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterSkiingCourseSetupFromVideoView.swift; sourceTree = "<group>"; };
 		6D185DE02B4B3265008EBFEA /* VideoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewModel.swift; sourceTree = "<group>"; };
@@ -231,7 +229,7 @@
 		6DEC85082B159353006746F5 /* WatchConnectivityError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchConnectivityError.swift; sourceTree = "<group>"; };
 		6DEC850F2B159353006746F5 /* DeviceMotionSensorViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceMotionSensorViewModel.swift; sourceTree = "<group>"; };
 		6DEC85122B159353006746F5 /* DataCollectorViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCollectorViewModel.swift; sourceTree = "<group>"; };
-		6DEC851F2B159353006746F5 /* WatchTrackingRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchTrackingRecord.swift; sourceTree = "<group>"; };
+		6DEC851F2B159353006746F5 /* BaseTrackingRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTrackingRecord.swift; sourceTree = "<group>"; };
 		6DEC85212B159353006746F5 /* MotionRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionRecord.swift; sourceTree = "<group>"; };
 		6DEC85222B159353006746F5 /* Attitude.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Attitude.swift; sourceTree = "<group>"; };
 		6DEC85232B159353006746F5 /* Unit3D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Unit3D.swift; sourceTree = "<group>"; };
@@ -242,7 +240,7 @@
 		6DEC85492B15949E006746F5 /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS10.0.sdk/System/Library/Frameworks/WatchConnectivity.framework; sourceTree = DEVELOPER_DIR; };
 		6DEC854C2B159566006746F5 /* WatchConnectivityError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchConnectivityError.swift; sourceTree = "<group>"; };
 		6DEC85522B159566006746F5 /* WatchConnectivityManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchConnectivityManager.swift; sourceTree = "<group>"; };
-		6DEC85562B159566006746F5 /* WatchTrackingRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchTrackingRecord.swift; sourceTree = "<group>"; };
+		6DEC85562B159566006746F5 /* BaseTrackingRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTrackingRecord.swift; sourceTree = "<group>"; };
 		6DEC85582B159566006746F5 /* MotionRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionRecord.swift; sourceTree = "<group>"; };
 		6DEC85592B159566006746F5 /* Attitude.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Attitude.swift; sourceTree = "<group>"; };
 		6DEC855C2B159566006746F5 /* DataType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataType.swift; sourceTree = "<group>"; };
@@ -420,7 +418,7 @@
 			isa = PBXGroup;
 			children = (
 				6D7088E82B279EB100FA4F54 /* Motion */,
-				6DEC85562B159566006746F5 /* WatchTrackingRecord.swift */,
+				6DEC85562B159566006746F5 /* BaseTrackingRecord.swift */,
 			);
 			path = WatchData;
 			sourceTree = "<group>";
@@ -438,7 +436,7 @@
 			isa = PBXGroup;
 			children = (
 				6D7088EA2B27A17D00FA4F54 /* Motion */,
-				6DEC851F2B159353006746F5 /* WatchTrackingRecord.swift */,
+				6DEC851F2B159353006746F5 /* BaseTrackingRecord.swift */,
 			);
 			path = WatchData;
 			sourceTree = "<group>";
@@ -733,7 +731,6 @@
 				6DE846FF2B37507500CF5E03 /* SessionViewModel.swift */,
 				6D5283272B3B8F9B007F71EE /* WaterSkiingPassViewModel.swift */,
 				6D185DD72B4B1D43008EBFEA /* WaterSkiingCourseViewModel.swift */,
-				6D185DD92B4B2163008EBFEA /* LocationSensorViewModel.swift */,
 				6D185DE02B4B3265008EBFEA /* VideoViewModel.swift */,
 			);
 			path = ViewModel;
@@ -1021,7 +1018,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6D185DD22B4B0E9E008EBFEA /* WaterSkiingPassProcessorForVideo.swift in Sources */,
-				6D185DDA2B4B2163008EBFEA /* LocationSensorViewModel.swift in Sources */,
 				6D185DDF2B4B30F0008EBFEA /* WaterSkiingCourseSetupFromVideoView.swift in Sources */,
 				6D4C4FFA2B28C3AF00B5874F /* Heap.swift in Sources */,
 				6D5283032B388A1F007F71EE /* AssetWriterError.swift in Sources */,
@@ -1073,7 +1069,7 @@
 				6D185DD02B4AFFFB008EBFEA /* LocationRecord.swift in Sources */,
 				6DEC85732B159566006746F5 /* DataPacket.swift in Sources */,
 				6D185DC32B4AF020008EBFEA /* WakeCrossBase.swift in Sources */,
-				6DEC856D2B159566006746F5 /* WatchTrackingRecord.swift in Sources */,
+				6DEC856D2B159566006746F5 /* BaseTrackingRecord.swift in Sources */,
 				6D7089012B27C0A800FA4F54 /* Unit3D.swift in Sources */,
 				6DEC856F2B159566006746F5 /* MotionRecord.swift in Sources */,
 			);
@@ -1106,7 +1102,7 @@
 				6D52DF8C2B337C0000E96713 /* SessionRecordingView.swift in Sources */,
 				6DEC853E2B159353006746F5 /* Attitude.swift in Sources */,
 				6DEC85412B159353006746F5 /* DataPacket.swift in Sources */,
-				6DEC853B2B159353006746F5 /* WatchTrackingRecord.swift in Sources */,
+				6DEC853B2B159353006746F5 /* BaseTrackingRecord.swift in Sources */,
 				6DE847062B37659F00CF5E03 /* LocationManagerError.swift in Sources */,
 				6DEC85292B159353006746F5 /* StatisticsView.swift in Sources */,
 				6DEC852A2B159353006746F5 /* ContentView.swift in Sources */,
@@ -1297,7 +1293,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"COP4939-Project Watch App/Preview Content\"";
-				DEVELOPMENT_TEAM = Y2BXPJ6W34;
+				DEVELOPMENT_TEAM = Q26F9PL9UW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "COP4939-Project-Watch-App-Info.plist";
@@ -1307,13 +1303,13 @@
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.filgueiras.COP4939-Project";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.plekunov.COP4939-Project";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.filgueiras.COP4939-Project.watchkitapp";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.plekunov.COP4939-Project.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1332,7 +1328,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"COP4939-Project Watch App/Preview Content\"";
-				DEVELOPMENT_TEAM = Y2BXPJ6W34;
+				DEVELOPMENT_TEAM = Q26F9PL9UW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "COP4939-Project-Watch-App-Info.plist";
@@ -1342,13 +1338,13 @@
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.filgueiras.COP4939-Project";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.plekunov.COP4939-Project";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.filgueiras.COP4939-Project.watchkitapp";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.plekunov.COP4939-Project.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1369,7 +1365,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"COP4939-Project/Preview Content\"";
-				DEVELOPMENT_TEAM = Y2BXPJ6W34;
+				DEVELOPMENT_TEAM = Q26F9PL9UW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "COP4939-Project/Info.plist";
@@ -1393,7 +1389,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.filgueiras.COP4939-Project";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.plekunov.COP4939-Project";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1411,7 +1407,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"COP4939-Project/Preview Content\"";
-				DEVELOPMENT_TEAM = Y2BXPJ6W34;
+				DEVELOPMENT_TEAM = Q26F9PL9UW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "COP4939-Project/Info.plist";
@@ -1435,7 +1431,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.filgueiras.COP4939-Project";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.plekunov.COP4939-Project";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1452,11 +1448,11 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Y2BXPJ6W34;
+				DEVELOPMENT_TEAM = Q26F9PL9UW;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.filgueiras.COP4939-ProjectTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.plekunov.COP4939-ProjectTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -1473,11 +1469,11 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Y2BXPJ6W34;
+				DEVELOPMENT_TEAM = Q26F9PL9UW;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.filgueiras.COP4939-ProjectTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.plekunov.COP4939-ProjectTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -1494,11 +1490,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Y2BXPJ6W34;
+				DEVELOPMENT_TEAM = Q26F9PL9UW;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.filgueiras.COP4939-ProjectUITests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.plekunov.COP4939-ProjectUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -1514,11 +1510,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Y2BXPJ6W34;
+				DEVELOPMENT_TEAM = Q26F9PL9UW;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.filgueiras.COP4939-ProjectUITests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.plekunov.COP4939-ProjectUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -1536,10 +1532,10 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Y2BXPJ6W34;
+				DEVELOPMENT_TEAM = Q26F9PL9UW;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.filgueiras.COP4939-Project-Watch-AppTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.plekunov.COP4939-Project-Watch-AppTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -1557,10 +1553,10 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Y2BXPJ6W34;
+				DEVELOPMENT_TEAM = Q26F9PL9UW;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.filgueiras.COP4939-Project-Watch-AppTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.plekunov.COP4939-Project-Watch-AppTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -1578,10 +1574,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Y2BXPJ6W34;
+				DEVELOPMENT_TEAM = Q26F9PL9UW;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.filgueirasCOP4939-Project-Watch-AppUITests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.plekunov.COP4939-Project-Watch-AppUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -1598,10 +1594,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Y2BXPJ6W34;
+				DEVELOPMENT_TEAM = Q26F9PL9UW;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.filgueiras.COP4939-Project-Watch-AppUITests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.plekunov.COP4939-Project-Watch-AppUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SWIFT_EMIT_LOC_STRINGS = NO;

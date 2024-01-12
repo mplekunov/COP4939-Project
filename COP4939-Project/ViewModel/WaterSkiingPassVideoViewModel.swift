@@ -8,16 +8,16 @@
 import Foundation
 import AVFoundation
 
-class WaterSkiingPassVideoViewModel<T> : ObservableObject where T : Codable {
+class WaterSkiingPassVideoViewModel : ObservableObject {
     @Published public private(set) var curentPlayingRecord: WaterSkiingObjectRecord?
     @Published public private(set) var error: String?
    
     public private(set) var objectRecords: [WaterSkiingObjectRecord] = []
     private var currentObjectRecordIndex = -1
     
-    private var objectIndexToBuoys: Dictionary<Int, BuoyBase<T>> = [:]
-    private var objectIndexToGates: Dictionary<Int, GateBase<T>> = [:]
-    private var objectIndexToWakeCrosses: Dictionary<Int, WakeCrossBase<T>> = [:]
+    private var objectIndexToBuoys: Dictionary<Int, BuoyBase<Double>> = [:]
+    private var objectIndexToGates: Dictionary<Int, GateBase<Double>> = [:]
+    private var objectIndexToWakeCrosses: Dictionary<Int, WakeCrossBase<Double>> = [:]
     
     private var videoTimeStampToObjectRecordIndex: Dictionary<Double, Int> = [:]
     
@@ -29,7 +29,7 @@ class WaterSkiingPassVideoViewModel<T> : ObservableObject where T : Codable {
     
     private var videoCreationDateInSeconds: Double?
     
-    func startPlayback(pass: Pass<T, URL>) {
+    func startPlayback(pass: Pass<Double, URL>) {
         error = nil
         
         guard let videoFile = pass.videoFile else {
@@ -49,11 +49,13 @@ class WaterSkiingPassVideoViewModel<T> : ObservableObject where T : Codable {
         playbackObserver = player.addPeriodicTimeObserver(forInterval: CMTime(value: 1, timescale: 10), queue: DispatchQueue.main) { [weak self] time in
             guard let self = self else { return }
             
-            let timeInSeconds = CMTimeGetSeconds(time)
-            
-            if currentObjectRecordIndex + 1 < objectRecords.count &&
-                objectRecords[currentObjectRecordIndex + 1].videoTimeStampInSeconds < timeInSeconds {
-                currentObjectRecordIndex += 1
+            DispatchQueue.main.async {
+                let timeInSeconds = CMTimeGetSeconds(time)
+                
+                if self.currentObjectRecordIndex + 1 < self.objectRecords.count &&
+                    self.objectRecords[self.currentObjectRecordIndex + 1].videoTimeStampInSeconds < timeInSeconds {
+                    self.currentObjectRecordIndex += 1
+                }
             }
         }
         
@@ -78,18 +80,16 @@ class WaterSkiingPassVideoViewModel<T> : ObservableObject where T : Codable {
         currentObjectRecordIndex = index - 1
     }
     
-    private func configure(pass: Pass<T, URL>) {
-        guard let videoCreationDateInSeconds = videoCreationDateInSeconds else { return }
-        
+    private func configure(pass: Pass<Double, URL>) {
         objectIndexToGates[0] = pass.entryGate
         
-        videoTimeStampToObjectRecordIndex[videoCreationDateInSeconds - pass.entryGate.timeOfRecordingInSeconds] = 0
+        videoTimeStampToObjectRecordIndex[pass.entryGate.position] = 0
         
         objectRecords.append(WaterSkiingObjectRecord(
             objectName: "Entry Gate",
             objectIndex: 0,
             objectType: .EntryGate,
-            videoTimeStampInSeconds: videoCreationDateInSeconds - pass.entryGate.timeOfRecordingInSeconds)
+            videoTimeStampInSeconds: pass.entryGate.position)
         )
         
         var i = 0, j = 0
@@ -98,30 +98,26 @@ class WaterSkiingPassVideoViewModel<T> : ObservableObject where T : Codable {
         
         for index in 0..<totalCount {
             if index % 2 == 0 {
-                let videoTimeStampInSeconds = videoCreationDateInSeconds - pass.wakeCrosses[i].timeOfRecordingInSeconds
-                
                 objectIndexToWakeCrosses[i] = pass.wakeCrosses[i]
-                videoTimeStampToObjectRecordIndex[videoTimeStampInSeconds] = objectRecords.count
+                videoTimeStampToObjectRecordIndex[pass.wakeCrosses[i].position] = objectRecords.count
                 
                 objectRecords.append(WaterSkiingObjectRecord(
                     objectName: "Wake Cross \(i + 1)",
                     objectIndex: i,
                     objectType: .WakeCross,
-                    videoTimeStampInSeconds: videoTimeStampInSeconds)
+                    videoTimeStampInSeconds: pass.wakeCrosses[i].position)
                 )
                 
                 i += 1
             } else {
-                let videoTimeStampInSeconds = videoCreationDateInSeconds - pass.buoys[i].timeOfRecordingInSeconds
-                
                 objectIndexToBuoys[j] = pass.buoys[j]
-                videoTimeStampToObjectRecordIndex[videoTimeStampInSeconds] = objectRecords.count
+                videoTimeStampToObjectRecordIndex[pass.buoys[j].position] = objectRecords.count
                 
                 objectRecords.append(WaterSkiingObjectRecord(
                     objectName: "Buoy \(j + 1)",
                     objectIndex: j,
                     objectType: .Buoy,
-                    videoTimeStampInSeconds: videoTimeStampInSeconds)
+                    videoTimeStampInSeconds: pass.buoys[j].position)
                 )
                 
                 j += 1
@@ -129,25 +125,25 @@ class WaterSkiingPassVideoViewModel<T> : ObservableObject where T : Codable {
         }
         
         objectIndexToGates[objectRecords.count] = pass.exitGate
-        videoTimeStampToObjectRecordIndex[videoCreationDateInSeconds - pass.exitGate.timeOfRecordingInSeconds] = objectRecords.count
+        videoTimeStampToObjectRecordIndex[pass.exitGate.position] = objectRecords.count
         
         objectRecords.append(WaterSkiingObjectRecord(
             objectName: "Exit Gate",
             objectIndex: objectRecords.count,
             objectType: .ExitGate,
-            videoTimeStampInSeconds: videoCreationDateInSeconds - pass.exitGate.timeOfRecordingInSeconds)
+            videoTimeStampInSeconds: pass.exitGate.position)
         )
     }
     
-    func getBuoyByIndex(_ index: Int) -> BuoyBase<T>? {
+    func getBuoyByIndex(_ index: Int) -> BuoyBase<Double>? {
         return objectIndexToBuoys[index]
     }
     
-    func getGateByIndex(_ index: Int) -> GateBase<T>? {
+    func getGateByIndex(_ index: Int) -> GateBase<Double>? {
         return objectIndexToGates[index]
     }
     
-    func getWakeCrossByIndex(_ index: Int) -> WakeCrossBase<T>? {
+    func getWakeCrossByIndex(_ index: Int) -> WakeCrossBase<Double>? {
         return objectIndexToWakeCrosses[index]
     }
 }

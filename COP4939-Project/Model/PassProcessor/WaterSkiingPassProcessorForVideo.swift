@@ -27,7 +27,7 @@ class WaterSkiingPassProcessorForVideo {
             .assign(to: &$error)
     }
     
-    func process(course: WaterSkiingCourseBase<Double>, totalScore: Int, records: Array<WatchTrackingRecord>, video: Video<URL>) async -> Pass<Double, URL>? {
+    func process(course: WaterSkiingCourseBase<Double>, totalScore: Int, records: Array<BaseTrackingRecord>, video: Video<URL>) async -> Pass<Double, URL>? {
         let passBuilder = PassBuilder<Double, URL>()
         
         let videoCreationDate = video.creationDate
@@ -55,7 +55,7 @@ class WaterSkiingPassProcessorForVideo {
         
         var crossedEntryGate: Bool = false
         
-        var trimmedRecords = Array<WatchTrackingRecord>()
+        var trimmedRecords = Array<BaseTrackingRecord>()
         
         for record in records {
             if record.timeOfRecordingInSeconds >= videoCreationDate {
@@ -65,8 +65,25 @@ class WaterSkiingPassProcessorForVideo {
         
         let alpha = 0.01
         
+        var offset: Double?
+        
         for record in trimmedRecords {
-            if crossedEntryGate {
+            if inRange(record.timeOfRecordingInSeconds, course.entryGatePosition + videoCreationDate, alpha: alpha) {
+                passBuilder.setEntryGate(GateBase(
+                    maxSpeed: record.motion.speed,
+                    maxRoll: record.motion.attitude.roll,
+                    maxPitch: record.motion.attitude.pitch,
+                    position: 0,
+                    timeOfRecordingInSeconds: record.timeOfRecordingInSeconds
+                )).setTimeOfRecording(record.timeOfRecordingInSeconds)
+        
+                offset = course.entryGatePosition
+                crossedEntryGate = true
+            }
+        }
+        
+        for record in trimmedRecords {
+            if crossedEntryGate, let offset = offset {
                 maxSpeed = max(record.motion.speed, maxSpeed)
                 maxPitch = max(record.motion.attitude.pitch, maxPitch)
                 maxRoll = max(record.motion.attitude.roll, maxRoll)
@@ -79,53 +96,41 @@ class WaterSkiingPassProcessorForVideo {
                     getTotalFromPythagorean(x: record.motion.acceleration.x, y: record.motion.acceleration.y, z: record.motion.acceleration.z),
                     maxAcceleration
                 )
-            }
-            
-            if inRange(record.timeOfRecordingInSeconds, course.entryGatePosition + videoCreationDate, alpha: alpha) {
-                passBuilder.setEntryGate(GateBase(
-                    maxSpeed: record.motion.speed,
-                    maxRoll: record.motion.attitude.roll,
-                    maxPitch: record.motion.attitude.pitch,
-                    position: course.entryGatePosition,
-                    timeOfRecordingInSeconds: record.timeOfRecordingInSeconds
-                )).setTimeOfRecording(record.timeOfRecordingInSeconds)
                 
-                crossedEntryGate = true
-            }
-            
-            if inRange(record.timeOfRecordingInSeconds, course.exitGatePosition + videoCreationDate, alpha: alpha) {
-                passBuilder.setExitGate(GateBase(
-                    maxSpeed: maxSpeed,
-                    maxRoll: maxRoll,
-                    maxPitch: maxPitch,
-                    position: course.exitGatePosition,
-                    timeOfRecordingInSeconds: record.timeOfRecordingInSeconds
-                ))
-            }
-            
-            if i < course.wakeCrossPositions.count && inRange(record.timeOfRecordingInSeconds, course.wakeCrossPositions[i] + videoCreationDate, alpha: alpha) {
-                passBuilder.addWakeCross(WakeCrossBase(
-                    maxSpeed: maxSpeed,
-                    maxRoll: maxRoll,
-                    maxPitch: maxPitch,
-                    maxAngle: maxAngle,
-                    maxGForce: maxGForce,
-                    maxAcceleration: maxAcceleration,
-                    position: course.wakeCrossPositions[i],
-                    timeOfRecordingInSeconds: record.timeOfRecordingInSeconds
-                ))
-            }
-            
-            if i < course.buoyPositions.count && inRange(record.timeOfRecordingInSeconds, course.buoyPositions[i] + videoCreationDate, alpha: alpha) {
-                passBuilder.addBuoy(BuoyBase(
-                    maxSpeed: maxSpeed,
-                    maxRoll: maxRoll,
-                    maxPitch: maxPitch,
-                    position: course.buoyPositions[i],
-                    timeOfRecordingInSeconds: record.timeOfRecordingInSeconds
-                ))
+                if inRange(record.timeOfRecordingInSeconds, course.exitGatePosition + videoCreationDate, alpha: alpha) {
+                    passBuilder.setExitGate(GateBase(
+                        maxSpeed: maxSpeed,
+                        maxRoll: maxRoll,
+                        maxPitch: maxPitch,
+                        position: course.exitGatePosition - offset,
+                        timeOfRecordingInSeconds: record.timeOfRecordingInSeconds
+                    ))
+                }
                 
-                i += 1
+                if i < course.wakeCrossPositions.count && inRange(record.timeOfRecordingInSeconds, course.wakeCrossPositions[i] + videoCreationDate, alpha: alpha) {
+                    passBuilder.addWakeCross(WakeCrossBase(
+                        maxSpeed: maxSpeed,
+                        maxRoll: maxRoll,
+                        maxPitch: maxPitch,
+                        maxAngle: maxAngle,
+                        maxGForce: maxGForce,
+                        maxAcceleration: maxAcceleration,
+                        position: course.wakeCrossPositions[i] - offset,
+                        timeOfRecordingInSeconds: record.timeOfRecordingInSeconds
+                    ))
+                }
+                
+                if i < course.buoyPositions.count && inRange(record.timeOfRecordingInSeconds, course.buoyPositions[i] + videoCreationDate, alpha: alpha) {
+                    passBuilder.addBuoy(BuoyBase(
+                        maxSpeed: maxSpeed,
+                        maxRoll: maxRoll,
+                        maxPitch: maxPitch,
+                        position: course.buoyPositions[i] - offset,
+                        timeOfRecordingInSeconds: record.timeOfRecordingInSeconds
+                    ))
+                    
+                    i += 1
+                }
             }
         }
         

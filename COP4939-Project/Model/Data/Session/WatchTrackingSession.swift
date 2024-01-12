@@ -10,9 +10,9 @@ import Foundation
 class WatchTrackingSession : Codable {
     let id: UUID
     let dateInSeconds: Double
-    let data: Array<WatchTrackingRecord>
+    let data: Array<BaseTrackingRecord>
     
-    init(uuid: UUID, dateInSeconds: Double, data: Array<WatchTrackingRecord>) {
+    init(uuid: UUID, dateInSeconds: Double, data: Array<BaseTrackingRecord>) {
         self.id = uuid
         self.data = data
         self.dateInSeconds = dateInSeconds
@@ -21,7 +21,7 @@ class WatchTrackingSession : Codable {
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(UUID.self, forKey: .uuid)
-        self.data = try container.decode(Array<WatchTrackingRecord>.self, forKey: .data)
+        self.data = try container.decode(Array<BaseTrackingRecord>.self, forKey: .data)
         self.dateInSeconds = try container.decode(Double.self, forKey: .dateInSeconds)
     }
     

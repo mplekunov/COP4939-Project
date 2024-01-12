@@ -37,8 +37,7 @@ struct MainView : View {
                 isSendingData = true
             }, label: {
                 if isSendingData {
-                    ActivityIndicatorView()
-                        .foregroundColor(.orange)
+                    ActivityIndicatorView(color: .black)
                         .cornerRadius(10)
                 } else {
                     Text(waterSkiingCourseViewModel.course != nil ? "Start WaterSkiing Recording" : "Recording Unavailable")

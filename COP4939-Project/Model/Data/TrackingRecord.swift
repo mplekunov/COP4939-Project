@@ -7,7 +7,7 @@
 
 import Foundation
 
-class TrackingRecord : WatchTrackingRecord {
+class TrackingRecord : BaseTrackingRecord {
     let location: LocationRecord
     
     init(motion: MotionRecord, location: LocationRecord, timeOfRecrodingInSeconds: Double) {

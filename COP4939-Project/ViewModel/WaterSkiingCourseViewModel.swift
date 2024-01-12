@@ -8,7 +8,7 @@
 import Foundation
 
 class WaterSkiingCourseViewModel<T> : ObservableObject where T : Codable {
-    @Published public private(set) var course: WaterSkiingCourseBase<T>?
+    @Published public var course: WaterSkiingCourseBase<T>?
     
     private let logger: LoggerService
     private let fileManager = FileManager.default
