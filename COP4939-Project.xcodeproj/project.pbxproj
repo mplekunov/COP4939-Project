@@ -22,6 +22,7 @@
 		6D185DDC2B4B2ED2008EBFEA /* MainViewWithoutLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D185DDB2B4B2ED2008EBFEA /* MainViewWithoutLocation.swift */; };
 		6D185DDF2B4B30F0008EBFEA /* WaterSkiingCourseSetupFromVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D185DDE2B4B30F0008EBFEA /* WaterSkiingCourseSetupFromVideoView.swift */; };
 		6D185DE12B4B3265008EBFEA /* VideoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D185DE02B4B3265008EBFEA /* VideoViewModel.swift */; };
+		6D1F83082B7BD7FA001BABAF /* previewVideo.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 6D1F83072B7BD7FA001BABAF /* previewVideo.mp4 */; };
 		6D4C4FFA2B28C3AF00B5874F /* Heap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4C4FF92B28C3AF00B5874F /* Heap.swift */; };
 		6D5283012B387927007F71EE /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D5283002B387927007F71EE /* CoreLocation.framework */; };
 		6D5283032B388A1F007F71EE /* AssetWriterError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5283022B388A1F007F71EE /* AssetWriterError.swift */; };
@@ -170,6 +171,8 @@
 		6D185DDB2B4B2ED2008EBFEA /* MainViewWithoutLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewWithoutLocation.swift; sourceTree = "<group>"; };
 		6D185DDE2B4B30F0008EBFEA /* WaterSkiingCourseSetupFromVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterSkiingCourseSetupFromVideoView.swift; sourceTree = "<group>"; };
 		6D185DE02B4B3265008EBFEA /* VideoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewModel.swift; sourceTree = "<group>"; };
+		6D1F83072B7BD7FA001BABAF /* previewVideo.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; name = previewVideo.mp4; path = ../../../../../Downloads/previewVideo.mp4; sourceTree = "<group>"; };
+		6D1F83092B7BDBE2001BABAF /* previewVideo.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = previewVideo.mp4; sourceTree = "<group>"; };
 		6D4C4FF92B28C3AF00B5874F /* Heap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Heap.swift; sourceTree = "<group>"; };
 		6D5283002B387927007F71EE /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.0.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
 		6D5283022B388A1F007F71EE /* AssetWriterError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetWriterError.swift; sourceTree = "<group>"; };
@@ -417,6 +420,7 @@
 		6D7088E62B279E4E00FA4F54 /* WatchData */ = {
 			isa = PBXGroup;
 			children = (
+				6DEC855B2B159566006746F5 /* Network */,
 				6D7088E82B279EB100FA4F54 /* Motion */,
 				6DEC85562B159566006746F5 /* BaseTrackingRecord.swift */,
 			);
@@ -503,6 +507,7 @@
 				6DEC85652B159566006746F5 /* ViewModel */,
 				6DEC849F2B1592DB006746F5 /* COP4939_ProjectApp.swift */,
 				6DEC84A32B1592DC006746F5 /* Assets.xcassets */,
+				6D1F83092B7BDBE2001BABAF /* previewVideo.mp4 */,
 				6DEC84A52B1592DC006746F5 /* Preview Content */,
 			);
 			path = "COP4939-Project";
@@ -511,6 +516,7 @@
 		6DEC84A52B1592DC006746F5 /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
+				6D1F83072B7BD7FA001BABAF /* previewVideo.mp4 */,
 				6DEC84A62B1592DC006746F5 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
@@ -687,7 +693,6 @@
 				6D6DDA682B279C9100E33CCE /* WaterSkiing */,
 				6D7088E62B279E4E00FA4F54 /* WatchData */,
 				6D7088FB2B27AF2800FA4F54 /* Units */,
-				6DEC855B2B159566006746F5 /* Network */,
 				6DEC855F2B159566006746F5 /* Session */,
 			);
 			path = Data;
@@ -970,6 +975,7 @@
 			files = (
 				6DEC84A72B1592DC006746F5 /* Preview Assets.xcassets in Resources */,
 				6DEC84A42B1592DC006746F5 /* Assets.xcassets in Resources */,
+				6D1F83082B7BD7FA001BABAF /* previewVideo.mp4 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

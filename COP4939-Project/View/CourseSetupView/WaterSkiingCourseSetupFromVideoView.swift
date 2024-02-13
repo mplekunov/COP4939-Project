@@ -73,6 +73,9 @@ struct WaterSkiingCourseSetupFromVideoView : View {
             VStack(alignment: .center) {
                 VideoPlayer(player: videoViewModel.player)
                     .onAppear {
+                        videoViewModel
+                            .startPlayback(video:
+                                            Video(id: UUID(), creationDate: 123123123123, fileLocation: URL(fileURLWithPath: "/Users/mplekunov/Downloads/previewVideo.mp4")))
                         togglePlayback()
                     }
                     .onTapGesture(perform: {
@@ -346,7 +349,9 @@ struct WaterSkiingCourseSetupFromVideoView : View {
 }
 
 struct WaterSkiingCourseSetupFromVideoPreviewView : PreviewProvider {
-    @StateObject static var courseVM = WaterSkiingCourseViewModel<Double>(courseFileName: "CourseText.txt")
+    @StateObject static var courseVM = WaterSkiingCourseViewModel<Double>(
+        courseFileName: "CourseText.txt"
+    )
     @StateObject static var videoVM = VideoViewModel()
     
     static var previews: some View {

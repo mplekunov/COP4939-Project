@@ -234,3 +234,12 @@ struct WaterSkiingCourseSetupView: View {
         .clipShape(.rect(cornerRadius: 20))
     }
 }
+
+struct WaterSkiingCourseSetupViewPreviewView : PreviewProvider {
+    @StateObject static var waterSkiingCourseViewModel = WaterSkiingCourseViewModel<Coordinate>(courseFileName: "")
+    
+    static var previews: some View {
+        WaterSkiingCourseSetupView(showCourseSetupView: .constant(false))
+            .environmentObject(waterSkiingCourseViewModel)
+    }
+}

@@ -20,6 +20,8 @@ struct WaterSkiingCoursePointSetupView: View {
     
     var body: some View {
         ZStack {
+            Color.black.ignoresSafeArea(.all)
+            
             VStack {
                 Text("\(activeElement?.name ?? "N/A")")
                     .foregroundStyle(.orange)
@@ -69,5 +71,18 @@ struct WaterSkiingCoursePointSetupView: View {
             .background(.orange)
             .foregroundStyle(.black)
             .clipShape(.rect(cornerRadius: 20))
+    }
+}
+
+struct WaterSkiingCoursePointsSetupViewPreviewView : PreviewProvider {
+    static var previews: some View {
+        WaterSkiingCoursePointSetupView(
+            activeElement: .constant(nil),
+            coursePointLocation: .constant(nil),
+            coursePointLocations: .constant(Dictionary<UUID, Coordinate>()),
+            showPopOverView: .constant(true),
+            alert: .constant(nil),
+            showAlert: .constant(false)
+        )
     }
 }
